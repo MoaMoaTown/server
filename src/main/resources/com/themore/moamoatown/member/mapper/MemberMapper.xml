@@ -3,4 +3,24 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="com.themore.moamoatown.member.mapper.MemberMapper">
+    <select id="countMembersByNickname" parameterType="String" resultType="Integer">
+        <![CDATA[
+        SELECT COUNT(nickname)
+        FROM member
+        WHERE nickname = #{nickname}
+        ]]>
+    </select>
+    <select id="countMembersByLoginId" parameterType="String" resultType="Integer">
+        <![CDATA[
+        SELECT COUNT(login_id)
+        FROM member
+        WHERE login_id = #{loginId}
+        ]]>
+    </select>
+    <insert id="insertMember" parameterType="signUpRequestDTO">
+    <![CDATA[
+        INSERT INTO member(member_id, nickname, login_id, password, role)
+        VALUES (MEMBER_SEQ.nextval, #{nickname}, #{loginId}, #{password}, #{role})
+        ]]>
+</insert>
 </mapper>
