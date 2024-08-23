@@ -12,7 +12,13 @@
 	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
 	
 	<!-- Enables the Spring MVC @Controller programming model -->
-	<annotation-driven />
+	<annotation-driven >
+		<!-- custom argument resolvers -->
+		<argument-resolvers>
+			<!--<beans:bean class="com.themore.moamoatown.common.resolver.MemberIdArgumentResolver"/>-->
+			<!--<beans:bean class="com.themore.moamoatown.common.resolver.TownIdArgumentResolver"/>-->
+		</argument-resolvers>
+	</annotation-driven>
 
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
 	<resources mapping="/resources/**" location="/resources/" />
