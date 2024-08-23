@@ -3,7 +3,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.themore</groupId>
-	<artifactId>moamoatown</artifactId>
+	<artifactId>moamoatown-server</artifactId>
 	<name>moamoatown-server</name>
 	<packaging>war</packaging>
 	<version>1.0.0-BUILD-SNAPSHOT</version>
@@ -161,6 +161,7 @@
 			<version>2.4.4</version>
 		</dependency>
 
+		<!-- oracle -->
 	   <dependency>
 	        <groupId>com.oracle.database.jdbc</groupId>
 	        <artifactId>ojdbc8</artifactId>
@@ -176,15 +177,7 @@
 	        	</exclusion>
 	        </exclusions>
 	   </dependency>
-	    
-	    <!-- oracle -->
-      <!-- <dependency>
-         <groupId>com.oracle.database.jdbc</groupId>
-         <artifactId>ojdbc11</artifactId>
-         <version>23.4.0.24.05</version>
-      </dependency> -->
-	    
-	    
+
 	    <!-- https://mvnrepository.com/artifact/com.zaxxer/HikariCP -->
 		<dependency>
 		    <groupId>com.zaxxer</groupId>
