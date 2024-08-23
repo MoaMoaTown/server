@@ -1,6 +1,7 @@
 package com.themore.moamoatown.member.mapper;
 
 import com.themore.moamoatown.member.dto.SignUpRequestDTO;
+import org.apache.ibatis.annotations.Mapper;
 
 /**
  * 멤버 매퍼 인터페이스
@@ -15,6 +16,7 @@ import com.themore.moamoatown.member.dto.SignUpRequestDTO;
  * </pre>
  */
 
+@Mapper
 public interface MemberMapper {
     // 중복 닉네임 방지하기 위해 닉네임으로 멤버 수 찾아오기
     int countMembersByNickname(String username);

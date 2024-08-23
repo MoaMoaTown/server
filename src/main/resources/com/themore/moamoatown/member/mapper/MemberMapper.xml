@@ -1,7 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-  
+
+<!--
+* 멤버 Mybatis 매퍼
+* @author 이주현
+* @since 2024.08.23
+* @version 1.0
+*
+* <pre>
+* 수정일        	수정자        수정내용
+* ==========  =========    =========
+* 2024.08.23  	이주현        최초 생성
+* 2024.08.23  	이주현        회원 가입 기능 추가
+* </pre>
+-->
+
 <mapper namespace="com.themore.moamoatown.member.mapper.MemberMapper">
     <select id="countMembersByNickname" parameterType="String" resultType="Integer">
         <![CDATA[
