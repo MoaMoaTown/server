@@ -2,10 +2,7 @@ package com.themore.moamoatown.member.service;
 
 import com.themore.moamoatown.member.dto.LoginInternalDTO;
 import com.themore.moamoatown.member.dto.LoginRequestDTO;
-import com.themore.moamoatown.member.dto.LoginResponseDTO;
 import com.themore.moamoatown.member.dto.SignUpRequestDTO;
-
-import javax.servlet.http.HttpSession;
 
 /**
  * 멤버 서비스 인터페이스
@@ -26,5 +23,5 @@ public interface MemberService {
     void signUp(SignUpRequestDTO signUpRequestDTO);
 
     // 로그인
-    LoginResponseDTO login(LoginRequestDTO loginRequestDTO, HttpSession session);
+    LoginInternalDTO login(LoginRequestDTO loginRequestDTO);
 }
