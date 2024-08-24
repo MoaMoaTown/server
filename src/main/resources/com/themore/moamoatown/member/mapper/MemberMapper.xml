@@ -32,7 +32,7 @@
         WHERE login_id = #{loginId}
         ]]>
     </select>
-    <insert id="insertMember" parameterType="signUpRequestDTO">
+    <insert id="insertMember" parameterType="SignUpRequestDTO">
     <![CDATA[
         INSERT INTO member(member_id, nickname, login_id, password, role)
         VALUES (MEMBER_SEQ.nextval, #{nickname}, #{loginId}, #{password}, #{role})

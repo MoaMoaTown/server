@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 /**
- * 회원 가입 Request DTO
+ * 내부에서 쓸 로그인 DTO
  * @author 이주현
  * @since 2024.08.24
  * @version 1.0

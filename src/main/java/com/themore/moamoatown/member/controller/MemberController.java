@@ -39,7 +39,7 @@ public class MemberController {
      * @param signUpRequestDTO
      * @return
      */
-    @PostMapping("/sign-up")
+    @PostMapping(value = "/sign-up", produces = "application/json; charset=UTF-8")
     public ResponseEntity<String> signup(@RequestBody SignUpRequestDTO signUpRequestDTO) {
         memberService.signUp(signUpRequestDTO);
         return ResponseEntity.ok("회원 가입에 성공했습니다.");
@@ -53,7 +53,19 @@ public class MemberController {
      */
     @PostMapping(value = "/login", produces = "application/json")
     public ResponseEntity<LoginResponseDTO> login(@RequestBody LoginRequestDTO loginRequestDTO, HttpSession session) {
-        LoginResponseDTO response = memberService.login(loginRequestDTO, session);
+        LoginInternalDTO memberInfo = memberService.login(loginRequestDTO);
+
+        // 세션에 memberId와 townId 저장
+        session.setAttribute("memberId", memberInfo.getMemberId());
+        session.setAttribute("townId", memberInfo.getTownId());
+
+        // 클라이언트에게 반환할 DTO
+        LoginResponseDTO response = LoginResponseDTO.builder()
+                .nickname(memberInfo.getNickname())
+                .role(memberInfo.getRole())
+                .hasTownId(memberInfo.getTownId() != -1)
+                .build();
+
         return ResponseEntity.ok(response);
     }
 }
