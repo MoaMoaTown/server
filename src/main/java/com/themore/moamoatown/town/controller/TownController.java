@@ -1,5 +1,7 @@
 package com.themore.moamoatown.town.controller;
 
+import com.themore.moamoatown.common.annotation.MemberId;
+import com.themore.moamoatown.town.dto.TownCreateInternalDTO;
 import com.themore.moamoatown.town.dto.TownCreateRequestDTO;
 import com.themore.moamoatown.town.dto.TownCreateResponseDTO;
 import com.themore.moamoatown.town.service.TownService;
@@ -16,38 +18,41 @@ import javax.servlet.http.HttpSession;
 /**
  * 타운 컨트롤러
  * @author 임원정
- * @since 2024.08.23
+ * @since 2024.08.24
  * @version 1.0
  *
  * <pre>
- * 수정일        	수정자        수정내용
+ * 수정일        수정자        수정내용
  * ----------  --------    ---------------------------
  * 2024.08.23  	임원정        최초 생성
+ * 2024.08.23   임원정        타운 만들기 추가
+ * 2024.08.24   임원정        타운 만들기 메소드 수정
  * </pre>
  */
 
 @Log4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/town")
+//@RequestMapping("/town")
+@RequestMapping(value="/town",
+        produces = "application/json; charset=UTF-8")
 public class TownController {
     private final TownService townService;
 
     @PostMapping("/create")
-    public ResponseEntity<String> createTown(@RequestBody TownCreateRequestDTO requestDTO,
-                                                            //@MemberId Long memberId,
-                                                            HttpSession session) {
-        Long memberId = 5L; //수정 예정
-        log.info(requestDTO.toString());
-
+    public ResponseEntity<TownCreateResponseDTO> createTown(@RequestBody TownCreateRequestDTO requestDTO, @MemberId Long memberId,
+                                             HttpSession session) throws Exception {
         // 타운 생성
-        TownCreateResponseDTO responseDTO = townService.createTown(requestDTO, memberId);
-        log.info(responseDTO.getTownId());
-
+        TownCreateInternalDTO internalDTO = townService.createTown(requestDTO, memberId);
         // 세션에 town_id 저장
-        session.setAttribute("town_id", responseDTO.getTownId());
+        session.setAttribute("town_id", internalDTO.getTownId());
+        // response 생성
+        TownCreateResponseDTO response = TownCreateResponseDTO.builder()
+                .townCode(internalDTO.getTownCode())
+                .build();
 
-        // JSON으로 응답
-        return ResponseEntity.ok(responseDTO.getTownCode());
+        log.info("타운이 성공적으로 생성되었습니다. \n타운코드: " + internalDTO.getTownCode());
+        return ResponseEntity.ok(response);
     }
+
 }

@@ -20,6 +20,7 @@ public enum ErrorCode {
     /* code: 500 */
     DATABASE_ERROR(INTERNAL_SERVER_ERROR, "데이터베이스 오류가 발생했습니다."),
     SIGNUP_FAILED(BAD_REQUEST, "회원 가입에 실패했습니다."),
+    TOWN_CREATE_FAILED(BAD_REQUEST, "타운 만들기에 실패했습니다.")
     ;
 
     private final HttpStatus httpStatus;

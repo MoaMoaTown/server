@@ -28,7 +28,7 @@ import javax.validation.constraints.Size;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TownCreateRequestDTO {
-    @Size(min = 1, max = 10)
+    @Size(min = 1, max = 10, message = "타운의 이름은 1자 이상 10자 이하여야 합니다.")
     private String name;
     @Size(max = 255)
     private String description;
