@@ -6,16 +6,15 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 /**
- * 타운 생성 Response DTO
+ * 타운 만들기 내부 DTO
  * @author 임원정
- * @since 2024.08.23
+ * @since 2024.08.24
  * @version 1.0
  *
  * <pre>
  * 수정일        수정자        수정내용
  * ----------  --------    ---------------------------
- * 2024.08.23  	임원정       최초 생성
- * 2024.08.24  	임원정       타운코드만 반환하도록 수정
+ * 2024.08.24  	임원정        최초 생성
  * </pre>
  */
 
@@ -23,6 +22,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class TownCreateResponseDTO {
+public class TownCreateInternalDTO {
+    private Long townId;
     private String townCode;
 }
