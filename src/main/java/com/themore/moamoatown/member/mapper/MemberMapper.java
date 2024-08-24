@@ -1,5 +1,6 @@
 package com.themore.moamoatown.member.mapper;
 
+import com.themore.moamoatown.member.dto.LoginInternalDTO;
 import com.themore.moamoatown.member.dto.SignUpRequestDTO;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -13,6 +14,7 @@ import org.apache.ibatis.annotations.Mapper;
  * 수정일        	수정자        수정내용
  * ----------  --------    ---------------------------
  * 2024.08.23  	이주현        최초 생성
+ * 2024.08.24   이주현        로그인 기능 추가
  * </pre>
  */
 
@@ -25,4 +27,6 @@ public interface MemberMapper {
     int countMembersByLoginId(String username);
     // 회원 가입
     int insertMember(SignUpRequestDTO signUpRequestDTO);
+    // 로그인
+    LoginInternalDTO findMemberByLoginId(String loginId);
 }

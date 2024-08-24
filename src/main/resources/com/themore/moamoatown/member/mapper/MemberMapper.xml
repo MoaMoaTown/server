@@ -13,6 +13,7 @@
 * ==========  =========    =========
 * 2024.08.23  	이주현        최초 생성
 * 2024.08.23  	이주현        회원 가입 기능 추가
+* 2024.08.24  	이주현        로그인 기능 추가
 * </pre>
 -->
 
@@ -36,5 +37,22 @@
         INSERT INTO member(member_id, nickname, login_id, password, role)
         VALUES (MEMBER_SEQ.nextval, #{nickname}, #{loginId}, #{password}, #{role})
         ]]>
-</insert>
+    </insert>
+    <!--
+    로그인 아이디로 멤버 정보를 조회
+    @param loginId
+    @return (memberId, townId, nickname, password, role)
+    -->
+    <select id="findMemberByLoginId" parameterType="String" resultType="LoginInternalDTO">
+    <![CDATA[
+        SELECT member_id AS memberId,
+               town_id AS townId,
+               nickname,
+               password,
+               role
+        FROM member
+        WHERE login_id = #{loginId}
+          AND delete_date IS NULL
+        ]]>
+    </select>
 </mapper>
