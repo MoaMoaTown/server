@@ -58,7 +58,7 @@ public class TownServiceImpl implements TownService {
         Long townId = townCreateRequestDTO.getTownId();
 
         // 회원 테이블에 townId 업데이트
-        if(townMapper.updateMemberTownId(townId, memberId) < 0) throw new CustomException(TOWN_CREATE_FAILED);
+        if(townMapper.updateMember(townId, memberId) != 1) throw new CustomException(TOWN_CREATE_FAILED);
 
         return TownCreateInternalDTO.builder()
                 .townId(townId)

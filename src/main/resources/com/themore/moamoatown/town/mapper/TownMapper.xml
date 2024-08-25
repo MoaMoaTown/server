@@ -33,11 +33,12 @@
         ]]>
     </insert>
 
-    <!-- 타운 만들기_생성한 회원에게 townId 넣어주기 -->
-    <update id="updateMemberTownId" parameterType="map">
+    <!-- 타운 만들기_생성한 회원에게 townId와 role 업데이트 -->
+    <update id="updateMember">
         <![CDATA[
         UPDATE member
-        SET town_id = #{townId}
+        SET town_id = #{townId},
+            role = 1
         WHERE member_id = #{memberId}
         ]]>
     </update>
