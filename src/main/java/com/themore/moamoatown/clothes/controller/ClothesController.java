@@ -14,7 +14,20 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+/**
+ * 옷 관련 API를 제공하는 컨트롤러 클래스.
+ * @author 임재성
+ * @since 2024.08.24
+ * @version 1.0
+ *
+ * <pre>
+ * 수정일        	수정자        수정내용
+ * ----------  --------    ---------------------------
+ * 2024.08.24  	임재성        최초 생성
+ * 2024.08.24  	임재성        옷 조회 기능 추가
+ * 2024.08.25  	임재성        옷 구매 기능 추가
+ * </pre>
+ */
 @RestController
 @RequestMapping(value="/clothes", produces= MediaType.APPLICATION_JSON_VALUE)
 @Log4j
