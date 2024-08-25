@@ -18,6 +18,7 @@ import org.apache.ibatis.annotations.Param;
  * 2024.08.23  	이주현        최초 생성
  * 2024.08.24   이주현        로그인 기능 추가
  * 2024.08.25   이주현        타운 참가 기능 추가
+ * 2024.08.25   이주현        재산 조회 기능 추가
  * </pre>
  */
 
@@ -44,4 +45,7 @@ public interface MemberMapper {
 
     // 멤버의 기본 투자 데이터를 삽입
     int insertDefaultMemberInvestment(MemberInvestmentDTO investmentData);
+
+    // 재산 조회
+    Long findBalanceByMemberId(Long memberId);
 }

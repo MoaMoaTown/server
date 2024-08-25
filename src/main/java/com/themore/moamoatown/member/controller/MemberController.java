@@ -23,6 +23,7 @@ import javax.servlet.http.HttpSession;
  * 2024.08.23  	이주현        회원 가입 기능 추가
  * 2024.08.24   이주현        로그인 기능 추가
  * 2024.08.25   이주현        타운 참가 기능 추가
+ * 2024.08.25   이주현        재산 조회 기능 추가
  * </pre>
  */
 
@@ -36,7 +37,7 @@ public class MemberController {
     /**
      * 회원 가입
      * @param signUpRequestDTO
-     * @return
+     * @return ResponseEntity
      */
     @PostMapping("/sign-up")
     public ResponseEntity<String> signup(@RequestBody SignUpRequestDTO signUpRequestDTO) {
@@ -82,5 +83,16 @@ public class MemberController {
         // 세션에 townId 저장
         session.setAttribute("townId", townId);
         return ResponseEntity.ok("타운 참가에 성공했습니다.");
+    }
+
+    /**
+     * 멤버 재산 조회
+     * @param memberId 세션에서 가져온 멤버 아이디
+     * @return MemberBalanceResponseDTO
+     */
+    @GetMapping("/balance")
+    public ResponseEntity<MemberBalanceResponseDTO> getMemberBalance(@MemberId Long memberId) {
+        MemberBalanceResponseDTO response = memberService.getMemberBalance(memberId);
+        return ResponseEntity.ok(response);
     }
 }

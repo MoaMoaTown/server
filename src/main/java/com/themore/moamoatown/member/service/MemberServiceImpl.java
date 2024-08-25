@@ -23,6 +23,7 @@ import static com.themore.moamoatown.common.exception.ErrorCode.*;
  * 2024.08.23  	이주현        회원 가입 기능 추가
  * 2024.08.24   이주현        로그인 기능 추가
  * 2024.08.25   이주현        타운 참가 기능 추가
+ * 2024.08.25   이주현        재산 조회 기능 추가
  * </pre>
  */
 
@@ -105,5 +106,22 @@ public class MemberServiceImpl implements MemberService{
         );
 
         return townId;
+    }
+
+    /**
+     * 내 재산 조회
+     * @param memberId
+     * @return balance
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public MemberBalanceResponseDTO getMemberBalance(Long memberId) {
+        Long balance = memberMapper.findBalanceByMemberId(memberId);
+        if (balance == null) {
+            throw new CustomException(BALANCE_NOT_FOUND);
+        }
+        return MemberBalanceResponseDTO.builder()
+                .balance(balance)
+                .build();
     }
 }
