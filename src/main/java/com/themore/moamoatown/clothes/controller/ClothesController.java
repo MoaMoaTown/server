@@ -3,6 +3,7 @@ package com.themore.moamoatown.clothes.controller;
 
 import com.themore.moamoatown.clothes.dto.*;
 import com.themore.moamoatown.clothes.service.ClothesService;
+import com.themore.moamoatown.common.annotation.MemberId;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -103,23 +104,18 @@ public class ClothesController {
      */
     @PostMapping("/wishlist/purchase")
     public ResponseEntity<WishItemPurchaseResponseDTO> purchaseWishItem(
-            @RequestBody WishItemPurchaseRequestDTO requestDTO
+            @RequestBody WishItemPurchaseRequestDTO requestDTO,
+            @MemberId Long memberId // @MemberId 어노테이션으로 세션에서 memberId를 가져옴
     ) {
         log.info("위시 아이템 ID: " + requestDTO.getWishId() + "에 대한 구매 요청 처리 중");
 
-        // 실제 로직에서 세션에서 타운 ID와 멤버 ID를 받는 부분 (주석 처리)
-    /*
-    Long memberId = (Long) session.getAttribute("memberId");
-    Long townId = (Long) session.getAttribute("townId");
+        // 세션에서 가져온 memberId와 기존의 wishId를 사용하여 DTO를 생성
+        requestDTO = WishItemPurchaseRequestDTO.builder()
+                .wishId(requestDTO.getWishId())
+                .memberId(memberId)
+                .build();
 
-    // 세션에서 가져온 memberId와 townId를 DTO에 설정
-    requestDTO = WishItemPurchaseRequestDTO.builder()
-            .wishId(requestDTO.getWishId())
-            .memberId(memberId)
-            .build();
-    */
-
-        // 현재는 requestDTO로부터 wishId와 memberId를 이용해 처리
+        // requestDTO로부터 wishId와 memberId를 이용해 처리
         WishItemPurchaseResponseDTO response = clothesService.purchaseWishItem(requestDTO);
 
         log.info("구매 완료 - " + response.getMessage());
