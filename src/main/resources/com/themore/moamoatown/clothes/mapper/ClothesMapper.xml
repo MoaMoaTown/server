@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+* 백화점 옷 조회 Mybatis 매퍼
+* @author 임재성
+* @since 2024.08.23
+* @version 1.0
+*
+* <pre>
+* 수정일        	수정자        수정내용
+* ==========  =========    =========
+* 2024.08.23   임재성         최초 생성
+
+*
+* </pre>
+-->
+<mapper namespace="com.themore.moamoatown.clothes.mapper.ClothesMapper">
+    <select id="getClothesListWithPaging" resultType="GetClothesResponseDTO">
+         <![CDATA[
+            select clothes_id,brand,name,price,type,img_url
+            from clothes
+            ORDER BY clothes_id
+            OFFSET #{offset} ROWS FETCH NEXT #{size} ROWS ONLY
+
+        ]]>
+    </select>
+
+    <insert id="insertIntoCloset">
+        INSERT INTO CLOSET (CLOTHES_ID, MEMBER_ID)
+        VALUES (#{clothesId}, #{memberId})
+    </insert>
+</mapper>
