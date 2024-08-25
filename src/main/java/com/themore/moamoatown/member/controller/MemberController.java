@@ -1,9 +1,7 @@
 package com.themore.moamoatown.member.controller;
 
-import com.themore.moamoatown.member.dto.LoginInternalDTO;
-import com.themore.moamoatown.member.dto.LoginRequestDTO;
-import com.themore.moamoatown.member.dto.LoginResponseDTO;
-import com.themore.moamoatown.member.dto.SignUpRequestDTO;
+import com.themore.moamoatown.common.annotation.MemberId;
+import com.themore.moamoatown.member.dto.*;
 import com.themore.moamoatown.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,12 +22,13 @@ import javax.servlet.http.HttpSession;
  * 2024.08.23  	이주현        최초 생성
  * 2024.08.23  	이주현        회원 가입 기능 추가
  * 2024.08.24   이주현        로그인 기능 추가
+ * 2024.08.25   이주현        타운 참가 기능 추가
  * </pre>
  */
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/member")
+@RequestMapping(value = "/member", produces = "application/json; charset=UTF-8")
 @Slf4j
 public class MemberController {
     private final MemberService memberService;
@@ -39,7 +38,7 @@ public class MemberController {
      * @param signUpRequestDTO
      * @return
      */
-    @PostMapping(value = "/sign-up", produces = "application/json; charset=UTF-8")
+    @PostMapping("/sign-up")
     public ResponseEntity<String> signup(@RequestBody SignUpRequestDTO signUpRequestDTO) {
         memberService.signUp(signUpRequestDTO);
         return ResponseEntity.ok("회원 가입에 성공했습니다.");
@@ -51,7 +50,7 @@ public class MemberController {
      * @param session
      * @return 로그인된 사용자의 정보와 함께 ResponseEntity 반환
      */
-    @PostMapping(value = "/login", produces = "application/json")
+    @PostMapping("/login")
     public ResponseEntity<LoginResponseDTO> login(@RequestBody LoginRequestDTO loginRequestDTO, HttpSession session) {
         LoginInternalDTO memberInfo = memberService.login(loginRequestDTO);
 
@@ -67,5 +66,21 @@ public class MemberController {
                 .build();
 
         return ResponseEntity.ok(response);
+    }
+
+    /**
+     * 타운 참가
+     * @param joinTownRequestDTO
+     * @param memberId 세션에서 가져온 멤버 아이디
+     * @param session
+     * @return ResponseEntity
+     */
+    @PostMapping("/join-town")
+    public ResponseEntity<String> joinTown(@RequestBody JoinTownRequestDTO joinTownRequestDTO, @MemberId Long memberId, HttpSession session) {
+        // 타운 참가하고 타운 ID 반환
+        Long townId = memberService.joinTown(joinTownRequestDTO, memberId);
+        // 세션에 townId 저장
+        session.setAttribute("townId", townId);
+        return ResponseEntity.ok("타운 참가에 성공했습니다.");
     }
 }

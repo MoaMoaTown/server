@@ -1,9 +1,7 @@
 package com.themore.moamoatown.member.service;
 
 import com.themore.moamoatown.common.exception.CustomException;
-import com.themore.moamoatown.member.dto.LoginInternalDTO;
-import com.themore.moamoatown.member.dto.LoginRequestDTO;
-import com.themore.moamoatown.member.dto.SignUpRequestDTO;
+import com.themore.moamoatown.member.dto.*;
 import com.themore.moamoatown.member.mapper.MemberMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -24,6 +22,7 @@ import static com.themore.moamoatown.common.exception.ErrorCode.*;
  * 2024.08.23  	이주현        최초 생성
  * 2024.08.23  	이주현        회원 가입 기능 추가
  * 2024.08.24   이주현        로그인 기능 추가
+ * 2024.08.25   이주현        타운 참가 기능 추가
  * </pre>
  */
 
@@ -71,5 +70,40 @@ public class MemberServiceImpl implements MemberService{
         }
 
         return memberInfo;
+    }
+
+    /**
+     * 타운 참가
+     * @param joinTownRequestDTO 타운 참가 요청 DTO
+     * @param memberId 세션에서 가져온 멤버 아이디
+     */
+    @Override
+    @Transactional
+    public Long joinTown(JoinTownRequestDTO joinTownRequestDTO, Long memberId) {
+        // 타운 코드로 타운 아이디 조회
+        Long townId = memberMapper.findTownIdByTownCode(joinTownRequestDTO.getTownCode());
+        if (townId == null) {
+            throw new CustomException(TOWN_NOT_FOUND);
+        }
+
+        // 회원의 타운 아이디 업데이트
+        memberMapper.updateMemberTownId(memberId, townId);
+
+        // 기본 투자 데이터 삽입 (type_id 0, 1)
+        memberMapper.insertDefaultMemberInvestment(
+                MemberInvestmentDTO.builder()
+                        .typeId(0L)
+                        .memberId(memberId)
+                        .build()
+        );
+
+        memberMapper.insertDefaultMemberInvestment(
+                MemberInvestmentDTO.builder()
+                        .typeId(1L)
+                        .memberId(memberId)
+                        .build()
+        );
+
+        return townId;
     }
 }

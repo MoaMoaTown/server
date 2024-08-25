@@ -14,10 +14,13 @@
 * 2024.08.23  	이주현        최초 생성
 * 2024.08.23  	이주현        회원 가입 기능 추가
 * 2024.08.24  	이주현        로그인 기능 추가
+* 2024.08.25  	이주현        타운 참가 기능 추가
 * </pre>
 -->
 
 <mapper namespace="com.themore.moamoatown.member.mapper.MemberMapper">
+
+    <!-- 닉네임 중복 확인 -->
     <select id="countMembersByNickname" parameterType="String" resultType="Integer">
         <![CDATA[
         SELECT COUNT(nickname)
@@ -25,6 +28,8 @@
         WHERE nickname = #{nickname}
         ]]>
     </select>
+
+    <!-- 로그인 아이디 중복 확인 -->
     <select id="countMembersByLoginId" parameterType="String" resultType="Integer">
         <![CDATA[
         SELECT COUNT(login_id)
@@ -32,17 +37,16 @@
         WHERE login_id = #{loginId}
         ]]>
     </select>
+
+    <!-- 멤버 데이터 삽입 -->
     <insert id="insertMember" parameterType="SignUpRequestDTO">
     <![CDATA[
         INSERT INTO member(member_id, nickname, login_id, password, role)
         VALUES (MEMBER_SEQ.nextval, #{nickname}, #{loginId}, #{password}, #{role})
         ]]>
     </insert>
-    <!--
-    로그인 아이디로 멤버 정보를 조회
-    @param loginId
-    @return (memberId, townId, nickname, password, role)
-    -->
+
+    <!-- 로그인 아이디로 멤버 정보를 조회 -->
     <select id="findMemberByLoginId" parameterType="String" resultType="LoginInternalDTO">
     <![CDATA[
         SELECT member_id AS memberId,
@@ -55,4 +59,32 @@
           AND delete_date IS NULL
         ]]>
     </select>
+
+    <!-- 타운 코드로 타운 아이디 조회 -->
+    <select id="findTownIdByTownCode" parameterType="String" resultType="Long">
+    <![CDATA[
+        SELECT town_id
+        FROM town
+        WHERE town_code = #{townCode}
+          AND delete_date IS NULL
+        ]]>
+    </select>
+
+    <!-- 멤버의 타운 아이디 업데이트 -->
+    <update id="updateMemberTownId" parameterType="map">
+    <![CDATA[
+        UPDATE member
+        SET town_id = #{townId}
+        WHERE member_id = #{memberId}
+          AND delete_date IS NULL
+        ]]>
+    </update>
+
+    <!-- 멤버 투자 기본 데이터 삽입 -->
+    <insert id="insertDefaultMemberInvestment" parameterType="MemberInvestmentDTO">
+    <![CDATA[
+        INSERT INTO member_investment(type_id, average, amount, member_id)
+        VALUES (#{typeId}, 0, 0, #{memberId})
+        ]]>
+    </insert>
 </mapper>
