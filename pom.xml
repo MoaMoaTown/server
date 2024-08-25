@@ -61,7 +61,7 @@
 		<dependency>
 			<groupId>org.aspectj</groupId>
 			<artifactId>aspectjweaver</artifactId>
-			<version>${org.aspectj-version}</version>			
+			<version>${org.aspectj-version}</version>
 		</dependency>
 		
 		<!-- Logging -->
