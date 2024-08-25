@@ -18,6 +18,7 @@ import java.util.List;
  * 2024.08.24  	임재성        최초 생성
  * 2024.08.25  	임재성        옷 조회 기능 정의
  * 2024.08.25  	임재성        옷 구매 기능 정의
+ * 2024.08.25   임재성        위시 상품 조회
  * </pre>
  */
 public interface ClothesService {
