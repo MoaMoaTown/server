@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--
+* 단어 Mybatis 매퍼
+* @author 이주현
+* @since 2024.08.25
+* @version 1.0
+*
+* <pre>
+* 수정일        수정자        수정내용
+* ==========  ========     ===========================
+* 2024.08.25  이주현        최초 생성
+* </pre>
+-->
+
+<mapper namespace="com.themore.moamoatown.word.mapper.WordMapper">
+
+    <!-- selected_word로 단어 조회 -->
+    <select id="findBySelectedWord" resultType="WordResponseDTO">
+        <![CDATA[
+        SELECT description
+        FROM word
+        WHERE selected_word = #{selectedWord}
+        ]]>
+    </select>
+
+    <!-- 새로운 단어 삽입 -->
+    <insert id="insertWord" parameterType="WordInternalDTO">
+    <![CDATA[
+        INSERT INTO word (word_id, selected_word, description)
+        VALUES (WORD_SEQ.NEXTVAL, #{selectedWord}, #{description})
+        ]]>
+    </insert>
+</mapper>

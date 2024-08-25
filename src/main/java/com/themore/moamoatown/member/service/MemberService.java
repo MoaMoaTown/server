@@ -1,11 +1,8 @@
 package com.themore.moamoatown.member.service;
 
-import com.themore.moamoatown.member.dto.LoginInternalDTO;
-import com.themore.moamoatown.member.dto.LoginRequestDTO;
-import com.themore.moamoatown.member.dto.LoginResponseDTO;
-import com.themore.moamoatown.member.dto.SignUpRequestDTO;
+import com.themore.moamoatown.member.dto.*;
 
-import javax.servlet.http.HttpSession;
+import java.util.List;
 
 /**
  * 멤버 서비스 인터페이스
@@ -18,6 +15,9 @@ import javax.servlet.http.HttpSession;
  * ----------  --------    ---------------------------
  * 2024.08.23  	이주현        최초 생성
  * 2024.08.24   이주현        로그인 기능 추가
+ * 2024.08.25   이주현        타운 참가 기능 추가
+ * 2024.08.25   이주현        재산 조회 기능 추가
+ * 2024.08.25   이주현        타운 내 순위 리스트 조회 기능 추가
  * </pre>
  */
 
@@ -26,5 +26,14 @@ public interface MemberService {
     void signUp(SignUpRequestDTO signUpRequestDTO);
 
     // 로그인
-    LoginResponseDTO login(LoginRequestDTO loginRequestDTO, HttpSession session);
+    LoginInternalDTO login(LoginRequestDTO loginRequestDTO);
+
+    // 타운 참가
+    Long joinTown(JoinTownRequestDTO joinTownRequestDTO, Long memberId);
+
+    // 재산 조회
+    MemberBalanceResponseDTO getMemberBalance(Long memberId);
+
+    // 타운 내 순위 리스트 조회
+    List<MemberRankResponseDTO> getMemberRanks(Long currentUserId, Long townId);
 }
