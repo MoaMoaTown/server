@@ -35,7 +35,6 @@ import java.util.List;
 @RequestMapping(value="/clothes", produces = "application/json; charset=UTF-8")
 @Log4j
 @RequiredArgsConstructor
-@Getter
 public class ClothesController {
 
     @Autowired
