@@ -27,7 +27,7 @@
     </select>
 
     <insert id="insertIntoCloset">
-        INSERT INTO CLOSET (CLOTHES_ID, MEMBER_ID)
-        VALUES (#{clothesId}, #{memberId})
+        INSERT INTO CLOSET (CLOSET_ID, CLOTHES_ID, MEMBER_ID)
+        VALUES (CLOSET_SEQ.NEXTVAL, #{clothesId}, #{memberId})
     </insert>
 </mapper>
