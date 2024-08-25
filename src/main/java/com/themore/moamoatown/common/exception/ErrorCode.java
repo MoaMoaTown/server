@@ -26,6 +26,7 @@ public enum ErrorCode {
     TOWN_CREATE_FAILED(BAD_REQUEST, "타운 만들기에 실패했습니다."),
     WORD_INSERT_FAILED(INTERNAL_SERVER_ERROR, "단어 삽입에 실패했습니다."),
     GPT_REQUEST_FAILED(INTERNAL_SERVER_ERROR, "GPT 요청에 실패했습니다."),
+    UPDATE_PROFILE_FAILED(INTERNAL_SERVER_ERROR, "프로필 변경에 실패했습니다")
     ;
 
     private final HttpStatus httpStatus;
