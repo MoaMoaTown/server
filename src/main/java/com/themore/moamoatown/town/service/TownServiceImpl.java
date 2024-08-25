@@ -4,9 +4,11 @@ import com.themore.moamoatown.common.exception.CustomException;
 import com.themore.moamoatown.town.dto.TownCreateInternalDTO;
 import com.themore.moamoatown.town.dto.TownCreateRequestDTO;
 import com.themore.moamoatown.town.mapper.TownMapper;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import static com.themore.moamoatown.common.exception.ErrorCode.*;
 
 /**
@@ -26,10 +28,17 @@ import static com.themore.moamoatown.common.exception.ErrorCode.*;
 
 @Log4j
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class TownServiceImpl implements TownService {
-    private TownMapper townMapper;
+    private final TownMapper townMapper;
 
+    /**
+     * 타운 만들기
+     * @param requestDTO
+     * @param memberId
+     * @return
+     */
+    @Transactional
     public TownCreateInternalDTO createTown(TownCreateRequestDTO requestDTO, Long memberId) {
         // 고유한 타운 코드 생성
         String townCode;
@@ -49,7 +58,7 @@ public class TownServiceImpl implements TownService {
         Long townId = townCreateRequestDTO.getTownId();
 
         // 회원 테이블에 townId 업데이트
-        townMapper.updateMemberTownId(townId, memberId);
+        if(townMapper.updateMemberTownId(townId, memberId) < 0) throw new CustomException(TOWN_CREATE_FAILED);
 
         return TownCreateInternalDTO.builder()
                 .townId(townId)

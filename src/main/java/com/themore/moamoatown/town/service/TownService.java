@@ -18,5 +18,5 @@ import com.themore.moamoatown.town.dto.TownCreateRequestDTO;
  */
 
 public interface TownService {
-    TownCreateInternalDTO createTown(TownCreateRequestDTO townCreateRequestDTO, Long memberId) throws Exception;
+    TownCreateInternalDTO createTown(TownCreateRequestDTO townCreateRequestDTO, Long memberId);
 }

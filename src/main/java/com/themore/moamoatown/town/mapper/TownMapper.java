@@ -20,10 +20,8 @@ import org.apache.ibatis.annotations.Param;
 
 @Mapper
 public interface TownMapper {
-    // 타운 코드 중복 체크 메서드
-    Long selectIdByTownCode(String townCode);
-    // 타운 삽입
-    int insertTown(TownCreateRequestDTO townCreateRequestDTO);
-    // 멤버에 타운아이디 업데이트
-    int updateMemberTownId(@Param("townId") Long townId, @Param("memberId") Long memberId);
+    /** 타운 만들기 **/
+    Long selectIdByTownCode(String townCode);   // 타운 코드로 타운 ID 조회
+    int insertTown(TownCreateRequestDTO townCreateRequestDTO);  // 타운 삽입
+    int updateMemberTownId(@Param("townId") Long townId, @Param("memberId") Long memberId);   // 멤버에 타운아이디 업데이트
 }
