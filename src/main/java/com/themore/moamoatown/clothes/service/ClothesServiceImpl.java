@@ -1,9 +1,6 @@
 package com.themore.moamoatown.clothes.service;
 
-import com.themore.moamoatown.clothes.dto.ClothesResponseDTO;
-import com.themore.moamoatown.clothes.dto.ClothesPurchaseRequestDTO;
-import com.themore.moamoatown.clothes.dto.ClothesPurchaseResponseDTO;
-import com.themore.moamoatown.clothes.dto.WishItemResponseDTO;
+import com.themore.moamoatown.clothes.dto.*;
 import com.themore.moamoatown.clothes.mapper.ClothesMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j;
@@ -22,9 +19,10 @@ import java.util.List;
  * 수정일        	수정자        수정내용
  * ----------  --------    ---------------------------
  * 2024.08.24  	임재성        최초 생성
- * 2024.08.25  	임재성        옷 조회 기능 구현
- * 2024.08.25  	임재성        옷 구매 기능 구현
- * 2024.08.25   임재성        위시 상품 조회
+ * 2024.08.25  	임재성        옷 조회 기능 추가
+ * 2024.08.25  	임재성        옷 구매 기능 추가
+ * 2024.08.25   임재성        위시 상품 조회 추가
+ * 2024.08.25   임재성        위시 상품 구매 기능 추가
  * </pre>
  */
 @Log4j
@@ -54,5 +52,20 @@ public class ClothesServiceImpl implements ClothesService{
     @Override
     public List<WishItemResponseDTO> getWishItemsByTown(Long townId) {
         return clothesmapper.findWishItemsByTownId(townId);
+    }
+
+    @Override
+    public WishItemPurchaseResponseDTO purchaseWishItem(WishItemPurchaseRequestDTO requestDTO) {
+        Long wishId = requestDTO.getWishId();
+        Long memberId = requestDTO.getMemberId();
+
+        // MEMBER_WISH 테이블에 구매 내역 추가
+        clothesmapper.insertMemberWish(wishId, memberId);
+
+        log.info("멤버 ID: " + memberId + "가 위시 아이템 ID: " + wishId + "를 구매하였습니다.");
+
+        return WishItemPurchaseResponseDTO.builder()
+                .message("위시 아이템 " + wishId + "이(가) 멤버 " + memberId + "에 의해 구매되었습니다.")
+                .build();
     }
 }
