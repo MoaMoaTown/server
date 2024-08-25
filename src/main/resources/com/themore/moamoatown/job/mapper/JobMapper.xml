@@ -17,4 +17,12 @@
         WHERE TOWN_ID = #{townId}
         ]]>
     </select>
+
+    <!-- 역할 요청 삽입 -->
+    <insert id="insertJobRequest">
+    <![CDATA[
+        INSERT INTO JOB_REQUEST (JOB_REQUEST_ID, JOB_ID, MEMBER_ID, COMMENTS, ALLOWYN)
+        VALUES (JOB_REQUEST_SEQ.NEXTVAL, #{jobId}, #{memberId}, #{comments}, 'N')
+        ]]>
+    </insert>
 </mapper>

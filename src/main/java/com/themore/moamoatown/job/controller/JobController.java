@@ -1,15 +1,15 @@
 package com.themore.moamoatown.job.controller;
 
+import com.themore.moamoatown.common.annotation.MemberId;
 import com.themore.moamoatown.common.annotation.TownId;
+import com.themore.moamoatown.job.dto.JobRequestDTO;
+import com.themore.moamoatown.job.dto.JobRequestResponseDTO;
 import com.themore.moamoatown.job.dto.JobResponseDTO;
 import com.themore.moamoatown.job.service.JobService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -26,6 +26,7 @@ import java.util.List;
  * 2024.08.26  	임재성        최초 생성
  * 2024.08.26   임재성        역할 리스트 조회 기능 추가
  * 2024.08.26   임재성        역할 리스트 조회 메서드 수정
+ * 2024.08.26   임재성        역할 요청 기능 추가
  * </pre>
  */
 @RestController
@@ -55,6 +56,34 @@ public class JobController {
         log.info("JOB 목록 조회 완료 - " + jobList.size() + "개 항목");
 
         return ResponseEntity.ok(jobList);
+    }
+
+    /**
+     * 역할 요청 처리
+     *
+     * @param jobRequestDTO 역할 요청 정보
+     * @param memberId 세션에서 가져온 멤버 ID
+     * @return 요청 처리 결과 메시지를 담은 응답 DTO
+     */
+    @PostMapping("/apply")
+    public ResponseEntity<JobRequestResponseDTO> requestJob(
+            @RequestBody JobRequestDTO jobRequestDTO,
+            @MemberId Long memberId // 세션에서 가져온 멤버 ID를 주입받음
+    ) {
+        log.info("역할 요청 - Job ID: " + jobRequestDTO.getJobId() + ", Member ID: " + memberId);
+
+        // 세션에서 가져온 memberId를 DTO에 설정
+        jobRequestDTO = JobRequestDTO.builder()
+                .jobId(jobRequestDTO.getJobId())
+                .memberId(memberId)
+                .comments(jobRequestDTO.getComments())
+                .build();
+
+        JobRequestResponseDTO response = jobService.requestJob(jobRequestDTO);
+
+        log.info("역할 요청 처리 완료 - " + response.getMessage());
+
+        return ResponseEntity.ok(response);
     }
     }
 

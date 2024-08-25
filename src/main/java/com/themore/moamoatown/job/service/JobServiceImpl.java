@@ -1,5 +1,7 @@
 package com.themore.moamoatown.job.service;
 
+import com.themore.moamoatown.job.dto.JobRequestDTO;
+import com.themore.moamoatown.job.dto.JobRequestResponseDTO;
 import com.themore.moamoatown.job.dto.JobResponseDTO;
 import com.themore.moamoatown.job.mapper.JobMapper;
 import com.themore.moamoatown.job.service.JobService;
@@ -22,6 +24,7 @@ import java.util.List;
  * 2024.08.26  	임재성        최초 생성
  * 2024.08.26   임재성        역할 리스트 조회 기능 추가
  * 2024.08.26   임재성        역할 리스트 조회 메서드 수정
+ * 2024.08.26   임재성        역할 요청 기능 추가
  * </pre>
  */
 @Log4j
@@ -36,5 +39,15 @@ public class JobServiceImpl implements JobService {
         log.info("타운 ID: " + townId + "에 대한 JOB 목록 조회 중");
 
         return jobMapper.findJobsByTownId(townId);
+    }
+    @Override
+    public JobRequestResponseDTO requestJob(JobRequestDTO jobRequestDTO) {
+        log.info("역할 요청 처리 중 - Job ID: " + jobRequestDTO.getJobId() + ", Member ID: " + jobRequestDTO.getMemberId());
+
+        jobMapper.insertJobRequest(jobRequestDTO);
+
+        return JobRequestResponseDTO.builder()
+                .message("역할 요청이 성공적으로 처리되었습니다.")
+                .build();
     }
 }
