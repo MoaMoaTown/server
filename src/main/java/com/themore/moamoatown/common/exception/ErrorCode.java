@@ -15,7 +15,7 @@ public enum ErrorCode {
     TOWN_NOT_FOUND(NOT_FOUND, "타운을 찾을 수 없습니다."),
     BALANCE_NOT_FOUND(NOT_FOUND, "재산 정보를 찾을 수 없습니다."),
     DESCRIPTION_NOT_FOUND(NOT_FOUND, "단어 설명을 찾을 수 없습니다."),
-    KNOWLEDGE_NOT_FOUND(HttpStatus.NOT_FOUND, "지식을 찾을 수 없습니다."),
+    KNOWLEDGE_NOT_FOUND(NOT_FOUND, "지식을 찾을 수 없습니다."),
 
     /* code: 409 */
     NICKNAME_ALREADY_EXISTS(CONFLICT, "이미 존재하는 닉네임입니다."),
