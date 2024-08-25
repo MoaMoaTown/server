@@ -13,6 +13,7 @@
  * 2024.08.23   임원정       타운 만들기 관련 메소드 추가
  * 2024.08.24   임원정       타운 아이디 가져오기 함수 수정
  * 2024.08.26   임원정       타운 세금현황 조회 메소드 추가
+ * 2024.08.26   임원정       타운 역할 신청 현황 조회 메소드 추가
  * </pre>
 -->
 <mapper namespace="com.themore.moamoatown.town.mapper.TownMapper">
@@ -50,6 +51,17 @@
         SELECT total_tax
         FROM town
         WHERE town_id = #{townId}
+        ]]>
+    </select>
+
+    <!-- 타운 역할 신청 현황 조회 -->
+    <select id="selectJobRequestByTownId" resultType="JobRequestsResponseDTO">
+        <![CDATA[
+        SELECT jr.job_request_id, j.name, jr.comments, m.nickname, jr.allowYN
+        FROM job j
+                 JOIN job_request jr ON j.job_id = jr.job_id
+                 JOIN member m ON jr.member_id = m.member_id
+        WHERE j.town_id = #{townId}
         ]]>
     </select>
 </mapper>
