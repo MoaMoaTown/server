@@ -18,7 +18,7 @@ import javax.servlet.http.HttpSession;
 /**
  * 타운 컨트롤러
  * @author 임원정
- * @since 2024.08.24
+ * @since 2024.08.23
  * @version 1.0
  *
  * <pre>
@@ -33,17 +33,24 @@ import javax.servlet.http.HttpSession;
 @Log4j
 @RestController
 @RequiredArgsConstructor
-//@RequestMapping("/town")
 @RequestMapping(value="/town",
         produces = "application/json; charset=UTF-8")
 public class TownController {
     private final TownService townService;
 
+    /**
+     * 타운 만들기
+     * @param requestDTO
+     * @param memberId
+     * @param session
+     * @return
+     */
     @PostMapping("/create")
     public ResponseEntity<TownCreateResponseDTO> createTown(@RequestBody TownCreateRequestDTO requestDTO, @MemberId Long memberId,
-                                             HttpSession session) throws Exception {
+                                             HttpSession session) {
         // 타운 생성
         TownCreateInternalDTO internalDTO = townService.createTown(requestDTO, memberId);
+
         // 세션에 town_id 저장
         session.setAttribute("town_id", internalDTO.getTownId());
         // response 생성

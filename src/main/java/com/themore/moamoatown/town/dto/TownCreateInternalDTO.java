@@ -26,3 +26,4 @@ public class TownCreateInternalDTO {
     private Long townId;
     private String townCode;
 }
+
