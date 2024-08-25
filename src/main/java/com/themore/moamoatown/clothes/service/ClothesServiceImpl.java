@@ -3,6 +3,7 @@ package com.themore.moamoatown.clothes.service;
 import com.themore.moamoatown.clothes.dto.ClothesResponseDTO;
 import com.themore.moamoatown.clothes.dto.ClothesPurchaseRequestDTO;
 import com.themore.moamoatown.clothes.dto.ClothesPurchaseResponseDTO;
+import com.themore.moamoatown.clothes.dto.WishItemResponseDTO;
 import com.themore.moamoatown.clothes.mapper.ClothesMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j;
@@ -47,5 +48,10 @@ public class ClothesServiceImpl implements ClothesService{
 
         // 응답 반환
         return new ClothesPurchaseResponseDTO("옷이 클로젯에 추가되었습니다.");
+    }
+
+    @Override
+    public List<WishItemResponseDTO> getWishItemsByTown(Long townId) {
+        return clothesmapper.findWishItemsByTownId(townId);
     }
 }

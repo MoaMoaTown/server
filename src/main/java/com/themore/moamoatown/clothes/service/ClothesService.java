@@ -3,6 +3,7 @@ package com.themore.moamoatown.clothes.service;
 import com.themore.moamoatown.clothes.dto.ClothesResponseDTO;
 import com.themore.moamoatown.clothes.dto.ClothesPurchaseRequestDTO;
 import com.themore.moamoatown.clothes.dto.ClothesPurchaseResponseDTO;
+import com.themore.moamoatown.clothes.dto.WishItemResponseDTO;
 
 import java.util.List;
 /**
@@ -23,4 +24,11 @@ public interface ClothesService {
     List<ClothesResponseDTO> getClothesListWithPaging(int page, int size);
     ClothesPurchaseResponseDTO purchaseClothes(ClothesPurchaseRequestDTO requestDTO, Long memberId) throws Exception;
 
+    /**
+     * 타운별 위시 아이템 목록을 조회합니다.
+     *
+     * @param townId 타운 ID.
+     * @return 위시 아이템 목록.
+     */
+    List<WishItemResponseDTO> getWishItemsByTown(Long townId);
 }

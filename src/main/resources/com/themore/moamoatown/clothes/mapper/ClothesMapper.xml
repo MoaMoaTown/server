@@ -33,4 +33,13 @@
 
     ]]>
     </insert>
+
+
+    <select id="findWishItemsByTownId" resultType="com.themore.moamoatown.clothes.dto.WishItemResponseDTO">
+        <![CDATA[
+        SELECT wish_id AS wishId, town_id AS townId, name, price
+        FROM wish
+        WHERE town_id = #{townId}
+        ]]>
+    </select>
 </mapper>
