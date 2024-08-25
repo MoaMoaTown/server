@@ -8,6 +8,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import static com.themore.moamoatown.common.exception.ErrorCode.*;
 
 /**
@@ -24,6 +27,7 @@ import static com.themore.moamoatown.common.exception.ErrorCode.*;
  * 2024.08.24   이주현        로그인 기능 추가
  * 2024.08.25   이주현        타운 참가 기능 추가
  * 2024.08.25   이주현        재산 조회 기능 추가
+ * 2024.08.25   이주현        타운 내 순위 리스트 조회 기능 추가
  * </pre>
  */
 
@@ -123,5 +127,25 @@ public class MemberServiceImpl implements MemberService{
         return MemberBalanceResponseDTO.builder()
                 .balance(balance)
                 .build();
+    }
+
+    /**
+     * 타운 내 순위 리스트 조회
+     * @param currentUserId
+     * @param townId
+     * @return MemberRankResponseDTO List
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public List<MemberRankResponseDTO> getMemberRanks(Long currentUserId, Long townId) {
+        return memberMapper.getMemberRanks(currentUserId, townId)
+                .stream()
+                .map(member -> MemberRankResponseDTO.builder()
+                        .profile(member.getProfile())
+                        .nickname(member.getNickname())
+                        .balance(member.getBalance())
+                        .isCurrentUser(member.getIsCurrentUser())
+                        .build())
+                .collect(Collectors.toList());
     }
 }

@@ -16,6 +16,7 @@
 * 2024.08.24  	이주현        로그인 기능 추가
 * 2024.08.25  	이주현        타운 참가 기능 추가
 * 2024.08.25  	이주현        재산 조회 기능 추가
+* 2024.08.25  	이주현        타운 내 순위 리스트 조회 기능 추가
 * </pre>
 -->
 
@@ -97,5 +98,24 @@
         WHERE member_id = #{memberId}
           AND delete_date IS NULL
         ]]>
+    </select>
+
+    <!-- 타운 내 순위 리스트 조회 -->
+    <select id="getMemberRanks" resultType="MemberRankResponseDTO">
+        SELECT
+            TO_CHAR(profile) profile,
+            nickname,
+            balance,
+            CASE
+                WHEN member_id = #{currentUserId} THEN 'Y'
+                ELSE 'N'
+                END AS isCurrentUser
+        FROM
+            member
+        WHERE
+            town_id = #{townId}
+          AND delete_date IS NULL
+        ORDER BY
+            balance DESC
     </select>
 </mapper>

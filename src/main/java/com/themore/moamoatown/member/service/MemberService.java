@@ -2,6 +2,8 @@ package com.themore.moamoatown.member.service;
 
 import com.themore.moamoatown.member.dto.*;
 
+import java.util.List;
+
 /**
  * 멤버 서비스 인터페이스
  * @author 이주현
@@ -15,6 +17,7 @@ import com.themore.moamoatown.member.dto.*;
  * 2024.08.24   이주현        로그인 기능 추가
  * 2024.08.25   이주현        타운 참가 기능 추가
  * 2024.08.25   이주현        재산 조회 기능 추가
+ * 2024.08.25   이주현        타운 내 순위 리스트 조회 기능 추가
  * </pre>
  */
 
@@ -30,4 +33,7 @@ public interface MemberService {
 
     // 재산 조회
     MemberBalanceResponseDTO getMemberBalance(Long memberId);
+
+    // 타운 내 순위 리스트 조회
+    List<MemberRankResponseDTO> getMemberRanks(Long currentUserId, Long townId);
 }
