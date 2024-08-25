@@ -1,17 +1,16 @@
 package com.themore.moamoatown.town.controller;
 
 import com.themore.moamoatown.common.annotation.MemberId;
+import com.themore.moamoatown.common.annotation.TownId;
 import com.themore.moamoatown.town.dto.TownCreateInternalDTO;
 import com.themore.moamoatown.town.dto.TownCreateRequestDTO;
 import com.themore.moamoatown.town.dto.TownCreateResponseDTO;
+import com.themore.moamoatown.town.dto.TownTaxResponseDTO;
 import com.themore.moamoatown.town.service.TownService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 
@@ -27,6 +26,7 @@ import javax.servlet.http.HttpSession;
  * 2024.08.23  	임원정        최초 생성
  * 2024.08.23   임원정        타운 만들기 추가
  * 2024.08.24   임원정        타운 만들기 메소드 수정
+ * 2024.08.26   임원정        타운 세금 현황 조회 추가
  * </pre>
  */
 
@@ -62,4 +62,14 @@ public class TownController {
         return ResponseEntity.ok(response);
     }
 
+    /**
+     * 타운의 세금현황 조회
+     * @param townId
+     * @return
+     */
+    @GetMapping("/tax")
+    public ResponseEntity<TownTaxResponseDTO> getTotalTax(@TownId Long townId) {
+        TownTaxResponseDTO response = townService.getTotalTax(townId);
+        return ResponseEntity.ok(response);
+    }
 }
