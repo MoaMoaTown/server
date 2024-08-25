@@ -36,4 +36,11 @@ public interface ClothesMapper {
      * @return 위시 아이템 목록.
      */
     List<WishItemResponseDTO> findWishItemsByTownId(@Param("townId") Long townId);
+    /**
+     * MEMBER_WISH 테이블에 구매 내역을 추가합니다.
+     *
+     * @param wishId 구매한 위시 아이템의 ID.
+     * @param memberId 구매한 멤버의 ID.
+     */
+    void insertMemberWish(@Param("wishId") Long wishId, @Param("memberId") Long memberId);
 }

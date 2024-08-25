@@ -42,4 +42,12 @@
         WHERE town_id = #{townId}
         ]]>
     </select>
+
+    <insert id="insertMemberWish">
+        <![CDATA[
+        INSERT INTO MEMBER_WISH (MEMBER_WISH_ID, WISH_ID, MEMBER_ID, CREATED_AT, COMPLETEYN)
+        VALUES (MEMBER_WISH_SEQ.NEXTVAL, #{wishId}, #{memberId}, SYSDATE, 'N')
+        ]]>
+    </insert>
+
 </mapper>
