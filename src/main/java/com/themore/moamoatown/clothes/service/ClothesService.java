@@ -1,8 +1,8 @@
 package com.themore.moamoatown.clothes.service;
 
-import com.themore.moamoatown.clothes.dto.GetClothesResponseDTO;
-import com.themore.moamoatown.clothes.dto.PostClothesPurchaseRequestDTO;
-import com.themore.moamoatown.clothes.dto.PostClothesPurchaseResponseDTO;
+import com.themore.moamoatown.clothes.dto.ClothesResponseDTO;
+import com.themore.moamoatown.clothes.dto.ClothesPurchaseRequestDTO;
+import com.themore.moamoatown.clothes.dto.ClothesPurchaseResponseDTO;
 
 import java.util.List;
 /**
@@ -20,7 +20,7 @@ import java.util.List;
  * </pre>
  */
 public interface ClothesService {
-    List<GetClothesResponseDTO> getClothesListWithPaging(int page, int size);
-    PostClothesPurchaseResponseDTO purchaseClothes(PostClothesPurchaseRequestDTO requestDTO, Long memberId) throws Exception;
+    List<ClothesResponseDTO> getClothesListWithPaging(int page, int size);
+    ClothesPurchaseResponseDTO purchaseClothes(ClothesPurchaseRequestDTO requestDTO, Long memberId) throws Exception;
 
 }

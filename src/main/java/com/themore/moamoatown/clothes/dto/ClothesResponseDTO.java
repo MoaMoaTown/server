@@ -1,6 +1,9 @@
 package com.themore.moamoatown.clothes.dto;
 
+import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
+
 /**
  * 옷 목록 조회 응답 DTO 클래스.
  *
@@ -16,8 +19,9 @@ import lombok.Data;
  * 2024.08.24  	임재성        최초 생성
  * </pre>
  */
-@Data
-public class GetClothesResponseDTO {
+@Builder
+@Getter
+public class ClothesResponseDTO {
     private Long clothesId;
     private String brand;
     private String name;

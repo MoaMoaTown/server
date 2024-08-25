@@ -1,12 +1,13 @@
 package com.themore.moamoatown.clothes.controller;
 
 
-import com.themore.moamoatown.clothes.dto.GetClothesResponseDTO;
-import com.themore.moamoatown.clothes.dto.PostClothesPurchaseRequestDTO;
-import com.themore.moamoatown.clothes.dto.PostClothesPurchaseResponseDTO;
+import com.themore.moamoatown.clothes.dto.ClothesResponseDTO;
+import com.themore.moamoatown.clothes.dto.ClothesPurchaseRequestDTO;
+import com.themore.moamoatown.clothes.dto.ClothesPurchaseResponseDTO;
 import com.themore.moamoatown.clothes.service.ClothesService;
-import com.themore.moamoatown.common.annotation.MemberId;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -29,9 +30,10 @@ import java.util.List;
  * </pre>
  */
 @RestController
-@RequestMapping(value="/clothes", produces= MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value="/clothes", produces = "application/json; charset=UTF-8")
 @Log4j
-@AllArgsConstructor
+@RequiredArgsConstructor
+@Getter
 public class ClothesController {
 
     @Autowired
@@ -43,13 +45,13 @@ public class ClothesController {
      * @throws Exception
      */
     @GetMapping("/list")
-    public ResponseEntity<List<GetClothesResponseDTO>> getClothesListWithPaging(
+    public ResponseEntity<List<ClothesResponseDTO>> getClothesListWithPaging(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "2") int size
     ) {
         log.info("Fetching clothes list with pagination - Page: " + page + ", Size: " + size);
 
-        List<GetClothesResponseDTO> response = clothesService.getClothesListWithPaging(page,size);
+        List<ClothesResponseDTO> response = clothesService.getClothesListWithPaging(page,size);
         log.info("Fetched " + response.size() + " clothes items.");
 
         return ResponseEntity.ok(response);
@@ -62,8 +64,8 @@ public class ClothesController {
      * @throws Exception
      */
     @PostMapping("/purchase")
-    public ResponseEntity<PostClothesPurchaseResponseDTO> purchaseClothes(
-            @RequestBody PostClothesPurchaseRequestDTO requestDTO,
+    public ResponseEntity<ClothesPurchaseResponseDTO> purchaseClothes(
+            @RequestBody ClothesPurchaseRequestDTO requestDTO,
 //            @MemberId Long memberId  테스트용으로 requestParam사용
             @RequestParam Long memberId // @MemberId 대신 @RequestParam 사용
 
@@ -71,7 +73,7 @@ public class ClothesController {
         log.info("옷 ID: " + requestDTO.getClothesId() + "에 대한 구매 요청 처리 중");
 
         // memberId를 DTO에 설정
-        PostClothesPurchaseResponseDTO response = clothesService.purchaseClothes(requestDTO, memberId);
+        ClothesPurchaseResponseDTO response = clothesService.purchaseClothes(requestDTO, memberId);
         log.info("구매 완료 - " + response.getMessage());
 
         return ResponseEntity.ok(response);

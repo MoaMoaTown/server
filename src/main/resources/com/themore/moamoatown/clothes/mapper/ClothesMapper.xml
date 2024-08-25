@@ -16,7 +16,7 @@
 * </pre>
 -->
 <mapper namespace="com.themore.moamoatown.clothes.mapper.ClothesMapper">
-    <select id="getClothesListWithPaging" resultType="GetClothesResponseDTO">
+    <select id="getClothesListWithPaging" resultType="ClothesResponseDTO">
          <![CDATA[
             select clothes_id,brand,name,price,type,img_url
             from clothes
@@ -27,7 +27,10 @@
     </select>
 
     <insert id="insertIntoCloset">
+    <![CDATA[
         INSERT INTO CLOSET (CLOSET_ID, CLOTHES_ID, MEMBER_ID)
         VALUES (CLOSET_SEQ.NEXTVAL, #{clothesId}, #{memberId})
+
+    ]]>
     </insert>
 </mapper>

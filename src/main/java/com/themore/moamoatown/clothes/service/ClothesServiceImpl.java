@@ -1,14 +1,14 @@
 package com.themore.moamoatown.clothes.service;
 
-import com.themore.moamoatown.clothes.dto.GetClothesResponseDTO;
-import com.themore.moamoatown.clothes.dto.PostClothesPurchaseRequestDTO;
-import com.themore.moamoatown.clothes.dto.PostClothesPurchaseResponseDTO;
+import com.themore.moamoatown.clothes.dto.ClothesResponseDTO;
+import com.themore.moamoatown.clothes.dto.ClothesPurchaseRequestDTO;
+import com.themore.moamoatown.clothes.dto.ClothesPurchaseResponseDTO;
 import com.themore.moamoatown.clothes.mapper.ClothesMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j;
 import org.springframework.stereotype.Service;
 import java.util.List;
-import java.util.UUID;
+
 /**
  * 옷 관련 비즈니스 로직을 처리하는 서비스 구현체 클래스.
  * 이 클래스는 {@link ClothesService} 인터페이스를 구현합니다.
@@ -32,13 +32,13 @@ public class ClothesServiceImpl implements ClothesService{
 
     private final ClothesMapper clothesmapper;
     @Override
-    public List<GetClothesResponseDTO> getClothesListWithPaging(int page, int size) {
+    public List<ClothesResponseDTO> getClothesListWithPaging(int page, int size) {
         int offset = page * size;  // offset 계산
 
         return clothesmapper.getClothesListWithPaging(offset,size);
     }
     @Override
-    public PostClothesPurchaseResponseDTO purchaseClothes(PostClothesPurchaseRequestDTO requestDTO, Long memberId) throws Exception {
+    public ClothesPurchaseResponseDTO purchaseClothes(ClothesPurchaseRequestDTO requestDTO, Long memberId) throws Exception {
         // DTO에 memberId 설정
 //        requestDTO.setMemberId(memberId);
 
@@ -46,6 +46,6 @@ public class ClothesServiceImpl implements ClothesService{
         clothesmapper.insertIntoCloset(requestDTO.getClothesId(), memberId);
 
         // 응답 반환
-        return new PostClothesPurchaseResponseDTO("옷이 클로젯에 추가되었습니다.");
+        return new ClothesPurchaseResponseDTO("옷이 클로젯에 추가되었습니다.");
     }
 }

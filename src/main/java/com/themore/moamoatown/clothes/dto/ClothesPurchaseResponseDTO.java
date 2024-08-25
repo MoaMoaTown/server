@@ -1,11 +1,11 @@
 package com.themore.moamoatown.clothes.dto;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+
+import lombok.*;
+
 /**
- * 옷 구매 요청을 담고 있는 DTO 클래스.
+ * 옷 구매 결과 메시지를 담고 있는 DTO 클래스.
  *
- * 구매하려는 옷의 ID를 포함하고 있습니다.
+ * 옷 구매 결과를 나타내는 메시지를 포함하고 있습니다.
  *
  * @author 임재성
  * @since 2024.08.25
@@ -17,11 +17,13 @@ import lombok.NoArgsConstructor;
  * 2024.08.25  	임재성        최초 생성
  * </pre>
  */
-@Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
+public class ClothesPurchaseResponseDTO {
 
-public class PostClothesPurchaseRequestDTO{
-    private Long clothesId;
+
+    private String message;
 }
 
