@@ -10,8 +10,9 @@ import static org.springframework.http.HttpStatus.*;
 @Getter
 public enum ErrorCode {
 
-    /* code: 401 or 400 */
+    /* code: 401 or 400 or 404 */
     LOGIN_FAILED(UNAUTHORIZED, "로그인에 실패했습니다. 아이디와 비밀번호를 확인해주세요."),
+    TOWN_NOT_FOUND(NOT_FOUND, "타운을 찾을 수 없습니다."),
 
     /* code: 409 */
     NICKNAME_ALREADY_EXISTS(CONFLICT, "이미 존재하는 닉네임입니다."),
