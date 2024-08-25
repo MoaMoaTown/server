@@ -10,8 +10,9 @@
  * 수정일        수정자        수정내용
  * ==========  ========     ===========================
  * 2024.08.23   임원정       최초 생성
- * 2024.08.23   임원정       타운 만들기 추가
+ * 2024.08.23   임원정       타운 만들기 관련 메소드 추가
  * 2024.08.24   임원정       타운 아이디 가져오기 함수 수정
+ * 2024.08.26   임원정       타운 세금현황 조회 메소드 추가
  * </pre>
 -->
 <mapper namespace="com.themore.moamoatown.town.mapper.TownMapper">
@@ -42,4 +43,13 @@
         WHERE member_id = #{memberId}
         ]]>
     </update>
+
+    <!-- 타운 세금현황 조회 -->
+    <select id="selectTotalTaxByTownId" resultType="TownTaxResponseDTO">
+        <![CDATA[
+        SELECT total_tax
+        FROM town
+        WHERE town_id = #{townId}
+        ]]>
+    </select>
 </mapper>
