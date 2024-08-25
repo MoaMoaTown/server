@@ -1,4 +1,4 @@
-package com.themore.moamoatown.job.service.impl;
+package com.themore.moamoatown.job.service;
 
 import com.themore.moamoatown.job.dto.JobResponseDTO;
 import com.themore.moamoatown.job.mapper.JobMapper;
@@ -15,6 +15,13 @@ import java.util.List;
  * @author 임재성
  * @since 2024.08.26
  * @version 1.0
+ *
+ * <pre>
+ * 수정일        	수정자        수정내용
+ * ----------  --------    ---------------------------
+ * 2024.08.26  	임재성        최초 생성
+ * 2024.08.26   임재성        역할 리스트 조회 기능 추가
+ * </pre>
  */
 @Log4j
 @Service

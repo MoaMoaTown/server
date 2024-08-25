@@ -6,6 +6,7 @@
 
     <!-- 타운 ID에 따른 JOB 목록 조회 -->
     <select id="findJobsByTownId" resultType="com.themore.moamoatown.job.dto.JobResponseDTO">
+    <![CDATA[
         SELECT
             JOB_ID as jobId,
             TOWN_ID as townId,
@@ -14,6 +15,6 @@
             PAY as pay
         FROM JOB
         WHERE TOWN_ID = #{townId}
+        ]]>
     </select>
-
 </mapper>
