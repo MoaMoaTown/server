@@ -21,7 +21,7 @@ import java.util.List;
  * 2024.08.25   임재성        위시 상품 조회
  * 2024.08.25   임재성        위시 상품 구매
  * 2024.08.26   임재성        위시 상품 조회 메서드 수정
- * 2024.08.26   임원정        insertWish 메소드 추가
+ * 2024.08.26   임원정        insertWish, deleteWish, deleteMemberWish 메소드 추가
  * </pre>
  */
 @Mapper
@@ -42,4 +42,8 @@ public interface WishMapper {
     int insertMemberWish(@Param("wishId") Long wishId, @Param("memberId") Long memberId);
     // 위시 상품 생성
     int insertWish(WishItemCreateRequestDTO createRequestDTO);
+    
+    /** 위시 삭제 **/
+    int deleteMemberWish(Long wishId);  // 멤버 위시 삭제
+    int deleteWish(Long wishId);    // 위시 삭제
 }
