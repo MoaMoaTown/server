@@ -22,13 +22,14 @@ import static com.themore.moamoatown.common.exception.ErrorCode.*;
  * @version 1.0
  *
  * <pre>
- * 수정일        	수정자        수정내용
+ * 수정일        수정자        수정내용
  * ----------  --------    ---------------------------
  * 2024.08.26  	임재성        최초 생성
  * 2024.08.26   임재성        역할 리스트 조회 기능 추가
  * 2024.08.26   임재성        역할 리스트 조회 메서드 수정
  * 2024.08.26   임재성        역할 요청 기능 추가
- * 2024.08.26   임원정        타운 내 역할 신청 현황 조회 메소드 추가
+ * 2024.08.26   임원정        getJobRequests 추가
+ * 2024.08.26   임원정        createJob 추가
  * </pre>
  */
 @Log4j
@@ -66,7 +67,6 @@ public class JobServiceImpl implements JobService {
     @Override
     @Transactional
     public List<JobRequestsResponseDTO> getJobRequests(Long townId){
-
         return jobMapper.selectJobRequestByTownId(townId)
                 .stream()
                 .map(jobRequest -> JobRequestsResponseDTO.builder()
@@ -93,8 +93,6 @@ public class JobServiceImpl implements JobService {
                 .pay(requestDTO.getPay())
                 .townId(townId)
                 .build();
-
-        log.info(jobCreateRequestDTO.toString());
         if(jobMapper.insertJob(jobCreateRequestDTO) != 1) throw new CustomException(JOB_CREATE_FAILED);
     }
 }
