@@ -20,6 +20,7 @@
 * 2024.08.26  이주현        타운 참가 시 기본 모아 제공 기능 추가
 * 2024.08.26  이주현        멤버 역할 조회
 * 2024.08.26  이주현        멤버 타운 조회
+* 2024.08.26  이주현        멤버 계좌 조회
 * </pre>
 -->
 
@@ -151,6 +152,24 @@
         FROM member m
                  JOIN town t ON m.town_id = t.town_id
         WHERE m.member_id = #{memberId}
+        ]]>
+    </select>
+
+    <!-- 멤버 계좌 조회 -->
+    <select id="findAccountsByMemberIdWithPaging" parameterType="MemberAccountInternalDTO" resultType="MemberAccountResponseDTO">
+    <![CDATA[
+        SELECT
+            account_id AS accountId,
+            TO_CHAR(trade_date, 'YYYY-MM-DD HH24:MI:SS') AS tradeDate,
+            moa,
+            type
+        FROM
+            account
+        WHERE
+            member_id = #{memberId}
+        ORDER BY
+            trade_date DESC
+        OFFSET #{offset} ROWS FETCH NEXT #{size} ROWS ONLY
         ]]>
     </select>
 

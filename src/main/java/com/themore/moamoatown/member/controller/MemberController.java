@@ -30,6 +30,7 @@ import java.util.List;
  * 2024.08.25  이주현        타운 내 순위 리스트 조회 기능 추가
  * 2024.08.26  이주현        멤버 역할 조회
  * 2024.08.26  이주현        멤버 타운 조회
+ * 2024.08.26  이주현        멤버 계좌 조회
  * </pre>
  */
 
@@ -138,6 +139,23 @@ public class MemberController {
     @GetMapping("/town")
     public ResponseEntity<MemberTownResponseDTO> getMemberTown(@MemberId Long memberId) {
         MemberTownResponseDTO response = memberService.getMemberTown(memberId);
+        return ResponseEntity.ok(response);
+    }
+
+    /**
+     * 멤버 계좌 조회
+     * @param memberId
+     * @param page 요청한 페이지 번호
+     * @param size 페이지 당 데이터 수
+     * @return ResponseEntity<List<AccountResponseDTO>>
+     */
+    @Auth(role = Auth.Role.CITIZEN)
+    @GetMapping("/account")
+    public ResponseEntity<List<MemberAccountResponseDTO>> getMemberAccounts(
+            @MemberId Long memberId,
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        List<MemberAccountResponseDTO> response = memberService.getAccountsByMemberId(memberId, page, size);
         return ResponseEntity.ok(response);
     }
 }
