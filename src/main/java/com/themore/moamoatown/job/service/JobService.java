@@ -17,8 +17,7 @@ import java.util.List;
  * 2024.08.26   임재성        역할 리스트 조회 기능 추가
  * 2024.08.26   임재성        역할 리스트 조회 메서드 수정
  * 2024.08.26   임재성        역할 요청 기능 추가
- * 2024.08.26   임원정        getJobRequests 메소드 추가
- * 2024.08.26   임원정        createJob 추가
+ * 2024.08.26   임원정        getJobRequests, createJob, allowJobRequest 추가
  * </pre>
  */
 public interface JobService {
@@ -41,4 +40,6 @@ public interface JobService {
     List<JobRequestsResponseDTO> getJobRequests(Long townId);
     // 역할 만들기
     void createJob(JobCreateRequestDTO requestDTO, Long townId);
+    // 역할 선정
+    void allowJobRequest(Long jobRequestId);
 }

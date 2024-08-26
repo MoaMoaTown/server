@@ -26,8 +26,7 @@ import java.util.List;
  * 2024.08.26   임재성        역할 리스트 조회 기능 추가
  * 2024.08.26   임재성        역할 리스트 조회 메서드 수정
  * 2024.08.26   임재성        역할 요청 기능 추가
- * 2024.08.26   임원정        타운 역할 신청 현황 조회 추가
- * 2024.08.26   임원정        역할 만들기 추가
+ * 2024.08.26   임원정        타운 역할 신청 현황, 역할 만들기, 역할 선정 추가
  * </pre>
  */
 @RestController
@@ -109,5 +108,16 @@ public class JobController {
         jobService.createJob(requestDTO, townId);
         return ResponseEntity.ok("역할 생성이 완료 되었습니다.");
     }
-}
 
+    /**
+     * 역할 요청 승인(역할 선정)
+     * @param jobRequestId
+     * @return
+     */
+    @Auth(role = Auth.Role.MAYER)
+    @PatchMapping("/allow/{jobRequestId}")
+    public ResponseEntity<String> allowJobRequest(@PathVariable Long jobRequestId) {
+        jobService.allowJobRequest(jobRequestId);
+        return ResponseEntity.ok("역할이 선정되었습니다.");
+    }
+}
