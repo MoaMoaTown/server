@@ -33,6 +33,7 @@ import java.util.List;
  * 2024.08.26   임재성        위시 상품 구매 메소드 수정
  * </pre>
  */
+@Auth(role = Auth.Role.CITIZEN)
 @RestController
 @RequestMapping(value="/wish", produces = "application/json; charset=UTF-8")
 @Log4j

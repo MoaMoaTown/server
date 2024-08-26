@@ -37,7 +37,11 @@ import static com.themore.moamoatown.common.exception.ErrorCode.*;
 public class JobServiceImpl implements JobService {
 
     private final JobMapper jobMapper;
-
+    /**
+     * 타운 ID를 통해 JOB 리스트를 조회합니다.
+     * @param townId 타운 ID
+     * @return JOB 리스트
+     */
     @Transactional(readOnly = true)
     @Override
     public List<JobResponseDTO> getJobsByTownId(Long townId) {
@@ -45,7 +49,13 @@ public class JobServiceImpl implements JobService {
 
         return jobMapper.findJobsByTownId(townId);
     }
-
+    /**
+     * 주어진 요청 정보를 바탕으로 역할 요청을 처리합니다.
+     *
+     * @param jobRequestDTO 역할 요청 정보가 담긴 DTO
+     * @return 역할 요청 결과를 나타내는 DTO
+     * @throws CustomException 역할 요청 실패 시 예외 발생
+     */
     @Transactional
     @Override
     public JobApplyResponseDTO requestJob(JobRequestDTO jobRequestDTO) {
