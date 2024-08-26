@@ -60,9 +60,10 @@ public class MemberController {
     public ResponseEntity<LoginResponseDTO> login(@RequestBody LoginRequestDTO loginRequestDTO, HttpSession session) {
         LoginInternalDTO memberInfo = memberService.login(loginRequestDTO);
 
-        // 세션에 memberId와 townId 저장
+        // 세션에 memberId와 townId와 role 저장
         session.setAttribute("memberId", memberInfo.getMemberId());
         session.setAttribute("townId", memberInfo.getTownId());
+        session.setAttribute("role", memberInfo.getRole());
 
         // 클라이언트에게 반환할 DTO
         LoginResponseDTO response = LoginResponseDTO.builder()
