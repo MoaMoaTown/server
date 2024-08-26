@@ -17,6 +17,9 @@
  * 2024.08.25   임재성        위시 상품 구매
  * 2024.08.26   임재성        위시 상품 조회 쿼리 수정
  * 2024.08.26   임원정        insertWish 메소드 추가
+ * 2024.08.26   임재성        위시 상품 구매 메소드 수정
+
+
  * </pre>
  */
  -->
@@ -30,12 +33,7 @@
         ]]>
     </select>
 
-    <insert id="insertMemberWish">
-        <![CDATA[
-            INSERT INTO member_wish (member_wish_id, wish_id, member_id)
-            VALUES (MEMBER_WISH_SEQ.NEXTVAL, #{wishId}, #{memberId})
-        ]]>
-    </insert>
+
 
     <insert id="insertWish">
         <![CDATA[

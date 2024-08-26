@@ -23,8 +23,9 @@ import java.util.List;
  * 2024.08.25  	임재성        최초 생성
  * 2024.08.25   임재성        위시 상품 조회
  * 2024.08.25   임재성        위시 상품 구매
- * 2024.08.26   임재성        위시 상품 조회 메서드 수정
+ * 2024.08.26   임재성        위시 상품 조회 메소드 수정
  * 2024.08.26   임원정        insertWish 메소드 추가
+ * 2024.08.26   임재성        위시 상품 구매 메소드 수정
  * </pre>
  */
 @Mapper
@@ -39,14 +40,7 @@ public interface WishMapper {
 
     void purchaseWishProcedure(WishItemPurchaseInternalRequestDTO internalDTO);
 
-
-    /**
-     * MEMBER_WISH 테이블에 구매 내역을 추가합니다.
-     *
-     * @param wishId 구매한 위시 아이템의 ID.
-     * @param memberId 구매한 멤버의 ID.
-     */
-    int insertMemberWish(@Param("wishId") Long wishId, @Param("memberId") Long memberId);
+    
     // 위시 상품 생성
     int insertWish(WishItemCreateRequestDTO createRequestDTO);
 

@@ -20,7 +20,6 @@ import java.math.BigDecimal;
 import java.util.List;
 
 
-import static com.themore.moamoatown.common.exception.ErrorCode.CLOTH_INSERT_FAILED;
 import static com.themore.moamoatown.common.exception.ErrorCode.WISH_INSERT_FAILED;
 
 import static com.themore.moamoatown.common.exception.ErrorCode.*;
@@ -39,6 +38,7 @@ import static com.themore.moamoatown.common.exception.ErrorCode.*;
  * 2024.08.25   임재성        위시 상품 조회 기능 추가
  * 2024.08.25   임재성        위시 상품 구매 기능 추가
  * 2024.08.26   임원정        위시 상품 생성 메소드 추가
+ * 2024.08.26   임재성        위시 상품 구매 메소드 수정
  * </pre>
  */
 @Log4j
