@@ -31,6 +31,7 @@ import static com.themore.moamoatown.common.exception.ErrorCode.*;
  * 2024.08.26  이주현        타운 참가 시 기본 모아 제공 기능 추가
  * 2024.08.26  이주현        멤버 역할 조회
  * 2024.08.26  이주현        멤버 타운 조회
+ * 2024.08.26  이주현        멤버 계좌 조회
  * </pre>
  */
 
@@ -206,5 +207,45 @@ public class MemberServiceImpl implements MemberService{
                 .totalMembers(memberTownResponseDTO.getTotalMembers())
                 .totalTax(memberTownResponseDTO.getTotalTax())
                 .build();
+    }
+
+    /**
+     * 멤버 계좌 조회
+     * @param memberId
+     * @param page
+     * @param size
+     * @return MemberAccountResponseDTO List
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public List<MemberAccountResponseDTO> getAccountsByMemberId(Long memberId, int page, int size) {
+        try {
+            int offset = (page - 1) * size;
+            MemberAccountInternalDTO internalDTO = MemberAccountInternalDTO.builder()
+                    .memberId(memberId)
+                    .offset(offset)
+                    .size(size)
+                    .build();
+
+            List<MemberAccountResponseDTO> internalAccounts = memberMapper.findAccountsByMemberIdWithPaging(internalDTO);
+
+            if (internalAccounts == null || internalAccounts.isEmpty()) {
+                throw new CustomException(NO_ACCOUNTS_FOUND);
+            }
+
+            return internalAccounts.stream()
+                    .map(account -> MemberAccountResponseDTO.builder()
+                            .accountId(account.getAccountId())
+                            .tradeDate(account.getTradeDate())
+                            .moa(account.getMoa())
+                            .type(account.getType())
+                            .build())
+                    .collect(Collectors.toList());
+
+        } catch (CustomException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new CustomException(DATABASE_ERROR);
+        }
     }
 }

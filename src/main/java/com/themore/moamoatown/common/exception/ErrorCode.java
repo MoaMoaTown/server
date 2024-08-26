@@ -18,6 +18,7 @@ public enum ErrorCode {
     KNOWLEDGE_NOT_FOUND(NOT_FOUND, "지식을 찾을 수 없습니다."),
     QUESTS_NOT_FOUND(NOT_FOUND, "해당 타운에 대한 퀘스트를 찾을 수 없습니다."),
     UNAUTHORIZED_ERROR(UNAUTHORIZED, "접근 권한이 없습니다."),
+    NO_ACCOUNTS_FOUND(NOT_FOUND, "해당 멤버의 계좌 정보를 찾을 수 없습니다."),
 
     /* code: 409 */
     NICKNAME_ALREADY_EXISTS(CONFLICT, "이미 존재하는 닉네임입니다."),
