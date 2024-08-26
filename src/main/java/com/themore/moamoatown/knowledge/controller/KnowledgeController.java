@@ -1,5 +1,6 @@
 package com.themore.moamoatown.knowledge.controller;
 
+import com.themore.moamoatown.common.annotation.Auth;
 import com.themore.moamoatown.knowledge.dto.KnowledgeListResponseDTO;
 import com.themore.moamoatown.knowledge.dto.KnowledgeResponseDTO;
 import com.themore.moamoatown.knowledge.service.KnowledgeService;
@@ -28,6 +29,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping(value = "/knowledge", produces = "application/json; charset=UTF-8")
 @Slf4j
+@Auth(role = Auth.Role.CITIZEN)
 public class KnowledgeController {
     private final KnowledgeService knowledgeService;
 

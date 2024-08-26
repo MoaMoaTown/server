@@ -1,5 +1,6 @@
 package com.themore.moamoatown.quest.controller;
 
+import com.themore.moamoatown.common.annotation.Auth;
 import com.themore.moamoatown.common.annotation.MemberId;
 import com.themore.moamoatown.common.annotation.TownId;
 import com.themore.moamoatown.quest.dto.QuestResponseDTO;
@@ -29,6 +30,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping(value = "/quest", produces = "application/json; charset=UTF-8")
 @Slf4j
+@Auth(role = Auth.Role.CITIZEN)
 public class QuestController {
     private final QuestService questService;
 

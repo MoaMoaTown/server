@@ -1,5 +1,6 @@
 package com.themore.moamoatown.word.controller;
 
+import com.themore.moamoatown.common.annotation.Auth;
 import com.themore.moamoatown.word.dto.WordResponseDTO;
 import com.themore.moamoatown.word.service.WordService;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RequestMapping(value = "/word", produces = "application/json; charset=UTF-8")
 @Slf4j
+@Auth(role = Auth.Role.CITIZEN)
 public class WordController {
     private final WordService wordService;
 
