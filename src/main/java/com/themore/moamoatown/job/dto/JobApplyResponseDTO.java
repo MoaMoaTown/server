@@ -23,6 +23,6 @@ import lombok.AllArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class JobRequestResponseDTO {
+public class JobApplyResponseDTO {
     private String message;
 }

@@ -18,6 +18,8 @@
 * 2024.08.25  이주현        재산 조회 기능 추가
 * 2024.08.25  이주현        타운 내 순위 리스트 조회 기능 추가
 * 2024.08.26  이주현        타운 참가 시 기본 모아 제공 기능 추가
+* 2024.08.26  이주현        멤버 역할 조회
+* 2024.08.26  이주현        멤버 타운 조회
 * </pre>
 -->
 
@@ -25,7 +27,7 @@
 
     <!-- 닉네임 중복 확인 -->
     <select id="countMembersByNickname" parameterType="String" resultType="Long">
-        <![CDATA[
+    <![CDATA[
         SELECT COUNT(nickname)
         FROM member
         WHERE nickname = #{nickname}
@@ -34,7 +36,7 @@
 
     <!-- 로그인 아이디 중복 확인 -->
     <select id="countMembersByLoginId" parameterType="String" resultType="Long">
-        <![CDATA[
+    <![CDATA[
         SELECT COUNT(login_id)
         FROM member
         WHERE login_id = #{loginId}
@@ -129,4 +131,27 @@
             balance DESC
         ]]>
     </select>
+
+    <!-- 멤버 역할 조회 -->
+    <select id="findApprovedJobByMemberId" resultType="MemberJobResponseDTO">
+    <![CDATA[
+        SELECT j.name, j.description, j.pay
+        FROM job_request jr
+                 JOIN job j ON jr.job_id = j.job_id
+        WHERE jr.member_id = #{memberId}
+          AND jr.allowYN = 'Y'
+            FETCH FIRST 1 ROWS ONLY
+        ]]>
+    </select>
+
+    <!-- 멤버 타운 조회 -->
+    <select id="findTownByMemberId" resultType="MemberTownResponseDTO">
+    <![CDATA[
+        SELECT t.name, t.description, t.total_members AS totalMembers, t.total_tax AS totalTax
+        FROM member m
+                 JOIN town t ON m.town_id = t.town_id
+        WHERE m.member_id = #{memberId}
+        ]]>
+    </select>
+
 </mapper>

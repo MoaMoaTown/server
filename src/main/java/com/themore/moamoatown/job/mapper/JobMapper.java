@@ -34,14 +34,17 @@ public interface JobMapper {
      * @param townId 조회할 타운 ID
      * @return 해당 타운에 속한 JOB 목록
      */
-    List<JobResponseDTO> findJobsByTownId(@Param("townId") Long townId);
+    List<JobResponseDTO> findJobsByTownId(Long townId);
     /**
      * 역할 요청 삽입
      *
      * @param jobRequestDTO 역할 요청 정보
      */
-    void insertJobRequest(JobRequestDTO jobRequestDTO);
+
+    int insertJobRequest(JobRequestDTO jobRequestDTO);
+
 
     /** 타운 역할 신청 현황 조회 **/
     List<JobRequestsResponseDTO> selectJobRequestByTownId(Long townId);
+
 }

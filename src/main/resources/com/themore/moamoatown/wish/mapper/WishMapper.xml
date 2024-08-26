@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--
+* 위시 상품 Mybatis 매퍼
+ *
+ * @author 임재성
+ * @since 2024.08.25
+ * @version 1.0
+ *
+ * <pre>
+ * 수정일        	수정자        수정내용
+* ==========  ========     ===========================
+ * 2024.08.25  	임재성        최초 생성
+ * 2024.08.25   임재성        위시 상품 조회
+ * 2024.08.25   임재성        위시 상품 구매
+ * 2024.08.26   임재성        위시 상품 조회 쿼리 수정
+
+ * </pre>
+ */
+ -->
+<mapper namespace="com.themore.moamoatown.wish.mapper.WishMapper">
+
+
+    <select id="findWishItemsByTownId" resultType="WishItemResponseDTO">
+        <![CDATA[
+        SELECT wish_id AS wishId, town_id AS townId, name, price
+        FROM wish
+        WHERE town_id = #{townId}
+        ]]>
+    </select>
+
+    <insert id="insertMemberWish">
+        <![CDATA[
+        INSERT INTO MEMBER_WISH (MEMBER_WISH_ID, WISH_ID, MEMBER_ID)
+        VALUES (MEMBER_WISH_SEQ.NEXTVAL, #{wishId}, #{memberId})
+        ]]>
+    </insert>
+</mapper>

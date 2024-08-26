@@ -22,8 +22,6 @@ import lombok.*;
 @AllArgsConstructor
 @Getter
 public class ClothesPurchaseResponseDTO {
-
-
     private String message;
 }
 
