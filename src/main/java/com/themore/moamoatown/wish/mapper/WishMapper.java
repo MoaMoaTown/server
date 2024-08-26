@@ -1,5 +1,7 @@
 package com.themore.moamoatown.wish.mapper;
 
+import com.themore.moamoatown.clothes.dto.ClothesPurchaseInternalRequestDTO;
+import com.themore.moamoatown.wish.dto.WishItemPurchaseInternalRequestDTO;
 import com.themore.moamoatown.wish.dto.WishItemResponseDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -31,11 +33,13 @@ public interface WishMapper {
      * @return 위시 아이템 목록.
      */
     List<WishItemResponseDTO> findWishItemsByTownId(Long townId);
-    /**
-     * MEMBER_WISH 테이블에 구매 내역을 추가합니다.
-     *
-     * @param wishId 구매한 위시 아이템의 ID.
-     * @param memberId 구매한 멤버의 ID.
-     */
-    int insertMemberWish(@Param("wishId") Long wishId, @Param("memberId") Long memberId);
+//    /**
+//     * MEMBER_WISH 테이블에 구매 내역을 추가합니다.
+//     *
+//     * @param wishId 구매한 위시 아이템의 ID.
+//     * @param memberId 구매한 멤버의 ID.
+//     */
+//    int insertMemberWish(@Param("wishId") Long wishId, @Param("memberId") Long memberId);
+    void purchaseWishProcedure(WishItemPurchaseInternalRequestDTO internalDTO);
+
 }

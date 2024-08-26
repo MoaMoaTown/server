@@ -1,6 +1,8 @@
 package com.themore.moamoatown.wish.service;
 
+import com.themore.moamoatown.clothes.dto.ClothesPurchaseInternalRequestDTO;
 import com.themore.moamoatown.common.exception.CustomException;
+import com.themore.moamoatown.wish.dto.WishItemPurchaseInternalRequestDTO;
 import com.themore.moamoatown.wish.dto.WishItemPurchaseRequestDTO;
 import com.themore.moamoatown.wish.dto.WishItemPurchaseResponseDTO;
 import com.themore.moamoatown.wish.dto.WishItemResponseDTO;
@@ -10,8 +12,10 @@ import lombok.extern.log4j.Log4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.List;
 
+import static com.themore.moamoatown.common.exception.ErrorCode.CLOTH_INSERT_FAILED;
 import static com.themore.moamoatown.common.exception.ErrorCode.WISH_INSERT_FAILED;
 
 /**
@@ -46,15 +50,30 @@ public class WishServiceImpl implements WishService {
         Long wishId = requestDTO.getWishId();
         Long memberId = requestDTO.getMemberId();
 
-        // MEMBER_WISH 테이블에 구매 내역 추가
-        if(1 > wishMapper.insertMemberWish(wishId, memberId)) throw new CustomException(WISH_INSERT_FAILED);
-
-
-
-        log.info("멤버 ID: " + memberId + "가 위시 아이템 ID: " + wishId + "를 구매하였습니다.");
-
-        return WishItemPurchaseResponseDTO.builder()
-                .message("위시 아이템 " + wishId + "이(가) 구매되었습니다.")
+        WishItemPurchaseInternalRequestDTO internalDTO = WishItemPurchaseInternalRequestDTO.builder()
+                .memberId(memberId)
+                .wishId(wishId)
+                .result(BigDecimal.ZERO)
                 .build();
+
+        wishMapper.purchaseWishProcedure(internalDTO);
+
+        BigDecimal result = internalDTO.getResult(); // 프로시저 실행 후 결과 가져오기
+        log.info("result:" + result);
+
+        // 결과가 1이 아니면 예외 발생
+        if (result == null || result.intValue() < 1) {
+            throw new CustomException(WISH_INSERT_FAILED);
+        }
+
+        // 응답 반환
+        return new WishItemPurchaseResponseDTO("위시상품 구매가 완료되었습니다.");
     }
-}
+
+
+
+
+    }
+
+
+

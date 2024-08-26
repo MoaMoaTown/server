@@ -37,4 +37,10 @@
         VALUES (MEMBER_WISH_SEQ.NEXTVAL, #{wishId}, #{memberId})
         ]]>
     </insert>
+
+    <select id="purchaseWishProcedure" statementType="CALLABLE">
+        <![CDATA[
+        {CALL purchase_wish(#{memberId, mode=IN, jdbcType=NUMERIC}, #{wishId, mode=IN, jdbcType=NUMERIC}, #{result, mode=OUT, jdbcType=NUMERIC})}
+        ]]>
+    </select>
 </mapper>
