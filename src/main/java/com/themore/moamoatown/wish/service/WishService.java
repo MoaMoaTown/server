@@ -1,5 +1,6 @@
 package com.themore.moamoatown.wish.service;
 
+import com.themore.moamoatown.wish.dto.WishItemCreateRequestDTO;
 import com.themore.moamoatown.wish.dto.WishItemPurchaseRequestDTO;
 import com.themore.moamoatown.wish.dto.WishItemPurchaseResponseDTO;
 import com.themore.moamoatown.wish.dto.WishItemResponseDTO;
@@ -17,6 +18,7 @@ import java.util.List;
  * 2024.08.24  	임재성        최초 생성
  * 2024.08.25   임재성        위시 상품 조회 기능 추가
  * 2024.08.25   임재성        위시 상품 구매 기능 추가
+ * 2024.08.26   임원정        위시 상품 생성 메소드 추가
  * </pre>
  */
 public interface WishService {
@@ -36,4 +38,6 @@ public interface WishService {
      * @return 구매 결과 메시지를 포함한 응답 DTO.
      */
     WishItemPurchaseResponseDTO purchaseWishItem(WishItemPurchaseRequestDTO requestDTO);
+    // 위시 상품 생성
+    void createWishItem(WishItemCreateRequestDTO requestDTO, Long townId);
 }

@@ -1,6 +1,7 @@
 package com.themore.moamoatown.wish.service;
 
 import com.themore.moamoatown.common.exception.CustomException;
+import com.themore.moamoatown.wish.dto.WishItemCreateRequestDTO;
 import com.themore.moamoatown.wish.dto.WishItemPurchaseRequestDTO;
 import com.themore.moamoatown.wish.dto.WishItemPurchaseResponseDTO;
 import com.themore.moamoatown.wish.dto.WishItemResponseDTO;
@@ -12,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-import static com.themore.moamoatown.common.exception.ErrorCode.WISH_INSERT_FAILED;
+import static com.themore.moamoatown.common.exception.ErrorCode.*;
 
 /**
  * 위시 상품 관련 비즈니스 로직을 처리하는 서비스 구현체.
@@ -26,6 +27,7 @@ import static com.themore.moamoatown.common.exception.ErrorCode.WISH_INSERT_FAIL
  * 2024.08.24  	임재성        최초 생성
  * 2024.08.25   임재성        위시 상품 조회 기능 추가
  * 2024.08.25   임재성        위시 상품 구매 기능 추가
+ * 2024.08.26   임원정        위시 상품 생성 메소드 추가
  * </pre>
  */
 @Log4j
@@ -56,5 +58,21 @@ public class WishServiceImpl implements WishService {
         return WishItemPurchaseResponseDTO.builder()
                 .message("위시 아이템 " + wishId + "이(가) 구매되었습니다.")
                 .build();
+    }
+
+    /**
+     * 위시 상품 생성
+     * @param requestDTO
+     * @param townId
+     */
+    @Override
+    @Transactional
+    public void createWishItem(WishItemCreateRequestDTO requestDTO, Long townId) {
+        WishItemCreateRequestDTO wishItemCreateRequestDTO = WishItemCreateRequestDTO.builder()
+                .wishName(requestDTO.getWishName())
+                .price(requestDTO.getPrice())
+                .townId(townId)
+                .build();
+        if(wishMapper.insertWish(wishItemCreateRequestDTO) != 1) throw new CustomException(WISH_CREATE_FAILED);
     }
 }
