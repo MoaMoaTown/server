@@ -13,13 +13,14 @@ import java.util.List;
  * @version 1.0
  *
  * <pre>
- * 수정일        	수정자        수정내용
+ * 수정일        수정자        수정내용
  * ----------  --------    ---------------------------
  * 2024.08.24  	임재성        최초 생성
  * 2024.08.25   임재성        위시 상품 조회 기능 추가
  * 2024.08.25   임재성        위시 상품 구매 기능 추가
  * 2024.08.26   임원정        위시 상품 생성, 삭제 메소드 추가
  * 2024.08.26   임재성        위시 상품 구매 메소드 수정
+ * 2024.08.26   임원정        멤버 위시 상품 완료 처리
  * </pre>
  */
 public interface WishService {
@@ -43,4 +44,6 @@ public interface WishService {
     void createWishItem(WishItemCreateRequestDTO requestDTO, Long townId);
     // 위시 상품 삭제
     void deleteWishItem(Long wishId);
+    // 위시 상품 완료 처리
+    void completeMemberWishItem(Long memberWishId);
 }
