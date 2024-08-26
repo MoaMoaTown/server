@@ -1,9 +1,6 @@
 package com.themore.moamoatown.member.mapper;
 
-import com.themore.moamoatown.member.dto.LoginInternalDTO;
-import com.themore.moamoatown.member.dto.MemberInvestmentDTO;
-import com.themore.moamoatown.member.dto.MemberRankResponseDTO;
-import com.themore.moamoatown.member.dto.SignUpRequestDTO;
+import com.themore.moamoatown.member.dto.*;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -24,6 +21,7 @@ import java.util.List;
  * 2024.08.25  이주현        재산 조회 기능 추가
  * 2024.08.25  이주현        타운 내 순위 리스트 조회 기능 추가
  * 2024.08.26  이주현        타운 참가 시 기본 모아 제공 기능 추가
+ * 2024.08.26  이주현        멤버 역할 조회
  * </pre>
  */
 
@@ -59,4 +57,7 @@ public interface MemberMapper {
 
     // 멤버의 기본 계좌 데이터를 삽입
     int insertDefaultMemberAccount(Long memberId);
+
+    // 멤버 역할 조회
+    MemberJobResponseDTO findApprovedJobByMemberId(Long memberId);
 }

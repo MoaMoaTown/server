@@ -27,6 +27,7 @@ import java.util.List;
  * 2024.08.25  이주현        타운 참가 기능 추가
  * 2024.08.25  이주현        재산 조회 기능 추가
  * 2024.08.25  이주현        타운 내 순위 리스트 조회 기능 추가
+ * 2024.08.26  이주현        멤버 역할 조회
  * </pre>
  */
 
@@ -108,6 +109,17 @@ public class MemberController {
     @GetMapping("/ranks")
     public ResponseEntity<List<MemberRankResponseDTO>> getMemberRanks(@MemberId Long currentUserId, @TownId Long townId) {
         List<MemberRankResponseDTO> response = memberService.getMemberRanks(currentUserId, townId);
+        return ResponseEntity.ok(response);
+    }
+
+    /**
+     * 멤버 역할 조회
+     * @param memberId 세션에서 가져온 멤버 아이디
+     * @return ResponseEntity
+     */
+    @GetMapping("/job")
+    public ResponseEntity<MemberJobResponseDTO> getMemberJob(@MemberId Long memberId) {
+        MemberJobResponseDTO response = memberService.getMemberJob(memberId);
         return ResponseEntity.ok(response);
     }
 }
