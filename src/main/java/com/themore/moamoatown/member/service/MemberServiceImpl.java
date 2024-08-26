@@ -30,6 +30,7 @@ import static com.themore.moamoatown.common.exception.ErrorCode.*;
  * 2024.08.25  이주현        타운 내 순위 리스트 조회 기능 추가
  * 2024.08.26  이주현        타운 참가 시 기본 모아 제공 기능 추가
  * 2024.08.26  이주현        멤버 역할 조회
+ * 2024.08.26  이주현        멤버 타운 조회
  * </pre>
  */
 
@@ -168,6 +169,11 @@ public class MemberServiceImpl implements MemberService{
                 .collect(Collectors.toList());
     }
 
+    /**
+     * 멤버 역할 조회
+     * @param memberId
+     * @return MemberJobResponseDTO
+     */
     @Override
     @Transactional(readOnly = true)
     public MemberJobResponseDTO getMemberJob(Long memberId) {
@@ -176,9 +182,29 @@ public class MemberServiceImpl implements MemberService{
             return MemberJobResponseDTO.builder()
                     .name("시민")
                     .description("역할이 아직 없습니다.")
-                    .pay(0)
+                    .pay(0L)
                     .build();
         }
         return memberJobResponseDTO;
+    }
+
+    /**
+     * 멤버 타운 조회
+     * @param memberId
+     * @return MemberTownResponseDTO
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public MemberTownResponseDTO getMemberTown(Long memberId) {
+        MemberTownResponseDTO memberTownResponseDTO = memberMapper.findTownByMemberId(memberId);
+        if (memberTownResponseDTO == null) {
+            throw new CustomException(TOWN_NOT_FOUND);
+        }
+        return MemberTownResponseDTO.builder()
+                .name(memberTownResponseDTO.getName())
+                .description(memberTownResponseDTO.getDescription())
+                .totalMembers(memberTownResponseDTO.getTotalMembers())
+                .totalTax(memberTownResponseDTO.getTotalTax())
+                .build();
     }
 }

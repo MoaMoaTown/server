@@ -25,5 +25,5 @@ import lombok.NoArgsConstructor;
 public class MemberJobResponseDTO {
     private String name;
     private String description;
-    private int pay;
+    private Long pay;
 }
