@@ -51,12 +51,11 @@ public class JobServiceImpl implements JobService {
     }
 
     @Transactional
-
     @Override
     public JobApplyResponseDTO requestJob(JobRequestDTO jobRequestDTO) {
         log.info("역할 요청 처리 중 - Job ID: " + jobRequestDTO.getJobId() + ", Member ID: " + jobRequestDTO.getMemberId());
 
-        if(0 > jobMapper.insertJobRequest(jobRequestDTO)) throw new CustomException(JOB_APPLY_INSERT_FAILED);
+        if(1 > jobMapper.insertJobRequest(jobRequestDTO)) throw new CustomException(JOB_APPLY_INSERT_FAILED);
 
         return JobApplyResponseDTO.builder()
                 .message("역할 요청이 성공적으로 처리되었습니다.")

@@ -47,14 +47,14 @@ public class WishServiceImpl implements WishService {
         Long memberId = requestDTO.getMemberId();
 
         // MEMBER_WISH 테이블에 구매 내역 추가
-        if(0 > wishMapper.insertMemberWish(wishId, memberId)) throw new CustomException(WISH_INSERT_FAILED);
+        if(1 > wishMapper.insertMemberWish(wishId, memberId)) throw new CustomException(WISH_INSERT_FAILED);
 
 
 
         log.info("멤버 ID: " + memberId + "가 위시 아이템 ID: " + wishId + "를 구매하였습니다.");
 
         return WishItemPurchaseResponseDTO.builder()
-                .message("위시 아이템 " + wishId + "이(가) 멤버 " + memberId + "에 의해 구매되었습니다.")
+                .message("위시 아이템 " + wishId + "이(가) 구매되었습니다.")
                 .build();
     }
 }

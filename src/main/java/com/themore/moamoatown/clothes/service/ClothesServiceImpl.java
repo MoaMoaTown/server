@@ -51,7 +51,7 @@ public class ClothesServiceImpl implements ClothesService{
         log.info("memberId"+ memberId);
 
         // CLOSET 테이블에 데이터 삽입
-        if(0 > clothesmapper.insertIntoCloset(requestDTO.getClothId(), memberId)) throw new CustomException(CLOTH_INSERT_FAILED);
+        if(1 > clothesmapper.insertIntoCloset(requestDTO.getClothId(), memberId)) throw new CustomException(CLOTH_INSERT_FAILED);
 
 
         // 응답 반환

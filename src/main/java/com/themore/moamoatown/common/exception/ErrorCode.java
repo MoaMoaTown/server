@@ -31,7 +31,7 @@ public enum ErrorCode {
 
     WISH_INSERT_FAILED(BAD_REQUEST,"잔액이 부족합니다"),
     CLOTH_INSERT_FAILED(BAD_REQUEST,"잔액이 부족합니다"),
-    JOB_APPLY_INSERT_FAILED(BAD_REQUEST,"역할 요청에 실패했습니다")
+    JOB_APPLY_INSERT_FAILED(BAD_REQUEST,"역할 요청에 실패했습니다"),
 
     UPDATE_FAILED(INTERNAL_SERVER_ERROR, "데이터 업데이트에 실패했습니다."),
     INVESTMENT_INSERT_FAILED(INTERNAL_SERVER_ERROR, "기본 투자 데이터 삽입에 실패했습니다."),
