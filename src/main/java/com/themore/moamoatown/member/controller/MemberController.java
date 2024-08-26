@@ -1,5 +1,6 @@
 package com.themore.moamoatown.member.controller;
 
+import com.themore.moamoatown.common.annotation.Auth;
 import com.themore.moamoatown.common.annotation.MemberId;
 import com.themore.moamoatown.common.annotation.TownId;
 import com.themore.moamoatown.member.dto.*;
@@ -96,6 +97,7 @@ public class MemberController {
      * @param memberId 세션에서 가져온 멤버 아이디
      * @return ResponseEntity
      */
+    @Auth(role = Auth.Role.CITIZEN)
     @GetMapping("/balance")
     public ResponseEntity<MemberBalanceResponseDTO> getMemberBalance(@MemberId Long memberId) {
         MemberBalanceResponseDTO response = memberService.getMemberBalance(memberId);
@@ -108,6 +110,7 @@ public class MemberController {
      * @param townId
      * @return ResponseEntity
      */
+    @Auth(role = Auth.Role.CITIZEN)
     @GetMapping("/ranks")
     public ResponseEntity<List<MemberRankResponseDTO>> getMemberRanks(@MemberId Long currentUserId, @TownId Long townId) {
         List<MemberRankResponseDTO> response = memberService.getMemberRanks(currentUserId, townId);
@@ -119,6 +122,7 @@ public class MemberController {
      * @param memberId 세션에서 가져온 멤버 아이디
      * @return ResponseEntity
      */
+    @Auth(role = Auth.Role.CITIZEN)
     @GetMapping("/job")
     public ResponseEntity<MemberJobResponseDTO> getMemberJob(@MemberId Long memberId) {
         MemberJobResponseDTO response = memberService.getMemberJob(memberId);
@@ -130,6 +134,7 @@ public class MemberController {
      * @param memberId 세션에서 가져온 멤버 아이디
      * @return ResponseEntity
      */
+    @Auth(role = Auth.Role.CITIZEN)
     @GetMapping("/town")
     public ResponseEntity<MemberTownResponseDTO> getMemberTown(@MemberId Long memberId) {
         MemberTownResponseDTO response = memberService.getMemberTown(memberId);
