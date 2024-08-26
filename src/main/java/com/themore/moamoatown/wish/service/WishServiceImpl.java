@@ -103,4 +103,17 @@ public class WishServiceImpl implements WishService {
                 .build();
         if(wishMapper.insertWish(wishItemCreateRequestDTO) != 1) throw new CustomException(WISH_CREATE_FAILED);
     }
+
+    /**
+     * 위시 상품 삭제
+     * @param wishId
+     */
+    @Override
+    @Transactional
+    public void deleteWishItem(Long wishId) {
+        // 멤버의 위시 상품 삭제
+        wishMapper.deleteMemberWish(wishId);
+        // 위시 상품 삭제
+        if(wishMapper.deleteWish(wishId) < 1) throw new CustomException(WISH_DELETE_FAILED);
+    }
 }

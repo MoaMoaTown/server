@@ -29,7 +29,7 @@ import java.util.List;
  * 2024.08.25  	임재성        최초 생성
  * 2024.08.25   임재성        위시 상품 조회 기능 추가
  * 2024.08.25   임재성        위시 상품 구매 기능 추가
- * 2024.08.26   임원정        위시 상품 생성 추가
+ * 2024.08.26   임원정        위시 상품 생성, 삭제 추가
  * 2024.08.26   임재성        위시 상품 구매 메소드 수정
  * </pre>
  */
@@ -97,5 +97,17 @@ public class WishController {
                                                  @TownId Long townId) {
         wishService.createWishItem(requestDTO, townId);
         return ResponseEntity.ok("위시 상품 생성이 완료 되었습니다.");
+    }
+
+    /**
+     * 위시 상품 삭제
+     * @param wishId
+     * @return
+     */
+    @Auth(role = Auth.Role.MAYER)
+    @DeleteMapping("/delete/{wishId}")
+    public ResponseEntity<String> deleteWishItem(@PathVariable Long wishId) {
+        wishService.deleteWishItem(wishId);
+        return ResponseEntity.ok("위시 상품 삭제가 완료 되었습니다.");
     }
 }

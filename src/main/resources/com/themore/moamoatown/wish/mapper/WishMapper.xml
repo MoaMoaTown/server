@@ -16,10 +16,8 @@
  * 2024.08.25   임재성        위시 상품 조회
  * 2024.08.25   임재성        위시 상품 구매
  * 2024.08.26   임재성        위시 상품 조회 쿼리 수정
- * 2024.08.26   임원정        insertWish 메소드 추가
+ * 2024.08.26   임원정        insertWish, deleteWish, deleteMemberWish 메소드 추가
  * 2024.08.26   임재성        위시 상품 구매 메소드 수정
-
-
  * </pre>
  */
  -->
@@ -33,8 +31,6 @@
         ]]>
     </select>
 
-
-
     <insert id="insertWish">
         <![CDATA[
             INSERT INTO wish (wish_id, town_id, name, price)
@@ -42,9 +38,24 @@
         ]]>
     </insert>
 
+    <delete id="deleteMemberWish">
+        <![CDATA[
+            DELETE FROM member_wish
+            WHERE wish_id = #{wish_id}
+        ]]>
+    </delete>
+
+    <delete id="deleteWish">
+        <![CDATA[
+            DELETE FROM wish
+            WHERE wish_id = #{wish_id}
+        ]]>
+    </delete>
+
     <select id="purchaseWishProcedure" statementType="CALLABLE">
         <![CDATA[
         {CALL purchase_wish(#{memberId, mode=IN, jdbcType=NUMERIC}, #{wishId, mode=IN, jdbcType=NUMERIC}, #{result, mode=OUT, jdbcType=NUMERIC})}
         ]]>
     </select>
+  
 </mapper>
