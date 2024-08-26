@@ -22,6 +22,7 @@ import java.util.List;
  * 2024.08.25  이주현        타운 내 순위 리스트 조회 기능 추가
  * 2024.08.26  이주현        타운 참가 시 기본 모아 제공 기능 추가
  * 2024.08.26  이주현        멤버 역할 조회
+ * 2024.08.26  이주현        멤버 타운 조회
  * </pre>
  */
 
@@ -60,4 +61,7 @@ public interface MemberMapper {
 
     // 멤버 역할 조회
     MemberJobResponseDTO findApprovedJobByMemberId(Long memberId);
+
+    // 멤버 타운 조회
+    MemberTownResponseDTO findTownByMemberId(Long memberId);
 }
