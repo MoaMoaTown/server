@@ -1,15 +1,7 @@
 package com.themore.moamoatown.wish.service;
 
-import com.themore.moamoatown.clothes.dto.ClothesPurchaseInternalRequestDTO;
 import com.themore.moamoatown.common.exception.CustomException;
-
-import com.themore.moamoatown.wish.dto.WishItemPurchaseInternalRequestDTO;
-
-import com.themore.moamoatown.wish.dto.WishItemCreateRequestDTO;
-
-import com.themore.moamoatown.wish.dto.WishItemPurchaseRequestDTO;
-import com.themore.moamoatown.wish.dto.WishItemPurchaseResponseDTO;
-import com.themore.moamoatown.wish.dto.WishItemResponseDTO;
+import com.themore.moamoatown.wish.dto.*;
 import com.themore.moamoatown.wish.mapper.WishMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j;
@@ -18,9 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.List;
-
-
-import static com.themore.moamoatown.common.exception.ErrorCode.WISH_INSERT_FAILED;
 
 import static com.themore.moamoatown.common.exception.ErrorCode.*;
 
@@ -32,13 +21,14 @@ import static com.themore.moamoatown.common.exception.ErrorCode.*;
  * @version 1.0
  *
  * <pre>
- * 수정일        	수정자        수정내용
+ * 수정일        수정자        수정내용
  * ----------  --------    ---------------------------
  * 2024.08.24  	임재성        최초 생성
  * 2024.08.25   임재성        위시 상품 조회 기능 추가
  * 2024.08.25   임재성        위시 상품 구매 기능 추가
  * 2024.08.26   임원정        위시 상품 생성 메소드 추가
  * 2024.08.26   임재성        위시 상품 구매 메소드 수정
+ * 2024.08.26   임원정        멤버 위시 상품 완료 처리
  * </pre>
  */
 @Log4j
@@ -79,15 +69,6 @@ public class WishServiceImpl implements WishService {
         return new WishItemPurchaseResponseDTO("위시상품 구매가 완료되었습니다.");
     }
 
-
-
-
-
-    
-
-
-
-
     /**
      * 위시 상품 생성
      * @param requestDTO
@@ -115,5 +96,15 @@ public class WishServiceImpl implements WishService {
         wishMapper.deleteMemberWish(wishId);
         // 위시 상품 삭제
         if(wishMapper.deleteWish(wishId) < 1) throw new CustomException(WISH_DELETE_FAILED);
+    }
+
+    /**
+     * 멤버 위시 완료 처리
+     * @param memberWishId
+     */
+    @Override
+    @Transactional
+    public void completeMemberWishItem(Long memberWishId) {
+        if(wishMapper.updateMemberWishCompleted(memberWishId) != 1) throw new CustomException(WISH_COMPLETE_FAILED);
     }
 }

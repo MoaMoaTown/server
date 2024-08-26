@@ -18,6 +18,7 @@
  * 2024.08.26   임재성        위시 상품 조회 쿼리 수정
  * 2024.08.26   임원정        insertWish, deleteWish, deleteMemberWish 메소드 추가
  * 2024.08.26   임재성        위시 상품 구매 메소드 수정
+ * 2024.08.26   임원정        updateMemberWishCompleted 메소드 추가
  * </pre>
  */
  -->
@@ -57,5 +58,12 @@
         {CALL purchase_wish(#{memberId, mode=IN, jdbcType=NUMERIC}, #{wishId, mode=IN, jdbcType=NUMERIC}, #{result, mode=OUT, jdbcType=NUMERIC})}
         ]]>
     </select>
-  
+
+    <update id="updateMemberWishCompleted">
+        <![CDATA[
+            UPDATE member_wish
+            SET completeyn = 'Y'
+            WHERE member_wish_id = #{memberWishId}
+        ]]>
+    </update>
 </mapper>

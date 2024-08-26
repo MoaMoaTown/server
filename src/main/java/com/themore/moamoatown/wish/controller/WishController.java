@@ -10,7 +10,6 @@ import com.themore.moamoatown.wish.dto.WishItemResponseDTO;
 import com.themore.moamoatown.wish.service.WishService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,6 +30,7 @@ import java.util.List;
  * 2024.08.25   임재성        위시 상품 구매 기능 추가
  * 2024.08.26   임원정        위시 상품 생성, 삭제 추가
  * 2024.08.26   임재성        위시 상품 구매 메소드 수정
+ * 2024.08.26   임원정        멤버 위시 상품 완료 처리
  * </pre>
  */
 @RestController
@@ -38,9 +38,8 @@ import java.util.List;
 @Log4j
 @RequiredArgsConstructor
 public class WishController {
+    private final WishService wishService;
 
-    @Autowired
-    private WishService wishService;
     /**
      * 타운별 위시 아이템 목록 조회
      *
@@ -109,5 +108,17 @@ public class WishController {
     public ResponseEntity<String> deleteWishItem(@PathVariable Long wishId) {
         wishService.deleteWishItem(wishId);
         return ResponseEntity.ok("위시 상품 삭제가 완료 되었습니다.");
+    }
+
+    /**
+     * 멤버 위시 상품 완료
+     * @param memberWishId
+     * @return
+     */
+    @Auth(role = Auth.Role.MAYER)
+    @PatchMapping("/complete/{memberWishId}")
+    public ResponseEntity<String> completeWishItem(@PathVariable Long memberWishId) {
+        wishService.completeMemberWishItem(memberWishId);
+        return ResponseEntity.ok("위시 상품 사용 완료 처리 되었습니다.");
     }
 }

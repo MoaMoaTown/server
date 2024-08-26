@@ -41,7 +41,8 @@ public enum ErrorCode {
     ACCOUNT_INSERT_FAILED(INTERNAL_SERVER_ERROR, "기본 계좌 데이터 삽입에 실패했습니다."),
     QUEST_INSERT_FAILED(INTERNAL_SERVER_ERROR, "퀘스트 데이터를 삽입하는 데 실패했습니다."),
     WISH_CREATE_FAILED(BAD_REQUEST, "역할 만들기에 실패했습니다."),
-    WISH_DELETE_FAILED(INTERNAL_SERVER_ERROR, "위시 삭제에 실패했습니다.")
+    WISH_DELETE_FAILED(INTERNAL_SERVER_ERROR, "위시 삭제에 실패했습니다."),
+    WISH_COMPLETE_FAILED(INTERNAL_SERVER_ERROR, "위시 상품 완료 처리에 실패했습니다.")
     ;
 
     private final HttpStatus httpStatus;
