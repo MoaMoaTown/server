@@ -51,4 +51,11 @@
             ORDER BY jr.created_at DESC
         ]]>
     </select>
+
+    <insert id="insertJob">
+        <![CDATA[
+            INSERT INTO job (job_id, town_id, name, description, pay)
+            VALUES (JOB_SEQ.NEXTVAL, #{townId}, #{name}, #{description}, #{pay})
+        ]]>
+    </insert>
 </mapper>

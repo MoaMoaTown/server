@@ -1,10 +1,8 @@
 package com.themore.moamoatown.job.service;
 
-import com.themore.moamoatown.job.dto.JobRequestDTO;
-import com.themore.moamoatown.job.dto.JobRequestResponseDTO;
-import com.themore.moamoatown.job.dto.JobResponseDTO;
+import com.themore.moamoatown.common.exception.CustomException;
+import com.themore.moamoatown.job.dto.*;
 import com.themore.moamoatown.job.mapper.JobMapper;
-import com.themore.moamoatown.job.dto.JobRequestsResponseDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j;
 import org.springframework.stereotype.Service;
@@ -12,6 +10,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static com.themore.moamoatown.common.exception.ErrorCode.*;
 
 /**
  * JOB 관련 비즈니스 로직을 처리하는 서비스 구현체 클래스.
@@ -74,5 +74,19 @@ public class JobServiceImpl implements JobService {
                         .allowYN(jobRequest.getAllowYN())
                         .build())
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional
+    public void createJob (JobCreateRequestDTO requestDTO, Long townId){
+        JobCreateRequestDTO jobCreateRequestDTO = JobCreateRequestDTO.builder()
+                .name(requestDTO.getName())
+                .description(requestDTO.getDescription())
+                .pay(requestDTO.getPay())
+                .townId(townId)
+                .build();
+
+        log.info(jobCreateRequestDTO.toString());
+        if(jobMapper.insertJob(jobCreateRequestDTO) != 1) throw new CustomException(JOB_CREATE_FAILED);
     }
 }
