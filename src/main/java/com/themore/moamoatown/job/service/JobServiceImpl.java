@@ -28,8 +28,7 @@ import static com.themore.moamoatown.common.exception.ErrorCode.*;
  * 2024.08.26   임재성        역할 리스트 조회 기능 추가
  * 2024.08.26   임재성        역할 리스트 조회 메서드 수정
  * 2024.08.26   임재성        역할 요청 기능 추가
- * 2024.08.26   임원정        getJobRequests 추가
- * 2024.08.26   임원정        createJob 추가
+ * 2024.08.26   임원정        getJobRequests, createJob, allowJobRequest 추가
  * </pre>
  */
 @Log4j
@@ -94,5 +93,15 @@ public class JobServiceImpl implements JobService {
                 .townId(townId)
                 .build();
         if(jobMapper.insertJob(jobCreateRequestDTO) != 1) throw new CustomException(JOB_CREATE_FAILED);
+    }
+
+    /**
+     * 역할 선정
+     * @param jobRequestId
+     */
+    @Override
+    @Transactional
+    public void allowJobRequest(Long jobRequestId) {
+        if(jobMapper.updateJobRequestAllowed(jobRequestId) != 1) throw new CustomException(JOB_REQUEST_ALLOW_FAILED);
     }
 }
