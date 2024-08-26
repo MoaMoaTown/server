@@ -27,8 +27,6 @@ import java.util.List;
 @Mapper
 public interface ClothesMapper {
     List<ClothesResponseDTO> getClothesListWithPaging(@Param("offset") int offset, @Param("size") int size);
-    //int insertIntoCloset(@Param("clothId") Long clothId, @Param("memberId") Long memberId);
-    //void purchaseClothesProcedure(@Param("memberId") Long memberId, @Param("clothId") Long clothId, @Param("result") BigDecimal result);
     void purchaseClothesProcedure(ClothesPurchaseInternalRequestDTO internalDTO);
 
 
