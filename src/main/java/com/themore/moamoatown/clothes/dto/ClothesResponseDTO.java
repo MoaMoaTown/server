@@ -22,7 +22,7 @@ import lombok.Getter;
 @Builder
 @Getter
 public class ClothesResponseDTO {
-    private Long clothesId;
+    private Long clothId;
     private String brand;
     private String name;
     private Long price;

@@ -21,6 +21,6 @@ import lombok.*;
 @AllArgsConstructor
 @Getter
 public class ClothesPurchaseRequestDTO {
-    private Long clothesId;
+    private Long clothId;
 }
 

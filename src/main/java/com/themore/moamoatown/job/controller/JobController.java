@@ -3,7 +3,7 @@ package com.themore.moamoatown.job.controller;
 import com.themore.moamoatown.common.annotation.MemberId;
 import com.themore.moamoatown.common.annotation.TownId;
 import com.themore.moamoatown.job.dto.JobRequestDTO;
-import com.themore.moamoatown.job.dto.JobRequestResponseDTO;
+import com.themore.moamoatown.job.dto.JobApplyResponseDTO;
 import com.themore.moamoatown.job.dto.JobResponseDTO;
 import com.themore.moamoatown.job.service.JobService;
 import lombok.RequiredArgsConstructor;
@@ -44,11 +44,9 @@ public class JobController {
      * @return 타운에 속한 JOB 목록을 담은 응답 DTO.
      */
     @GetMapping("/list")
-    public ResponseEntity<List<JobResponseDTO>> getJobsByTownId(
-        //    public ResponseEntity<List<JobResponseDTO>> getJobsByTownId(@TownId Long townId) {
-        @RequestParam(defaultValue = "1") Long townId // 임의로 1로 설정
-        )
-    {
+    public ResponseEntity<List<JobResponseDTO>> getJobsByTownId(@TownId Long townId) {
+
+
         log.info("타운 ID: " + townId + "에 대한 JOB 목록 조회 요청 처리 중");
 
         List<JobResponseDTO> jobList = jobService.getJobsByTownId(townId);
@@ -66,7 +64,7 @@ public class JobController {
      * @return 요청 처리 결과 메시지를 담은 응답 DTO
      */
     @PostMapping("/apply")
-    public ResponseEntity<JobRequestResponseDTO> requestJob(
+    public ResponseEntity<JobApplyResponseDTO> requestJob(
             @RequestBody JobRequestDTO jobRequestDTO,
             @MemberId Long memberId // 세션에서 가져온 멤버 ID를 주입받음
     ) {
@@ -79,7 +77,7 @@ public class JobController {
                 .comments(jobRequestDTO.getComments())
                 .build();
 
-        JobRequestResponseDTO response = jobService.requestJob(jobRequestDTO);
+        JobApplyResponseDTO response = jobService.requestJob(jobRequestDTO);
 
         log.info("역할 요청 처리 완료 - " + response.getMessage());
 

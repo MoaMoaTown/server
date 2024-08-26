@@ -1,7 +1,7 @@
 package com.themore.moamoatown.job.service;
 
 import com.themore.moamoatown.job.dto.JobRequestDTO;
-import com.themore.moamoatown.job.dto.JobRequestResponseDTO;
+import com.themore.moamoatown.job.dto.JobApplyResponseDTO;
 import com.themore.moamoatown.job.dto.JobResponseDTO;
 
 import java.util.List;
@@ -36,5 +36,5 @@ public interface JobService {
      * @param jobRequestDTO 역할 요청 정보
      * @return 역할 요청 처리 결과
      */
-    JobRequestResponseDTO requestJob(JobRequestDTO jobRequestDTO);
+    JobApplyResponseDTO requestJob(JobRequestDTO jobRequestDTO);
 }
