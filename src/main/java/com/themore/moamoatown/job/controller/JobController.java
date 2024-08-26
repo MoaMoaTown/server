@@ -1,12 +1,13 @@
 package com.themore.moamoatown.job.controller;
 
+import com.themore.moamoatown.common.annotation.Auth;
 import com.themore.moamoatown.common.annotation.MemberId;
 import com.themore.moamoatown.common.annotation.TownId;
-import com.themore.moamoatown.job.dto.JobRequestDTO;
 import com.themore.moamoatown.job.dto.JobApplyResponseDTO;
+import com.themore.moamoatown.job.dto.JobRequestDTO;
+import com.themore.moamoatown.job.dto.JobRequestsResponseDTO;
 import com.themore.moamoatown.job.dto.JobResponseDTO;
 import com.themore.moamoatown.job.service.JobService;
-import com.themore.moamoatown.job.dto.JobRequestsResponseDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j;
 import org.springframework.http.ResponseEntity;
@@ -91,6 +92,7 @@ public class JobController {
      * @param townId
      * @return
      */
+    @Auth(role = Auth.Role.MAYER)
     @GetMapping("/requests")
     public ResponseEntity<List<JobRequestsResponseDTO>> getJobRequests(@TownId Long townId) {
         List<JobRequestsResponseDTO> response = jobService.getJobRequests(townId);

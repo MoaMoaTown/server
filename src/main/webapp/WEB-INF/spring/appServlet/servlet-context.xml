@@ -46,4 +46,11 @@
     </beans:bean>
 	
 	<aop:aspectj-autoproxy />
+
+	<interceptors>
+		<interceptor>
+			<mapping path="/**"/>
+			<beans:bean id="authInterceptor" class="com.themore.moamoatown.common.interceptor.AuthInterceptor"/>
+		</interceptor>
+	</interceptors>
 </beans:beans>

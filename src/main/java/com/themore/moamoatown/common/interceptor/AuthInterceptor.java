@@ -2,10 +2,8 @@ package com.themore.moamoatown.common.interceptor;
 
 import com.themore.moamoatown.common.annotation.Auth;
 import com.themore.moamoatown.common.exception.CustomException;
-import com.themore.moamoatown.member.service.MemberService;
 import lombok.NoArgsConstructor;
 import lombok.extern.log4j.Log4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
@@ -33,8 +31,6 @@ import static com.themore.moamoatown.common.exception.ErrorCode.UNAUTHORIZED_ERR
 @NoArgsConstructor
 @Log4j
 public class AuthInterceptor extends HandlerInterceptorAdapter {
-    @Autowired
-    private MemberService memberService;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -61,25 +57,38 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
         if (session != null) {
             Long memberId =  (Long) session.getAttribute("memberId");
             Long role =  (Long) session.getAttribute("role");
+            Long townId = (Long) session.getAttribute("townId");
 
-            if (memberId != null) {
-                Auth.Role userRole = mapRole(role);
+            // memberId와 role이 세션에 존재할 경우
+            if (memberId != null && role != null) {
+                Auth.Role userRole = mapRole(role, townId);
+
                 // 요구되는 권한이 있는지 체크
                 if (userRole != auth.role()) {
                     log.info("%%%%%%%%%%%%%%%%%%%%%%%%");
                     log.info("권한이 부족합니다");
                     log.info("필요 권한: " + auth.role());
+                    log.info("현재 권한: " + userRole);
                     log.info("%%%%%%%%%%%%%%%%%%%%%%%%");
+
+
 
                     throw new CustomException(UNAUTHORIZED_ERROR);
                 }
                 return true;
             }
         }
-        return false;
+        // 세션 정보가 없거나 필요한 정보가 없으면 접근 거부
+        log.info("세션 정보가 부족하여 접근이 거부되었습니다.");
+        throw new CustomException(UNAUTHORIZED_ERROR);
     }
 
-    private Auth.Role mapRole(Long role) {
+    private Auth.Role mapRole(Long role, Long townId) {
+        // townId가 -1이면 권한 없음
+        if (townId == -1L) {
+            return null; // 권한 없음
+        }
+
         if (role == 1L) {
             return Auth.Role.MAYER;
         } else {

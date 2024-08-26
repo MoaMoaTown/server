@@ -21,8 +21,7 @@ import java.lang.annotation.Target;
 @Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Auth {
-
-    Role role() default Role.CITIZEN;
+    Role role();
 
     enum Role {
         CITIZEN, // 시민

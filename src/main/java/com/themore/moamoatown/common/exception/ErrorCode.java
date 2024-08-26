@@ -17,13 +17,11 @@ public enum ErrorCode {
     DESCRIPTION_NOT_FOUND(NOT_FOUND, "단어 설명을 찾을 수 없습니다."),
     KNOWLEDGE_NOT_FOUND(NOT_FOUND, "지식을 찾을 수 없습니다."),
     QUESTS_NOT_FOUND(NOT_FOUND, "해당 타운에 대한 퀘스트를 찾을 수 없습니다."),
+    UNAUTHORIZED_ERROR(UNAUTHORIZED, "접근 권한이 없습니다."),
 
     /* code: 409 */
     NICKNAME_ALREADY_EXISTS(CONFLICT, "이미 존재하는 닉네임입니다."),
     LOGINID_ALREADY_EXISTS(CONFLICT, "이미 존재하는 아이디입니다."),
-
-    /* code: 403 */
-    UNAUTHORIZED_ERROR(UNAUTHORIZED, "접근 권한이 없습니다."),
 
     /* code: 500 */
     DATABASE_ERROR(INTERNAL_SERVER_ERROR, "데이터베이스 오류가 발생했습니다."),
