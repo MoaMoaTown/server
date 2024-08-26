@@ -21,6 +21,7 @@ import static com.themore.moamoatown.common.exception.ErrorCode.*;
  * 수정일        수정자        수정내용
  * ----------  --------    ---------------------------
  * 2024.08.26  이주현        최초 생성
+ * 2024.08.26  이주현        퀘스트 수락 요청 기능 추가
  * </pre>
  */
 
@@ -35,9 +36,9 @@ public class QuestServiceImpl implements QuestService {
      * @return QuestResponseDTO
      */
     @Override
-    public List<QuestResponseDTO> getQuests(Long townId) {
+    public List<QuestResponseDTO> getQuests(Long memberId, Long townId) {
         try {
-            List<QuestResponseDTO> quests = questMapper.findQuestsByTownId(townId)
+            List<QuestResponseDTO> quests = questMapper.findQuestsByTownId(memberId, townId)
                     .stream()
                     .map(quest -> QuestResponseDTO.builder()
                             .questId(quest.getQuestId())
@@ -46,6 +47,7 @@ public class QuestServiceImpl implements QuestService {
                             .reward(quest.getReward())
                             .capacity(quest.getCapacity())
                             .deadline(quest.getDeadline())
+                            .status(quest.getStatus())
                             .build())
                     .collect(Collectors.toList());
 
@@ -56,6 +58,19 @@ public class QuestServiceImpl implements QuestService {
             return quests;
         } catch (Exception e) {
             throw new CustomException(DATABASE_ERROR);
+        }
+    }
+
+    /**
+     * 퀘스트 수락 요청
+     * @param memberId
+     * @param questId
+     */
+    @Override
+    public void addMemberQuest(Long memberId, Long questId) {
+        int insertedRows = questMapper.insertMemberQuest(memberId, questId);
+        if (insertedRows < 1) {
+            throw new CustomException(QUEST_INSERT_FAILED);
         }
     }
 

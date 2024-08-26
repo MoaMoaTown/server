@@ -12,12 +12,13 @@
 * 수정일        수정자        수정내용
 * ==========  ========     ===========================
 * 2024.08.26  이주현        최초 생성
+* 2024.08.26  이주현        퀘스트 수락 요청 기능 추가
 * </pre>
 -->
 
 <mapper namespace="com.themore.moamoatown.quest.mapper.QuestMapper">
 
-    <!-- 타운 ID로 퀘스트 리스트 조회 -->
+    <!-- 타운 ID로 퀘스트 리스트 및 상태 조회 -->
     <select id="findQuestsByTownId" resultType="QuestResponseDTO">
     <![CDATA[
         SELECT
@@ -26,10 +27,26 @@
             q.description,
             q.reward,
             q.capacity,
-            TO_CHAR(q.deadline, 'YYYY-MM-DD') AS deadline
+            TO_CHAR(q.deadline, 'YYYY-MM-DD') AS deadline,
+            CASE
+                WHEN q.deadline < SYSDATE THEN 4  -- 마감일이 현재 날짜를 지난 경우: 4
+                WHEN mq.endYN = 'Y' THEN 3  -- 퀘스트 완료: 3
+                WHEN mq.selectedYN = 'Y' THEN 2  -- 퀘스트 수락: 2
+                WHEN mq.endYN IS NULL THEN 0  -- 레코드가 없는 경우: 0
+                ELSE 1 -- 수락 대기 중: 1
+                END AS status
         FROM quest q
+                 LEFT JOIN member_quest mq ON q.quest_id = mq.quest_id AND mq.member_id = #{memberId}
         WHERE q.town_id = #{townId}
         ]]>
     </select>
+
+    <!-- member_quest 테이블에 데이터 삽입 -->
+    <insert id="insertMemberQuest">
+    <![CDATA[
+        INSERT INTO member_quest (member_quest_id, member_id, quest_id, selectedYN, endYN)
+        VALUES (MEMBER_QUEST_SEQ.NEXTVAL, #{memberId}, #{questId}, 'N', 'N')
+        ]]>
+    </insert>
 
 </mapper>

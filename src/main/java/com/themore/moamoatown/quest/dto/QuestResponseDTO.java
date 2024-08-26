@@ -29,4 +29,5 @@ public class QuestResponseDTO {
     private Long reward;
     private Long capacity;
     private String deadline;
+    private Long status;
 }
