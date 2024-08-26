@@ -48,50 +48,7 @@ public class ClothesServiceImpl implements ClothesService{
     }
 
 
-//@Transactional
-//@Override
-//public ClothesPurchaseResponseDTO purchaseClothes(ClothesPurchaseRequestDTO requestDTO, Long memberId) throws Exception {
-//    log.info("memberId: " + memberId);
-//
-//    // 프로시저 호출 및 결과 확인
-//    Map<String, Object> params = new HashMap<>();
-//    params.put("memberId", memberId);
-//    params.put("clothId", requestDTO.getClothId());
-//    params.put("result", null);   // 미리 공간을 할당해줘야 나중에 -1또는1이 담겨서 return 될 수 있음.
-//
-//    clothesmapper.purchaseClothesProcedure(params);
-//
-//    BigDecimal result = (BigDecimal) params.get("result");
-//    log.info("result:" + result);
-//
-//    // 결과가 1이 아니면 예외 발생
-//    if (result.intValue() < 1) {
-//        throw new CustomException(CLOTH_INSERT_FAILED);
-//    }
-//
-//    // 응답 반환
-//    return new ClothesPurchaseResponseDTO("옷이 클로젯에 추가되었습니다.");
-//}
-//@Transactional
-//@Override
-//public ClothesPurchaseResponseDTO purchaseClothes(ClothesPurchaseRequestDTO requestDTO, Long memberId) throws Exception {
-//    log.info("memberId: " + memberId);
-//
-//    BigDecimal result = null;
-//
-//    // 프로시저 호출 및 결과 확인
-//    clothesmapper.purchaseClothesProcedure(memberId, requestDTO.getClothId(), result);
-//
-//    log.info("result:" + result);
-//
-//    // 결과가 1이 아니면 예외 발생
-//    if (result == null || result.intValue() < 1) {
-//        throw new CustomException(CLOTH_INSERT_FAILED);
-//    }
-//
-//    // 응답 반환
-//    return new ClothesPurchaseResponseDTO("옷이 클로젯에 추가되었습니다.");
-//}
+
 @Transactional
 @Override
 public ClothesPurchaseResponseDTO purchaseClothes(ClothesPurchaseRequestDTO requestDTO, Long memberId) throws Exception {
