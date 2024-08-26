@@ -11,16 +11,17 @@
 * 수정일        	수정자        수정내용
 * ==========  =========    =========
 * 2024.08.23   임재성         최초 생성
-
-*
+* 2024.08.24   임재성         옷 조회
+* 2024.08.24   임재성         옷 구매
+* 2024.08.26   임재성         컬럼명 수정
 * </pre>
 -->
 <mapper namespace="com.themore.moamoatown.clothes.mapper.ClothesMapper">
     <select id="getClothesListWithPaging" resultType="ClothesResponseDTO">
          <![CDATA[
-            select clothes_id,brand,name,price,type,img_url
-            from clothes
-            ORDER BY clothes_id
+            SELECT cloth_id, brand,name,price,type,img_url
+            FROM clothes
+            ORDER BY cloth_id
             OFFSET #{offset} ROWS FETCH NEXT #{size} ROWS ONLY
 
         ]]>
@@ -28,26 +29,10 @@
 
     <insert id="insertIntoCloset">
     <![CDATA[
-        INSERT INTO CLOSET (CLOSET_ID, CLOTHES_ID, MEMBER_ID)
-        VALUES (CLOSET_SEQ.NEXTVAL, #{clothesId}, #{memberId})
+        INSERT INTO closet (closet_id, cloth_id, member_id)
+        VALUES (CLOSET_SEQ.NEXTVAL, #{clothId}, #{memberId})
 
     ]]>
-    </insert>
-
-
-    <select id="findWishItemsByTownId" resultType="com.themore.moamoatown.clothes.dto.WishItemResponseDTO">
-        <![CDATA[
-        SELECT wish_id AS wishId, town_id AS townId, name, price
-        FROM wish
-        WHERE town_id = #{townId}
-        ]]>
-    </select>
-
-    <insert id="insertMemberWish">
-        <![CDATA[
-        INSERT INTO MEMBER_WISH (MEMBER_WISH_ID, WISH_ID, MEMBER_ID, CREATED_AT, COMPLETEYN)
-        VALUES (MEMBER_WISH_SEQ.NEXTVAL, #{wishId}, #{memberId}, SYSDATE, 'N')
-        ]]>
     </insert>
 
 </mapper>

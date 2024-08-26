@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--
+* 퀘스트 Mybatis 매퍼
+* @author 이주현
+* @since 2024.08.26
+* @version 1.0
+*
+* <pre>
+* 수정일        수정자        수정내용
+* ==========  ========     ===========================
+* 2024.08.26  이주현        최초 생성
+* </pre>
+-->
+
+<mapper namespace="com.themore.moamoatown.quest.mapper.QuestMapper">
+
+    <!-- 타운 ID로 퀘스트 리스트 조회 -->
+    <select id="findQuestsByTownId" resultType="QuestResponseDTO">
+    <![CDATA[
+        SELECT
+            q.quest_id AS questId,
+            q.title,
+            q.description,
+            q.reward,
+            q.capacity,
+            TO_CHAR(q.deadline, 'YYYY-MM-DD') AS deadline
+        FROM quest q
+        WHERE q.town_id = #{townId}
+        ]]>
+    </select>
+
+</mapper>

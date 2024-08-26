@@ -2,9 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!--
- * 역할 매퍼 XML
- * @version 1.0
+/**
+ * JOB 관련 데이터베이스 작업을 처리하는 매퍼
+ * MyBatis를 사용하여 데이터베이스와 상호작용합니다.
+ *
+ * @author 임재성
  * @since 2024.08.26
+ * @version 1.0
  *
  * <pre>
  * 수정일        수정자        수정내용
@@ -16,27 +20,28 @@
  * 2024.08.26   임원정        타운 역할 신청 현황 조회
  * </pre>
 -->
+
 <mapper namespace="com.themore.moamoatown.job.mapper.JobMapper">
 
     <!-- 타운 ID에 따른 JOB 목록 조회 -->
-    <select id="findJobsByTownId" resultType="com.themore.moamoatown.job.dto.JobResponseDTO">
+    <select id="findJobsByTownId" resultType="JobResponseDTO">
     <![CDATA[
         SELECT
-            JOB_ID as jobId,
-            TOWN_ID as townId,
-            NAME as name,
-            DESCRIPTION as description,
-            PAY as pay
-        FROM JOB
-        WHERE TOWN_ID = #{townId}
+            job_id,
+            town_id,
+            name,
+            description,
+            pay
+        FROM job
+        WHERE town_id = #{townId}
         ]]>
     </select>
 
     <!-- 역할 요청 삽입 -->
     <insert id="insertJobRequest">
     <![CDATA[
-        INSERT INTO JOB_REQUEST (JOB_REQUEST_ID, JOB_ID, MEMBER_ID, COMMENTS, ALLOWYN)
-        VALUES (JOB_REQUEST_SEQ.NEXTVAL, #{jobId}, #{memberId}, #{comments}, 'N')
+        INSERT INTO job_request (job_request_id, job_id, member_id, comments)
+        VALUES (JOB_REQUEST_SEQ.NEXTVAL, #{jobId}, #{memberId}, #{comments})
         ]]>
     </insert>
 

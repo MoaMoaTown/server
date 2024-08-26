@@ -48,9 +48,9 @@
 	<context:component-scan base-package="com.themore.moamoatown.**.service"/>
 	<context:component-scan base-package="com.themore.moamoatown.common.aop"/>
 	<context:component-scan base-package="com.themore.moamoatown.common.exception"/>
-
+	<context:component-scan base-package="com.themore.moamoatown.common.interceptor"/>
 <!-- 	<context:component-scan base-package="com.themore.moamoatown.util"/>
-	<context:component-scan base-package="com.themore.moamoatown.interceptor"/> -->
+	 -->
 	
 	<!-- Enable AspectJ Auto Proxy -->
 	<aop:aspectj-autoproxy />	

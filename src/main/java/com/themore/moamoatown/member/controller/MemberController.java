@@ -27,6 +27,8 @@ import java.util.List;
  * 2024.08.25  이주현        타운 참가 기능 추가
  * 2024.08.25  이주현        재산 조회 기능 추가
  * 2024.08.25  이주현        타운 내 순위 리스트 조회 기능 추가
+ * 2024.08.26  이주현        멤버 역할 조회
+ * 2024.08.26  이주현        멤버 타운 조회
  * </pre>
  */
 
@@ -58,9 +60,10 @@ public class MemberController {
     public ResponseEntity<LoginResponseDTO> login(@RequestBody LoginRequestDTO loginRequestDTO, HttpSession session) {
         LoginInternalDTO memberInfo = memberService.login(loginRequestDTO);
 
-        // 세션에 memberId와 townId 저장
+        // 세션에 memberId와 townId와 role 저장
         session.setAttribute("memberId", memberInfo.getMemberId());
         session.setAttribute("townId", memberInfo.getTownId());
+        session.setAttribute("role", memberInfo.getRole());
 
         // 클라이언트에게 반환할 DTO
         LoginResponseDTO response = LoginResponseDTO.builder()
@@ -108,6 +111,28 @@ public class MemberController {
     @GetMapping("/ranks")
     public ResponseEntity<List<MemberRankResponseDTO>> getMemberRanks(@MemberId Long currentUserId, @TownId Long townId) {
         List<MemberRankResponseDTO> response = memberService.getMemberRanks(currentUserId, townId);
+        return ResponseEntity.ok(response);
+    }
+
+    /**
+     * 멤버 역할 조회
+     * @param memberId 세션에서 가져온 멤버 아이디
+     * @return ResponseEntity
+     */
+    @GetMapping("/job")
+    public ResponseEntity<MemberJobResponseDTO> getMemberJob(@MemberId Long memberId) {
+        MemberJobResponseDTO response = memberService.getMemberJob(memberId);
+        return ResponseEntity.ok(response);
+    }
+
+    /**
+     * 멤버 타운 조회
+     * @param memberId 세션에서 가져온 멤버 아이디
+     * @return ResponseEntity
+     */
+    @GetMapping("/town")
+    public ResponseEntity<MemberTownResponseDTO> getMemberTown(@MemberId Long memberId) {
+        MemberTownResponseDTO response = memberService.getMemberTown(memberId);
         return ResponseEntity.ok(response);
     }
 }
