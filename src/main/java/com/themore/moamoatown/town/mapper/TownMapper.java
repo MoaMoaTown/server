@@ -29,6 +29,4 @@ public interface TownMapper {
 
     /** 타운 세금 현황 조회 **/
     TownTaxResponseDTO selectTotalTaxByTownId(Long townId);
-
-
 }

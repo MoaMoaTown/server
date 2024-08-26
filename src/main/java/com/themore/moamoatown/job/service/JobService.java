@@ -1,10 +1,6 @@
 package com.themore.moamoatown.job.service;
 
-import com.themore.moamoatown.job.dto.JobRequestDTO;
-import com.themore.moamoatown.job.dto.JobApplyResponseDTO;
-import com.themore.moamoatown.job.dto.JobResponseDTO;
-import com.themore.moamoatown.job.dto.JobRequestsResponseDTO;
-
+import com.themore.moamoatown.job.dto.*;
 import java.util.List;
 
 /**
@@ -15,13 +11,14 @@ import java.util.List;
  * @version 1.0
  *
  * <pre>
- * 수정일        	수정자        수정내용
+ * 수정일        수정자        수정내용
  * ----------  --------    ---------------------------
  * 2024.08.26  	임재성        최초 생성
  * 2024.08.26   임재성        역할 리스트 조회 기능 추가
  * 2024.08.26   임재성        역할 리스트 조회 메서드 수정
  * 2024.08.26   임재성        역할 요청 기능 추가
  * 2024.08.26   임원정        getJobRequests 메소드 추가
+ * 2024.08.26   임원정        createJob 추가
  * </pre>
  */
 public interface JobService {
@@ -38,11 +35,10 @@ public interface JobService {
      * @param jobRequestDTO 역할 요청 정보
      * @return 역할 요청 처리 결과
      */
-
     JobApplyResponseDTO requestJob(JobRequestDTO jobRequestDTO);
 
-//    JobResponseDTO getJobsByTownId(JobRequestDTO jobRequestDTO);
-
+    // 역할 요청 현황 조회
     List<JobRequestsResponseDTO> getJobRequests(Long townId);
-
+    // 역할 만들기
+    void createJob(JobCreateRequestDTO requestDTO, Long townId);
 }
