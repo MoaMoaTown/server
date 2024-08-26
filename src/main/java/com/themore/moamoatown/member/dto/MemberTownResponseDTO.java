@@ -6,15 +6,15 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 /**
- * 내부에서 쓸 로그인 DTO
+ * 멤버 타운 조회 Response DTO
  * @author 이주현
- * @since 2024.08.24
+ * @since 2024.08.26
  * @version 1.0
  *
  * <pre>
  * 수정일        수정자        수정내용
  * ----------  --------    ---------------------------
- * 2024.08.24  이주현        최초 생성
+ * 2024.08.26  이주현        최초 생성
  * </pre>
  */
 
@@ -22,10 +22,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Getter
 @Builder
-public class LoginInternalDTO {
-    private Long memberId;
-    private Long townId;
-    private String nickname;
-    private Long role;
-    private String password;
+public class MemberTownResponseDTO {
+    private String name;
+    private String description;
+    private Long totalMembers;
+    private Long totalTax;
 }

@@ -2,6 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!--
+
 /**
  * JOB 관련 데이터베이스 작업을 처리하는 매퍼
  * MyBatis를 사용하여 데이터베이스와 상호작용합니다.
@@ -11,15 +12,16 @@
  * @version 1.0
  *
  * <pre>
- * 수정일        	수정자        수정내용
-* ==========  =========    =========
- * 2024.08.26  	임재성        최초 생성
+ * 수정일        수정자        수정내용
+ * ==========  ========     ===========================
+ * 2024.08.26   임재성       최초 생성
  * 2024.08.26   임재성        역할 리스트 조회 기능 추가
  * 2024.08.26   임재성        역할 리스트 조회 메서드 수정
  * 2024.08.26   임재성        역할 요청 기능 추가
+ * 2024.08.26   임원정        타운 역할 신청 현황 조회
  * </pre>
- */
- -->
+-->
+
 <mapper namespace="com.themore.moamoatown.job.mapper.JobMapper">
 
     <!-- 타운 ID에 따른 JOB 목록 조회 -->
@@ -43,4 +45,16 @@
         VALUES (JOB_REQUEST_SEQ.NEXTVAL, #{jobId}, #{memberId}, #{comments})
         ]]>
     </insert>
+
+    <!-- 타운 내 역할 신청 현황 조회 -->
+    <select id="selectJobRequestByTownId" resultType="JobRequestsResponseDTO">
+        <![CDATA[
+            SELECT jr.job_request_id, j.name, jr.comments, m.nickname, jr.allowYN
+            FROM job j
+                     JOIN job_request jr ON j.job_id = jr.job_id
+                     JOIN member m ON jr.member_id = m.member_id
+            WHERE j.town_id = #{townId}
+            ORDER BY jr.created_at DESC
+        ]]>
+    </select>
 </mapper>

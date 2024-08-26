@@ -1,7 +1,6 @@
 package com.themore.moamoatown.town.service;
 
 import com.themore.moamoatown.common.exception.CustomException;
-import com.themore.moamoatown.town.dto.JobRequestsResponseDTO;
 import com.themore.moamoatown.town.dto.TownCreateInternalDTO;
 import com.themore.moamoatown.town.dto.TownCreateRequestDTO;
 import com.themore.moamoatown.town.dto.TownTaxResponseDTO;
@@ -10,9 +9,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 import static com.themore.moamoatown.common.exception.ErrorCode.TOWN_CREATE_FAILED;
 
@@ -29,7 +25,6 @@ import static com.themore.moamoatown.common.exception.ErrorCode.TOWN_CREATE_FAIL
  * 2024.08.23   임원정        타운 만들기 추가
  * 2024.08.24   임원정        타운 만들기 메소드 수정
  * 2024.08.26   임원정        타운 세금 현황 조회 추가
- * 2024.08.26   임원정        타운 역할 신청 현황 조회 메소드 추가
  * </pre>
  */
 
@@ -87,24 +82,4 @@ public class TownServiceImpl implements TownService {
                 .build();
     }
 
-    /**
-     * 타운 내 역할 신쳥 현황 조회
-     * @param townId
-     * @return
-     */
-    @Override
-    @Transactional
-    public List<JobRequestsResponseDTO> getJobRequests(Long townId){
-
-        return townMapper.selectJobRequestByTownId(townId)
-                .stream()
-                .map(jobRequest -> JobRequestsResponseDTO.builder()
-                        .jobRequestId(jobRequest.getJobRequestId())
-                        .name(jobRequest.getName())
-                        .comments(jobRequest.getComments())
-                        .nickName(jobRequest.getNickName())
-                        .allowYN(jobRequest.getAllowYN())
-                        .build())
-                .collect(Collectors.toList());
-    }
 }

@@ -5,12 +5,16 @@ import com.themore.moamoatown.job.dto.JobRequestDTO;
 import com.themore.moamoatown.job.dto.JobApplyResponseDTO;
 import com.themore.moamoatown.job.dto.JobResponseDTO;
 import com.themore.moamoatown.job.mapper.JobMapper;
+
+import com.themore.moamoatown.job.dto.JobRequestsResponseDTO;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.themore.moamoatown.common.exception.ErrorCode.JOB_APPLY_INSERT_FAILED;
 
@@ -28,6 +32,7 @@ import static com.themore.moamoatown.common.exception.ErrorCode.JOB_APPLY_INSERT
  * 2024.08.26   임재성        역할 리스트 조회 기능 추가
  * 2024.08.26   임재성        역할 리스트 조회 메서드 수정
  * 2024.08.26   임재성        역할 요청 기능 추가
+ * 2024.08.26   임원정        타운 내 역할 신청 현황 조회 메소드 추가
  * </pre>
  */
 @Log4j
@@ -46,6 +51,7 @@ public class JobServiceImpl implements JobService {
     }
 
     @Transactional
+
     @Override
     public JobApplyResponseDTO requestJob(JobRequestDTO jobRequestDTO) {
         log.info("역할 요청 처리 중 - Job ID: " + jobRequestDTO.getJobId() + ", Member ID: " + jobRequestDTO.getMemberId());
@@ -55,5 +61,26 @@ public class JobServiceImpl implements JobService {
         return JobApplyResponseDTO.builder()
                 .message("역할 요청이 성공적으로 처리되었습니다.")
                 .build();
+    }
+
+    /**
+     * 타운 내 역할 신청 현황 조회
+     * @param townId
+     * @return
+     */
+    @Override
+    @Transactional
+    public List<JobRequestsResponseDTO> getJobRequests(Long townId){
+
+        return jobMapper.selectJobRequestByTownId(townId)
+                .stream()
+                .map(jobRequest -> JobRequestsResponseDTO.builder()
+                        .jobRequestId(jobRequest.getJobRequestId())
+                        .name(jobRequest.getName())
+                        .comments(jobRequest.getComments())
+                        .nickName(jobRequest.getNickName())
+                        .allowYN(jobRequest.getAllowYN())
+                        .build())
+                .collect(Collectors.toList());
     }
 }

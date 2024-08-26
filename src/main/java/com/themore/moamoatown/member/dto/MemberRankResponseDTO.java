@@ -12,9 +12,9 @@ import lombok.NoArgsConstructor;
  * @version 1.0
  *
  * <pre>
- * 수정일        	수정자        수정내용
+ * 수정일        수정자        수정내용
  * ----------  --------    ---------------------------
- * 2024.08.25  	이주현        최초 생성
+ * 2024.08.25  이주현        최초 생성
  * </pre>
  */
 
@@ -25,6 +25,6 @@ import lombok.NoArgsConstructor;
 public class MemberRankResponseDTO {
     private String profile;
     private String nickname;
-    private int balance;
+    private Long balance;
     private String isCurrentUser;
 }

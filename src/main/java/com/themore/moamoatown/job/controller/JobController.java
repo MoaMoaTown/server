@@ -6,6 +6,7 @@ import com.themore.moamoatown.job.dto.JobRequestDTO;
 import com.themore.moamoatown.job.dto.JobApplyResponseDTO;
 import com.themore.moamoatown.job.dto.JobResponseDTO;
 import com.themore.moamoatown.job.service.JobService;
+import com.themore.moamoatown.job.dto.JobRequestsResponseDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +28,7 @@ import java.util.List;
  * 2024.08.26   임재성        역할 리스트 조회 기능 추가
  * 2024.08.26   임재성        역할 리스트 조회 메서드 수정
  * 2024.08.26   임재성        역할 요청 기능 추가
+ * 2024.08.26   임원정        타운 역할 신청 현황 조회 추가
  * </pre>
  */
 @RestController
@@ -83,5 +85,16 @@ public class JobController {
 
         return ResponseEntity.ok(response);
     }
+
+    /**
+     * 타운 내 역할 신청 현황 조회
+     * @param townId
+     * @return
+     */
+    @GetMapping("/requests")
+    public ResponseEntity<List<JobRequestsResponseDTO>> getJobRequests(@TownId Long townId) {
+        List<JobRequestsResponseDTO> response = jobService.getJobRequests(townId);
+        return ResponseEntity.ok(response);
     }
+}
 

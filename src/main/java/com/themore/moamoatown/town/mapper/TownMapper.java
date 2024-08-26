@@ -1,12 +1,9 @@
 package com.themore.moamoatown.town.mapper;
 
-import com.themore.moamoatown.town.dto.JobRequestsResponseDTO;
 import com.themore.moamoatown.town.dto.TownCreateRequestDTO;
 import com.themore.moamoatown.town.dto.TownTaxResponseDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-
-import java.util.List;
 
 /**
  * 타운 매퍼 인터페이스
@@ -20,7 +17,6 @@ import java.util.List;
  * 2024.08.23  	임원정        최초 생성
  * 2024.08.23  	임원정        타운 만들기 기능 추가
  * 2024.08.26   임원정        타운 세금 현황 조회 추가
- * 2024.08.26   임원정       타운 역할 신청 현황 조회 메소드 추가
  * </pre>
  */
 
@@ -34,6 +30,5 @@ public interface TownMapper {
     /** 타운 세금 현황 조회 **/
     TownTaxResponseDTO selectTotalTaxByTownId(Long townId);
 
-    /** 타운 역할 신청 현황 조회**/
-    List<JobRequestsResponseDTO> selectJobRequestByTownId(Long townId);
+
 }

@@ -3,6 +3,7 @@ package com.themore.moamoatown.job.service;
 import com.themore.moamoatown.job.dto.JobRequestDTO;
 import com.themore.moamoatown.job.dto.JobApplyResponseDTO;
 import com.themore.moamoatown.job.dto.JobResponseDTO;
+import com.themore.moamoatown.job.dto.JobRequestsResponseDTO;
 
 import java.util.List;
 
@@ -20,6 +21,7 @@ import java.util.List;
  * 2024.08.26   임재성        역할 리스트 조회 기능 추가
  * 2024.08.26   임재성        역할 리스트 조회 메서드 수정
  * 2024.08.26   임재성        역할 요청 기능 추가
+ * 2024.08.26   임원정        getJobRequests 메소드 추가
  * </pre>
  */
 public interface JobService {
@@ -36,5 +38,11 @@ public interface JobService {
      * @param jobRequestDTO 역할 요청 정보
      * @return 역할 요청 처리 결과
      */
+
     JobApplyResponseDTO requestJob(JobRequestDTO jobRequestDTO);
+
+    JobRequestResponseDTO requestJob(JobRequestDTO jobRequestDTO);
+
+    List<JobRequestsResponseDTO> getJobRequests(Long townId);
+
 }

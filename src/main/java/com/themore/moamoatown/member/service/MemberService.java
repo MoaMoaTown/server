@@ -11,13 +11,15 @@ import java.util.List;
  * @version 1.0
  *
  * <pre>
- * 수정일        	수정자        수정내용
+ * 수정일        수정자        수정내용
  * ----------  --------    ---------------------------
- * 2024.08.23  	이주현        최초 생성
- * 2024.08.24   이주현        로그인 기능 추가
- * 2024.08.25   이주현        타운 참가 기능 추가
- * 2024.08.25   이주현        재산 조회 기능 추가
- * 2024.08.25   이주현        타운 내 순위 리스트 조회 기능 추가
+ * 2024.08.23  이주현        최초 생성
+ * 2024.08.24  이주현        로그인 기능 추가
+ * 2024.08.25  이주현        타운 참가 기능 추가
+ * 2024.08.25  이주현        재산 조회 기능 추가
+ * 2024.08.25  이주현        타운 내 순위 리스트 조회 기능 추가
+ * 2024.08.26  이주현        멤버 역할 조회
+ * 2024.08.26  이주현        멤버 타운 조회
  * </pre>
  */
 
@@ -36,4 +38,10 @@ public interface MemberService {
 
     // 타운 내 순위 리스트 조회
     List<MemberRankResponseDTO> getMemberRanks(Long currentUserId, Long townId);
+
+    // 멤버 역할 조회
+    MemberJobResponseDTO getMemberJob(Long memberId);
+
+    // 멤버 타운 조회
+    MemberTownResponseDTO getMemberTown(Long memberId);
 }
