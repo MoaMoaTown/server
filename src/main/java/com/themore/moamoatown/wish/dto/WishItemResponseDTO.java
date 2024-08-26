@@ -1,7 +1,6 @@
-package com.themore.moamoatown.clothes.dto;
+package com.themore.moamoatown.wish.dto;
 
 import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
 
 /**
@@ -10,7 +9,7 @@ import lombok.Getter;
  * 위시 아이템에 대한 정보를 담고 있습니다.
  *
  * @author 임재성
- * @since 2024.08.27
+ * @since 2024.08.25
  * @version 1.0
  *
  * <pre>

@@ -28,9 +28,15 @@ public enum ErrorCode {
     WORD_INSERT_FAILED(INTERNAL_SERVER_ERROR, "단어 삽입에 실패했습니다."),
     GPT_REQUEST_FAILED(INTERNAL_SERVER_ERROR, "GPT 요청에 실패했습니다."),
     UPDATE_PROFILE_FAILED(INTERNAL_SERVER_ERROR, "프로필 변경에 실패했습니다"),
+
+    WISH_INSERT_FAILED(BAD_REQUEST,"잔액이 부족합니다"),
+    CLOTH_INSERT_FAILED(BAD_REQUEST,"잔액이 부족합니다"),
+    JOB_APPLY_INSERT_FAILED(BAD_REQUEST,"역할 요청에 실패했습니다")
+
     UPDATE_FAILED(INTERNAL_SERVER_ERROR, "데이터 업데이트에 실패했습니다."),
     INVESTMENT_INSERT_FAILED(INTERNAL_SERVER_ERROR, "기본 투자 데이터 삽입에 실패했습니다."),
     ACCOUNT_INSERT_FAILED(INTERNAL_SERVER_ERROR, "기본 계좌 데이터 삽입에 실패했습니다."),
+
     ;
 
     private final HttpStatus httpStatus;
