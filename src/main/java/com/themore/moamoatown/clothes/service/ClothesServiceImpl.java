@@ -38,7 +38,12 @@ import static com.themore.moamoatown.common.exception.ErrorCode.CLOTH_INSERT_FAI
 public class ClothesServiceImpl implements ClothesService{
 
     private final ClothesMapper clothesmapper;
-
+    /**
+     * 페이지와 사이즈에 따른 옷 목록을 페이징 처리하여 가져옵니다.
+     * @param page 페이지 번호 (0부터 시작)
+     * @param size 페이지 당 항목 수
+     * @return 옷 목록의 리스트
+     */
     @Transactional(readOnly = true)
     @Override
     public List<ClothesResponseDTO> getClothesListWithPaging(int page, int size) {
@@ -48,7 +53,15 @@ public class ClothesServiceImpl implements ClothesService{
     }
 
 
-
+    /**
+     * 주어진 요청 정보를 바탕으로 옷을 구매합니다.
+     * 프로시저 호출을 통해 구매를 처리하고, 결과에 따라 성공 여부를 확인합니다.
+     *
+     * @param requestDTO 옷 구매 요청 DTO
+     * @param memberId 회원 ID
+     * @return 구매 결과를 나타내는 DTO
+     * @throws Exception 옷 구매 실패 시 예외 발생
+     */
 @Transactional
 @Override
 public ClothesPurchaseResponseDTO purchaseClothes(ClothesPurchaseRequestDTO requestDTO, Long memberId) throws Exception {

@@ -3,6 +3,7 @@ package com.themore.moamoatown.clothes.controller;
 
 import com.themore.moamoatown.clothes.dto.*;
 import com.themore.moamoatown.clothes.service.ClothesService;
+import com.themore.moamoatown.common.annotation.Auth;
 import com.themore.moamoatown.common.annotation.MemberId;
 import com.themore.moamoatown.wish.dto.WishItemPurchaseRequestDTO;
 import com.themore.moamoatown.wish.dto.WishItemPurchaseResponseDTO;
@@ -28,7 +29,7 @@ import java.util.List;
  * 2024.08.25  	임재성        옷 구매 기능 추가
  * </pre>
  */
-
+@Auth(role = Auth.Role.CITIZEN)
 @RestController
 @RequestMapping(value="/clothes", produces = "application/json; charset=UTF-8")
 @Log4j

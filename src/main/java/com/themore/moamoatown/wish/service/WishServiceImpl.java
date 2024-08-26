@@ -46,13 +46,23 @@ import static com.themore.moamoatown.common.exception.ErrorCode.*;
 @RequiredArgsConstructor
 public class WishServiceImpl implements WishService {
     private final WishMapper wishMapper;
-
+    /**
+     * 타운 ID를 통해 위시 상품 리스트를 조회합니다.
+     * @param townId 타운 ID
+     * @return 위시 상품 리스트
+     */
     @Transactional(readOnly = true)
     @Override
     public List<WishItemResponseDTO> getWishItemsByTown(Long townId) {
         return wishMapper.findWishItemsByTownId(townId);
     }
-
+    /**
+     * 주어진 요청 정보를 바탕으로 위시 상품을 구매합니다.
+     *
+     * @param requestDTO 위시 상품 구매 요청 DTO
+     * @return 구매 결과를 나타내는 DTO
+     * @throws CustomException 위시 상품 구매 실패 시 예외 발생
+     */
     @Transactional
     @Override
     public WishItemPurchaseResponseDTO purchaseWishItem(WishItemPurchaseRequestDTO requestDTO) {

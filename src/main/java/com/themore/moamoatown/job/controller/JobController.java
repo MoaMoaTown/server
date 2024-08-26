@@ -30,6 +30,7 @@ import java.util.List;
  * 2024.08.26   임원정        타운 역할 신청 현황, 역할 만들기, 역할 선정 추가
  * </pre>
  */
+@Auth(role = Auth.Role.CITIZEN)
 @RestController
 @RequestMapping(value="/jobs", produces = "application/json; charset=UTF-8")
 @Log4j
