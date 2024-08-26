@@ -1,12 +1,10 @@
 package com.themore.moamoatown.job.controller;
 
+import com.themore.moamoatown.common.annotation.Auth;
 import com.themore.moamoatown.common.annotation.MemberId;
 import com.themore.moamoatown.common.annotation.TownId;
-import com.themore.moamoatown.job.dto.JobRequestDTO;
-import com.themore.moamoatown.job.dto.JobApplyResponseDTO;
-import com.themore.moamoatown.job.dto.JobResponseDTO;
+import com.themore.moamoatown.job.dto.*;
 import com.themore.moamoatown.job.service.JobService;
-import com.themore.moamoatown.job.dto.JobRequestsResponseDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j;
 import org.springframework.http.ResponseEntity;
@@ -22,13 +20,13 @@ import java.util.List;
  * @version 1.0
  *
  * <pre>
- * 수정일        	수정자        수정내용
+ * 수정일        수정자        수정내용
  * ----------  --------    ---------------------------
  * 2024.08.26  	임재성        최초 생성
  * 2024.08.26   임재성        역할 리스트 조회 기능 추가
  * 2024.08.26   임재성        역할 리스트 조회 메서드 수정
  * 2024.08.26   임재성        역할 요청 기능 추가
- * 2024.08.26   임원정        타운 역할 신청 현황 조회 추가
+ * 2024.08.26   임원정        타운 역할 신청 현황, 역할 만들기, 역할 선정 추가
  * </pre>
  */
 @RestController
@@ -91,10 +89,35 @@ public class JobController {
      * @param townId
      * @return
      */
+    @Auth(role = Auth.Role.MAYER)
     @GetMapping("/requests")
     public ResponseEntity<List<JobRequestsResponseDTO>> getJobRequests(@TownId Long townId) {
         List<JobRequestsResponseDTO> response = jobService.getJobRequests(townId);
         return ResponseEntity.ok(response);
     }
-}
 
+    /**
+     * 역할 만들기
+     * @param requestDTO
+     * @param townId
+     * @return
+     */
+    @Auth(role = Auth.Role.MAYER)
+    @PostMapping("/create")
+    public ResponseEntity<String> createJob(@RequestBody JobCreateRequestDTO requestDTO, @TownId Long townId){
+        jobService.createJob(requestDTO, townId);
+        return ResponseEntity.ok("역할 생성이 완료 되었습니다.");
+    }
+
+    /**
+     * 역할 요청 승인(역할 선정)
+     * @param jobRequestId
+     * @return
+     */
+    @Auth(role = Auth.Role.MAYER)
+    @PatchMapping("/allow/{jobRequestId}")
+    public ResponseEntity<String> allowJobRequest(@PathVariable Long jobRequestId) {
+        jobService.allowJobRequest(jobRequestId);
+        return ResponseEntity.ok("역할이 선정되었습니다.");
+    }
+}

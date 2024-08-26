@@ -1,5 +1,6 @@
 package com.themore.moamoatown.town.controller;
 
+import com.themore.moamoatown.common.annotation.Auth;
 import com.themore.moamoatown.common.annotation.MemberId;
 import com.themore.moamoatown.common.annotation.TownId;
 import com.themore.moamoatown.town.dto.TownCreateInternalDTO;
@@ -67,6 +68,7 @@ public class TownController {
      * @param townId
      * @return
      */
+    @Auth(role = Auth.Role.MAYER)
     @GetMapping("/tax")
     public ResponseEntity<TownTaxResponseDTO> getTotalTax(@TownId Long townId) {
         TownTaxResponseDTO response = townService.getTotalTax(townId);
