@@ -1,6 +1,8 @@
 package com.themore.moamoatown.clothes.dto;
 import lombok.*;
 
+import java.math.BigDecimal;
+
 /**
  * 옷 구매 요청을 담고 있는 DTO 클래스.
  *
@@ -22,5 +24,6 @@ import lombok.*;
 @Getter
 public class ClothesPurchaseRequestDTO {
     private Long clothId;
+    private BigDecimal result; // 프로시저의 결과 값을 받는 필드
 }
 

@@ -66,16 +66,16 @@ public class ClothesController {
     public ResponseEntity<ClothesPurchaseResponseDTO> purchaseClothes(
             @RequestBody ClothesPurchaseRequestDTO requestDTO,
             @MemberId Long memberId
-
     ) throws Exception {
         log.info("옷 ID: " + requestDTO.getClothId() + "에 대한 구매 요청 처리 중");
 
-        // memberId를 DTO에 설정
+
         ClothesPurchaseResponseDTO response = clothesService.purchaseClothes(requestDTO, memberId);
         log.info("구매 완료 - " + response.getMessage());
 
         return ResponseEntity.ok(response);
     }
+
 
 
 
