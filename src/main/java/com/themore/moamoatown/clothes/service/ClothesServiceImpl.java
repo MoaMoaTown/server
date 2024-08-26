@@ -8,7 +8,10 @@ import lombok.extern.log4j.Log4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static com.themore.moamoatown.common.exception.ErrorCode.CLOTH_INSERT_FAILED;
 
@@ -26,6 +29,7 @@ import static com.themore.moamoatown.common.exception.ErrorCode.CLOTH_INSERT_FAI
  * 2024.08.24  	임재성        최초 생성
  * 2024.08.25  	임재성        옷 조회 기능 추가
  * 2024.08.25  	임재성        옷 구매 기능 추가
+ * 2024.08.26   임재성        옷 구매 메서드 수정
  * </pre>
  */
 @Log4j
@@ -43,19 +47,32 @@ public class ClothesServiceImpl implements ClothesService{
         return clothesmapper.getClothesListWithPaging(offset,size);
     }
 
-    @Transactional
-    @Override
-    public ClothesPurchaseResponseDTO purchaseClothes(ClothesPurchaseRequestDTO requestDTO, Long memberId) throws Exception {
-        // DTO에 memberId 설정
-//        requestDTO.setMemberId(memberId);
-        log.info("memberId"+ memberId);
 
-        // CLOSET 테이블에 데이터 삽입
-        if(1 > clothesmapper.insertIntoCloset(requestDTO.getClothId(), memberId)) throw new CustomException(CLOTH_INSERT_FAILED);
+@Transactional
+@Override
+public ClothesPurchaseResponseDTO purchaseClothes(ClothesPurchaseRequestDTO requestDTO, Long memberId) throws Exception {
+    log.info("memberId: " + memberId);
 
+    // 프로시저 호출 및 결과 확인
+    Map<String, Object> params = new HashMap<>();
+    params.put("memberId", memberId);
+    params.put("clothId", requestDTO.getClothId());
+    params.put("result", null);   // 미리 공간을 할당해줘야 나중에 -1또는1이 담겨서 return 될 수 있음.
 
-        // 응답 반환
-        return new ClothesPurchaseResponseDTO("옷이 클로젯에 추가되었습니다.");
+    clothesmapper.purchaseClothesProcedure(params);
+
+    BigDecimal result = (BigDecimal) params.get("result");
+    log.info("result:" + result);
+
+    // 결과가 1이 아니면 예외 발생
+    if (result.intValue() < 1) {
+        throw new CustomException(CLOTH_INSERT_FAILED);
     }
+
+    // 응답 반환
+    return new ClothesPurchaseResponseDTO("옷이 클로젯에 추가되었습니다.");
+}
+
+
 
 }

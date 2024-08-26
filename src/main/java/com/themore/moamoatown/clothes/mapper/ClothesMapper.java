@@ -6,6 +6,8 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
+
 /**
  * 옷 관련 데이터베이스 작업을 처리하는 매퍼 인터페이스.
  * MyBatis를 사용하여 데이터베이스와 상호작용합니다.
@@ -25,7 +27,9 @@ import java.util.List;
 @Mapper
 public interface ClothesMapper {
     List<ClothesResponseDTO> getClothesListWithPaging(@Param("offset") int offset, @Param("size") int size);
-    int insertIntoCloset(@Param("clothId") Long clothId, @Param("memberId") Long memberId);
+    //int insertIntoCloset(@Param("clothId") Long clothId, @Param("memberId") Long memberId);
+    void purchaseClothesProcedure(Map<String, Object> params);
+
 
 
 }
