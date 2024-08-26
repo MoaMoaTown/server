@@ -10,6 +10,7 @@ import lombok.extern.log4j.Log4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -104,7 +105,7 @@ public class JobController {
      */
     @Auth(role = Auth.Role.MAYER)
     @PostMapping("/create")
-    public ResponseEntity<String> createJob(@RequestBody JobCreateRequestDTO requestDTO, @TownId Long townId){
+    public ResponseEntity<String> createJob(@Valid @RequestBody JobCreateRequestDTO requestDTO, @TownId Long townId){
         jobService.createJob(requestDTO, townId);
         return ResponseEntity.ok("역할 생성이 완료 되었습니다.");
     }

@@ -1,16 +1,20 @@
 package com.themore.moamoatown.wish.controller;
 
+import com.themore.moamoatown.common.annotation.Auth;
+import com.themore.moamoatown.common.annotation.MemberId;
 import com.themore.moamoatown.common.annotation.TownId;
+import com.themore.moamoatown.wish.dto.WishItemCreateRequestDTO;
 import com.themore.moamoatown.wish.dto.WishItemPurchaseRequestDTO;
 import com.themore.moamoatown.wish.dto.WishItemPurchaseResponseDTO;
 import com.themore.moamoatown.wish.dto.WishItemResponseDTO;
-import com.themore.moamoatown.common.annotation.MemberId;
 import com.themore.moamoatown.wish.service.WishService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -20,11 +24,12 @@ import java.util.List;
  * @version 1.0
  *
  * <pre>
- * 수정일        	수정자        수정내용
+ * 수정일        수정자        수정내용
  * ----------  --------    ---------------------------
  * 2024.08.25  	임재성        최초 생성
  * 2024.08.25   임재성        위시 상품 조회 기능 추가
  * 2024.08.25   임재성        위시 상품 구매 기능 추가
+ * 2024.08.26   임원정        위시 상품 생성 추가
  * </pre>
  */
 @RestController
@@ -77,5 +82,19 @@ public class WishController {
         log.info("구매 완료 - " + response.getMessage());
 
         return ResponseEntity.ok(response);
+    }
+
+    /**
+     * 위시 상품 생성
+     * @param requestDTO
+     * @param townId
+     * @return
+     */
+    @Auth(role = Auth.Role.MAYER)
+    @PostMapping("/create")
+    public ResponseEntity<String> createWishItem(@Valid @RequestBody WishItemCreateRequestDTO requestDTO,
+                                                 @TownId Long townId) {
+        wishService.createWishItem(requestDTO, townId);
+        return ResponseEntity.ok("위시 상품 생성이 완료 되었습니다.");
     }
 }
