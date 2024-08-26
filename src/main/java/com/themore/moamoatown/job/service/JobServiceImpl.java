@@ -51,7 +51,6 @@ public class JobServiceImpl implements JobService {
     }
 
     @Transactional
-
     @Override
     public JobApplyResponseDTO requestJob(JobRequestDTO jobRequestDTO) {
         log.info("역할 요청 처리 중 - Job ID: " + jobRequestDTO.getJobId() + ", Member ID: " + jobRequestDTO.getMemberId());

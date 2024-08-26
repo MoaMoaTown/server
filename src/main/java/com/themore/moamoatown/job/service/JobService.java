@@ -41,7 +41,7 @@ public interface JobService {
 
     JobApplyResponseDTO requestJob(JobRequestDTO jobRequestDTO);
 
-    JobRequestResponseDTO requestJob(JobRequestDTO jobRequestDTO);
+//    JobResponseDTO getJobsByTownId(JobRequestDTO jobRequestDTO);
 
     List<JobRequestsResponseDTO> getJobRequests(Long townId);
 
