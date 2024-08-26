@@ -16,13 +16,14 @@ import java.util.List;
  * @version 1.0
  *
  * <pre>
- * 수정일        	수정자        수정내용
+ * 수정일        수정자        수정내용
  * ----------  --------    ---------------------------
- * 2024.08.23  	이주현        최초 생성
- * 2024.08.24   이주현        로그인 기능 추가
- * 2024.08.25   이주현        타운 참가 기능 추가
- * 2024.08.25   이주현        재산 조회 기능 추가
- * 2024.08.25   이주현        타운 내 순위 리스트 조회 기능 추가
+ * 2024.08.23  이주현        최초 생성
+ * 2024.08.24  이주현        로그인 기능 추가
+ * 2024.08.25  이주현        타운 참가 기능 추가
+ * 2024.08.25  이주현        재산 조회 기능 추가
+ * 2024.08.25  이주현        타운 내 순위 리스트 조회 기능 추가
+ * 2024.08.26  이주현        타운 참가 시 기본 모아 제공 기능 추가
  * </pre>
  */
 
@@ -55,4 +56,7 @@ public interface MemberMapper {
 
     // 순위 조회
     List<MemberRankResponseDTO> getMemberRanks(@Param("currentUserId") Long currentUserId, @Param("townId") Long townId);
+
+    // 멤버의 기본 계좌 데이터를 삽입
+    int insertDefaultMemberAccount(Long memberId);
 }
