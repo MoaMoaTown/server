@@ -13,6 +13,7 @@
 * ==========  ========     ===========================
 * 2024.08.26  이주현        최초 생성
 * 2024.08.26  이주현        퀘스트 수락 요청 기능 추가
+* 2024.08.26  임원정        insertQuest 메소드 추가
 * </pre>
 -->
 
@@ -49,4 +50,11 @@
         ]]>
     </insert>
 
+    <!-- 퀘스트 삽입 -->
+    <insert id="insertQuest">
+        <![CDATA[
+            INSERT INTO QUEST (QUEST_ID, town_id, title, description, reward, capacity, deadline)
+            VALUES (QUEST_SEQ.NEXTVAL, #{townId}, #{title}, #{description}, #{reward}, #{capacity}, TO_DATE(#{deadline}, 'YYYY-MM-DD'))
+        ]]>
+    </insert>
 </mapper>

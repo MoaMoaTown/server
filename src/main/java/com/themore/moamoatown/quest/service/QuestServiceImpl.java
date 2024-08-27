@@ -1,6 +1,7 @@
 package com.themore.moamoatown.quest.service;
 
 import com.themore.moamoatown.common.exception.CustomException;
+import com.themore.moamoatown.quest.dto.QuestCreateRequestDTO;
 import com.themore.moamoatown.quest.dto.QuestResponseDTO;
 import com.themore.moamoatown.quest.mapper.QuestMapper;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +23,7 @@ import static com.themore.moamoatown.common.exception.ErrorCode.*;
  * ----------  --------    ---------------------------
  * 2024.08.26  이주현        최초 생성
  * 2024.08.26  이주현        퀘스트 수락 요청 기능 추가
+ * 2024.08.27  임원정        퀘스트 생성 추가
  * </pre>
  */
 
@@ -74,4 +76,21 @@ public class QuestServiceImpl implements QuestService {
         }
     }
 
+    /**
+     * 퀘스트 생성
+     * @param requestDTO
+     * @param townId
+     */
+    @Override
+    public void createQuest(QuestCreateRequestDTO requestDTO, Long townId) {
+        QuestCreateRequestDTO questCreateRequestDTO = QuestCreateRequestDTO.builder()
+                .title(requestDTO.getTitle())
+                .description(requestDTO.getDescription())
+                .reward(requestDTO.getReward())
+                .capacity(requestDTO.getCapacity())
+                .deadline(requestDTO.getDeadline())
+                .townId(townId)
+                .build();
+        if(questMapper.insertQuest(questCreateRequestDTO) != 1) throw new CustomException(QUEST_CREATE_FAILED);
+    }
 }
