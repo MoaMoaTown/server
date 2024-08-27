@@ -4,6 +4,7 @@ import com.themore.moamoatown.common.annotation.Auth;
 import com.themore.moamoatown.common.annotation.MemberId;
 import com.themore.moamoatown.common.annotation.TownId;
 import com.themore.moamoatown.invest.dto.AverageResponseDTO;
+import com.themore.moamoatown.invest.dto.YesterdayPriceResponseDTO;
 import com.themore.moamoatown.invest.service.InvestService;
 import com.themore.moamoatown.quest.dto.QuestResponseDTO;
 import lombok.RequiredArgsConstructor;
@@ -39,7 +40,7 @@ public class InvestController {
     @Autowired
     InvestService investService;
     /**
-     * 내 흰디의 몸무게 평단가 조회
+     * 내 흰디의 몸무게,걸음 수 평단가 조회
      * @param memberId
      * @return
      * @throws Exception
@@ -47,6 +48,17 @@ public class InvestController {
     @GetMapping("/average")
     public ResponseEntity<List<AverageResponseDTO>> getAverageWeight(@MemberId Long memberId) {
         List<AverageResponseDTO> response = investService.getAverageWeightAndStep(memberId);
+        return ResponseEntity.ok(response);
+    }
+    /**
+     * 어제 흰디의 몸무게,걸음 수 가격 조회
+     * @param
+     * @return
+     * @throws Exception
+     */
+    @GetMapping("/yesterday")
+    public ResponseEntity<List<YesterdayPriceResponseDTO>> getYesterdayPrice() {
+        List<YesterdayPriceResponseDTO> response = investService.getYesterdayPrice();
         return ResponseEntity.ok(response);
     }
 }

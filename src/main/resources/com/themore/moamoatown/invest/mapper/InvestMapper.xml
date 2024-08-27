@@ -22,5 +22,23 @@
         ]]>
     </select>
 
+    <!-- 어제의 흰디의 몸무게,걸음 수 가격, 힌트, 날짜 가져오기 -->
+    <select id="getYesterdayPrice" resultType="YesterdayPriceResponseDTO">
+   <![CDATA[
+        SELECT
+            type,
+            price,
+            TO_CHAR(created_at, 'YYYY-MM-DD') AS created_at,
+            hint
+        FROM
+            investment
+        WHERE
+            TRUNC(created_at) = TRUNC(SYSDATE - 1)
+        ]]>
+</select>
+
+
+
+
 
 </mapper>
