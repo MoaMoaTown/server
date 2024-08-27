@@ -4,12 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.sql.Date;
-
-
 /**
- * 흰디의 내일 어제 몸무게,걸음수 가격 조회 DTO 클래스.
+ * 흰디의 내일 오늘 몸무게,걸음수 가격 조회 DTO 클래스.
  *
  *
  *
@@ -27,7 +23,8 @@ import java.sql.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-public class YesterdayPriceResponseDTO {
+public class TodayPriceResponseDTO {
     private Long type;
     private Long price;
+    private String hint;
 }

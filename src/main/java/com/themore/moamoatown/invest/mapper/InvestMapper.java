@@ -1,6 +1,7 @@
 package com.themore.moamoatown.invest.mapper;
 
 import com.themore.moamoatown.invest.dto.AverageResponseDTO;
+import com.themore.moamoatown.invest.dto.TodayPriceResponseDTO;
 import com.themore.moamoatown.invest.dto.YesterdayPriceResponseDTO;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -21,6 +22,7 @@ import java.util.List;
  * 2024.08.27  	임재성        내 흰디의 몸무게 평단가 조회
  * 2024.08.27  	임재성        내 흰디의 걸음수 평단가 조회
  * 2024.08.27   임재성        어제 가격 조회
+ * 2024.08.27   임재성       오늘 가격과 힌트 가져오기
  * </pre>
  */
 @Mapper
@@ -28,4 +30,6 @@ public interface InvestMapper {
     List<AverageResponseDTO> getAverageWeightAndStep(Long memberId);
 
     List<YesterdayPriceResponseDTO> getYesterdayPrice();
+
+    List<TodayPriceResponseDTO> getTodayPrice();
 }
