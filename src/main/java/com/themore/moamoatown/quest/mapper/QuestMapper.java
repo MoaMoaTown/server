@@ -1,5 +1,6 @@
 package com.themore.moamoatown.quest.mapper;
 
+import com.themore.moamoatown.quest.dto.MemberQuestRequestsResponseDTO;
 import com.themore.moamoatown.quest.dto.QuestCreateRequestDTO;
 import com.themore.moamoatown.quest.dto.QuestResponseDTO;
 import com.themore.moamoatown.quest.dto.QuestStatusListResponseDTO;
@@ -20,6 +21,7 @@ import java.util.List;
  * 2024.08.26  이주현        최초 생성
  * 2024.08.26  이주현        퀘스트 수락 요청 기능 추가
  * 2024.08.27  임원정        insertQuest, selectQuestStatusListByTownId 메소드 추가
+ * 2024.08.28  임원정        selectMemberQuestByQuestId 메소드 추가
  * </pre>
  */
 
@@ -34,4 +36,6 @@ public interface QuestMapper {
     int insertQuest(QuestCreateRequestDTO questCreateRequestDTO);
     // 퀘스트 현황 리스트 조회
     List<QuestStatusListResponseDTO> selectQuestStatusListByTownId(Long townId);
+    // 퀘스트 신청 조회
+    List<MemberQuestRequestsResponseDTO> selectMemberQuestByQuestId(Long questId);
 }

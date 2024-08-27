@@ -1,6 +1,7 @@
 package com.themore.moamoatown.quest.service;
 
 import com.themore.moamoatown.common.exception.CustomException;
+import com.themore.moamoatown.quest.dto.MemberQuestRequestsResponseDTO;
 import com.themore.moamoatown.quest.dto.QuestCreateRequestDTO;
 import com.themore.moamoatown.quest.dto.QuestResponseDTO;
 import com.themore.moamoatown.quest.dto.QuestStatusListResponseDTO;
@@ -26,6 +27,7 @@ import static com.themore.moamoatown.common.exception.ErrorCode.*;
  * 2024.08.26  이주현        최초 생성
  * 2024.08.26  이주현        퀘스트 수락 요청 기능 추가
  * 2024.08.27  임원정        퀘스트 생성, 퀘스트 현황 리스트 조회 추가
+ * 2024.08.28   임원정       퀘스트 요청 조회 추가
  * </pre>
  */
 
@@ -115,6 +117,23 @@ public class QuestServiceImpl implements QuestService {
                         .requestCnt(questStatus.getRequestCnt())
                         .selectedCnt(questStatus.getSelectedCnt())
                         .capacity(questStatus.getCapacity())
+                        .build())
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * 퀘스트 요청 조회
+     * @param questId
+     * @return
+     */
+    @Override
+    public List<MemberQuestRequestsResponseDTO> getMemberQuests(Long questId) {
+        return questMapper.selectMemberQuestByQuestId(questId)
+                .stream()
+                .map(memberQuest -> MemberQuestRequestsResponseDTO.builder()
+                        .memberQuestId(memberQuest.getMemberQuestId())
+                        .nickName(memberQuest.getNickName())
+                        .status(memberQuest.getStatus())
                         .build())
                 .collect(Collectors.toList());
     }
