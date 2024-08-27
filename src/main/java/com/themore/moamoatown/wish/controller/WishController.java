@@ -3,10 +3,7 @@ package com.themore.moamoatown.wish.controller;
 import com.themore.moamoatown.common.annotation.Auth;
 import com.themore.moamoatown.common.annotation.MemberId;
 import com.themore.moamoatown.common.annotation.TownId;
-import com.themore.moamoatown.wish.dto.WishItemCreateRequestDTO;
-import com.themore.moamoatown.wish.dto.WishItemPurchaseRequestDTO;
-import com.themore.moamoatown.wish.dto.WishItemPurchaseResponseDTO;
-import com.themore.moamoatown.wish.dto.WishItemResponseDTO;
+import com.themore.moamoatown.wish.dto.*;
 import com.themore.moamoatown.wish.service.WishService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j;
@@ -30,7 +27,8 @@ import java.util.List;
  * 2024.08.25   임재성        위시 상품 구매 기능 추가
  * 2024.08.26   임원정        위시 상품 생성, 삭제 추가
  * 2024.08.26   임재성        위시 상품 구매 메소드 수정
- * 2024.08.26   임원정        멤버 위시 상품 완료 처리
+ * 2024.08.26   임원정        멤버 위시 상품 완료 처리 추가
+ * 2024.08.27   임원정        멤버 위시 요청 리스트 조회 추가
  * </pre>
  */
 @Auth(role = Auth.Role.CITIZEN)
@@ -121,5 +119,17 @@ public class WishController {
     public ResponseEntity<String> completeWishItem(@PathVariable Long memberWishId) {
         wishService.completeMemberWishItem(memberWishId);
         return ResponseEntity.ok("위시 상품 사용 완료 처리 되었습니다.");
+    }
+
+    /**
+     * 멤버 위시 요청 리스트 조회
+     * @param townId
+     * @return
+     */
+    @Auth(role = Auth.Role.MAYER)
+    @GetMapping("/requests")
+    public ResponseEntity<List<MemberWishRequestsResponseDTO>> getMemberWishRequests(@TownId Long townId) {
+        List<MemberWishRequestsResponseDTO> response = wishService.getMemberWishRequests(townId);
+        return ResponseEntity.ok(response);
     }
 }

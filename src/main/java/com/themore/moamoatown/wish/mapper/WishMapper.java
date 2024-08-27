@@ -1,6 +1,7 @@
 package com.themore.moamoatown.wish.mapper;
 
 
+import com.themore.moamoatown.wish.dto.MemberWishRequestsResponseDTO;
 import com.themore.moamoatown.wish.dto.WishItemCreateRequestDTO;
 import com.themore.moamoatown.wish.dto.WishItemPurchaseInternalRequestDTO;
 import com.themore.moamoatown.wish.dto.WishItemResponseDTO;
@@ -25,6 +26,7 @@ import java.util.List;
  * 2024.08.26   임원정        insertWish, deleteWish, deleteMemberWish 메소드 추가
  * 2024.08.26   임재성        위시 상품 구매 메소드 수정
  * 2024.08.26   임원정        updateMemberWishCompleted 메소드 추가
+ * 2024.08.27   임원정        selectWishRequestsByTownId 메소드 추가
  * </pre>
  */
 @Mapper
@@ -37,6 +39,10 @@ public interface WishMapper {
      */
     List<WishItemResponseDTO> findWishItemsByTownId(Long townId);
 
+    /**
+     * 위시 상품 구매 메소드
+     * @param internalDTO
+     */
     void purchaseWishProcedure(WishItemPurchaseInternalRequestDTO internalDTO);
 
     
@@ -49,4 +55,6 @@ public interface WishMapper {
 
     // 멤버 위시 상품 완료 처리
     int updateMemberWishCompleted(Long memberWishId);
+    // 위시 상품 요청 현황
+    List<MemberWishRequestsResponseDTO> selectWishRequestsByTownId(Long townId);
 }
