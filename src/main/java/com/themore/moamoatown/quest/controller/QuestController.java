@@ -3,6 +3,7 @@ package com.themore.moamoatown.quest.controller;
 import com.themore.moamoatown.common.annotation.Auth;
 import com.themore.moamoatown.common.annotation.MemberId;
 import com.themore.moamoatown.common.annotation.TownId;
+import com.themore.moamoatown.quest.dto.QuestCreateRequestDTO;
 import com.themore.moamoatown.quest.dto.QuestResponseDTO;
 import com.themore.moamoatown.quest.service.QuestService;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,7 @@ import java.util.List;
  * ----------  --------    ---------------------------
  * 2024.08.26  이주현        최초 생성
  * 2024.08.26  이주현        퀘스트 수락 요청 기능 추가
+ * 2024.08.27  임원정        퀘스트 만들기 추가
  * </pre>
  */
 
@@ -55,5 +57,18 @@ public class QuestController {
     public ResponseEntity<String> addMemberQuest(@MemberId Long memberId, @PathVariable Long questId) {
         questService.addMemberQuest(memberId, questId);
         return ResponseEntity.ok("퀘스트 수락 요청을 성공했습니다.");
+    }
+
+    /**
+     * 퀘스트 만들기
+     * @param requestDTO
+     * @param townId
+     * @return
+     */
+    @Auth(role = Auth.Role.MAYER)
+    @PostMapping("/create")
+    public ResponseEntity<String> createQuest(@RequestBody QuestCreateRequestDTO requestDTO, @TownId Long townId) {
+        questService.createQuest(requestDTO, townId);
+        return ResponseEntity.ok("퀘스트 생성에 성공했습니다.");
     }
 }

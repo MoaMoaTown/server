@@ -1,5 +1,6 @@
 package com.themore.moamoatown.quest.service;
 
+import com.themore.moamoatown.quest.dto.QuestCreateRequestDTO;
 import com.themore.moamoatown.quest.dto.QuestResponseDTO;
 
 import java.util.List;
@@ -15,6 +16,7 @@ import java.util.List;
  * ----------  --------    ---------------------------
  * 2024.08.26  이주현        최초 생성
  * 2024.08.26  이주현        퀘스트 수락 요청 기능 추가
+ * 2024.08.27  임원정        퀘스트 생성 추가
  * </pre>
  */
 
@@ -24,4 +26,6 @@ public interface QuestService {
 
     // 퀘스트 수락 요청
     void addMemberQuest(Long memberId, Long questId);
+    // 퀘스트 생성
+    void createQuest(QuestCreateRequestDTO requestDTO, Long townId);
 }
