@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.themore.moamoatown.common.exception.ErrorCode.*;
 
@@ -28,7 +29,8 @@ import static com.themore.moamoatown.common.exception.ErrorCode.*;
  * 2024.08.25   임재성        위시 상품 구매 기능 추가
  * 2024.08.26   임원정        위시 상품 생성 메소드 추가
  * 2024.08.26   임재성        위시 상품 구매 메소드 수정
- * 2024.08.26   임원정        멤버 위시 상품 완료 처리
+ * 2024.08.26   임원정        멤버 위시 상품 완료 처리 메소드 추가
+ * 2024.08.26   임원정        멤버 위시 요청 리스트 조회 메소드 추가
  * </pre>
  */
 @Log4j
@@ -116,5 +118,25 @@ public class WishServiceImpl implements WishService {
     @Transactional
     public void completeMemberWishItem(Long memberWishId) {
         if(wishMapper.updateMemberWishCompleted(memberWishId) != 1) throw new CustomException(WISH_COMPLETE_FAILED);
+    }
+
+    /**
+     * 위시 상품 요청 리스트 조회
+     * @param townId
+     * @return
+     */
+    @Override
+    @Transactional
+    public List<MemberWishRequestsResponseDTO> getMemberWishRequests(Long townId) {
+        return wishMapper.selectWishRequestsByTownId(townId)
+                .stream()
+                .map(memberWishRequest -> MemberWishRequestsResponseDTO.builder()
+                        .memberWishId(memberWishRequest.getMemberWishId())
+                        .wishName(memberWishRequest.getWishName())
+                        .nickName(memberWishRequest.getNickName())
+                        .createdAt(memberWishRequest.getCreatedAt())
+                        .completeYN(memberWishRequest.getCompleteYN())
+                    .build())
+                .collect(Collectors.toList());
     }
 }

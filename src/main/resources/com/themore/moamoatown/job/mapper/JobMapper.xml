@@ -57,6 +57,7 @@
         ]]>
     </select>
 
+    <!-- 역할 생성 -->
     <insert id="insertJob">
         <![CDATA[
             INSERT INTO job (job_id, town_id, name, description, pay)
@@ -64,6 +65,7 @@
         ]]>
     </insert>
 
+    <!-- 역할 선정 -->
     <update id="updateJobRequestAllowed">
         <![CDATA[
             UPDATE job_request
