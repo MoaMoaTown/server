@@ -3,6 +3,7 @@ package com.themore.moamoatown.invest.service;
 import com.themore.moamoatown.clothes.dto.ClothesResponseDTO;
 import com.themore.moamoatown.clothes.service.ClothesService;
 import com.themore.moamoatown.invest.dto.AverageResponseDTO;
+import com.themore.moamoatown.invest.dto.TodayPriceResponseDTO;
 import com.themore.moamoatown.invest.dto.YesterdayPriceResponseDTO;
 import com.themore.moamoatown.invest.mapper.InvestMapper;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +28,7 @@ import java.util.List;
  * 2024.08.27  	임재성        내 흰디의 몸무게 평단가 조회
  * 2024.08.27  	임재성        내 흰디의 걸음수 평단가 조회
  * 2024.08.27   임재성        어제 가격 조회
+ * 2024.08.27   임재성       오늘 가격과 힌트 가져오기
  * </pre>
  */
 @Log4j
@@ -55,5 +57,17 @@ public class InvestServiceImpl implements InvestService{
     @Override
     public List<YesterdayPriceResponseDTO> getYesterdayPrice(){
         return investMapper.getYesterdayPrice();
+    }
+
+
+    /**
+     * 오늘 흰디의 몸무게,걸음 수 가격과 힌트 조회
+     * @param
+     * @return TodayPriceResponseDTO
+     */
+    @Transactional(readOnly = true)
+    @Override
+    public List<TodayPriceResponseDTO> getTodayPrice(){
+        return investMapper.getTodayPrice();
     }
 }

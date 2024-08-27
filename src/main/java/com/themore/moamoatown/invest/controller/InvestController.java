@@ -4,6 +4,7 @@ import com.themore.moamoatown.common.annotation.Auth;
 import com.themore.moamoatown.common.annotation.MemberId;
 import com.themore.moamoatown.common.annotation.TownId;
 import com.themore.moamoatown.invest.dto.AverageResponseDTO;
+import com.themore.moamoatown.invest.dto.TodayPriceResponseDTO;
 import com.themore.moamoatown.invest.dto.YesterdayPriceResponseDTO;
 import com.themore.moamoatown.invest.service.InvestService;
 import com.themore.moamoatown.quest.dto.QuestResponseDTO;
@@ -30,6 +31,7 @@ import java.util.List;
  * 2024.08.27  	임재성        내 흰디의 몸무게 평단가 조회
  * 2024.08.27  	임재성        내 흰디의 걸음수 평단가 조회
  * 2024.08.27   임재성        어제 가격 조회
+ * 2024.08.27   임재성       오늘 가격과 힌트 가져오기
  * </pre>
  */
 @Auth(role = Auth.Role.CITIZEN)
@@ -60,6 +62,17 @@ public class InvestController {
     @GetMapping("/yesterday")
     public ResponseEntity<List<YesterdayPriceResponseDTO>> getYesterdayPrice() {
         List<YesterdayPriceResponseDTO> response = investService.getYesterdayPrice();
+        return ResponseEntity.ok(response);
+    }
+    /**
+     * 오늘 흰디의 몸무게,걸음 수 가격 조회
+     * @param
+     * @return
+     * @throws Exception
+     */
+    @GetMapping("/today")
+    public ResponseEntity<List<TodayPriceResponseDTO>> getTodayPrice() {
+        List<TodayPriceResponseDTO> response = investService.getTodayPrice();
         return ResponseEntity.ok(response);
     }
 }
