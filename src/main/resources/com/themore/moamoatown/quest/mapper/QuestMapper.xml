@@ -14,7 +14,7 @@
 * 2024.08.26  이주현        최초 생성
 * 2024.08.26  이주현        퀘스트 수락 요청 기능 추가
 * 2024.08.27  임원정        insertQuest, selectQuestStatusListByTownId 메소드 추가
-* 2024.08.28  임원정        selectMemberQuestByQuestId 메소드 추가
+* 2024.08.28  임원정        selectMemberQuestByQuestId, updateMemberQuestSelected 메소드 추가
 * </pre>
 -->
 
@@ -73,18 +73,27 @@
 
     <!-- 퀘스트 ID로 member_quest 찾기 -->
     <select id="selectMemberQuestByQuestId" resultType="MemberQuestRequestsResponseDTO">
-    <![CDATA[
-        SELECT
-            mq.member_quest_id,
-            m.nickname,
-            CASE
-                WHEN mq.endYN = 'Y' THEN 3  -- 퀘스트 완료: 3
-                WHEN mq.selectedYN = 'Y' THEN 2  -- 퀘스트 수락: 2
-                ELSE 1 -- 수락 대기 중: 1
-                END AS status
-        FROM member_quest mq
-        LEFT JOIN member m ON mq.member_id = m.member_id
-        WHERE mq.quest_id = #{questId}
+        <![CDATA[
+            SELECT
+                mq.member_quest_id,
+                m.nickname,
+                CASE
+                    WHEN mq.endYN = 'Y' THEN 3  -- 퀘스트 완료: 3
+                    WHEN mq.selectedYN = 'Y' THEN 2  -- 퀘스트 수락: 2
+                    ELSE 1 -- 수락 대기 중: 1
+                    END AS status
+            FROM member_quest mq
+            LEFT JOIN member m ON mq.member_id = m.member_id
+            WHERE mq.quest_id = #{questId}
         ]]>
     </select>
+
+    <!-- 퀘스트 요청 승인 -->
+    <update id="updateMemberQuestSelected">
+        <![CDATA[
+            UPDATE member_quest
+            SET selectedyn = 'Y'
+            WHERE member_quest_id = #{memberQuestId}
+        ]]>
+    </update>
 </mapper>
