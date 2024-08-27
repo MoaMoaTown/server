@@ -5,6 +5,7 @@ import com.themore.moamoatown.common.annotation.MemberId;
 import com.themore.moamoatown.common.annotation.TownId;
 import com.themore.moamoatown.quest.dto.QuestCreateRequestDTO;
 import com.themore.moamoatown.quest.dto.QuestResponseDTO;
+import com.themore.moamoatown.quest.dto.QuestStatusListResponseDTO;
 import com.themore.moamoatown.quest.service.QuestService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +25,7 @@ import java.util.List;
  * ----------  --------    ---------------------------
  * 2024.08.26  이주현        최초 생성
  * 2024.08.26  이주현        퀘스트 수락 요청 기능 추가
- * 2024.08.27  임원정        퀘스트 만들기 추가
+ * 2024.08.27  임원정        퀘스트 만들기, 퀘스트 현황 조회 추가
  * </pre>
  */
 
@@ -70,5 +71,17 @@ public class QuestController {
     public ResponseEntity<String> createQuest(@RequestBody QuestCreateRequestDTO requestDTO, @TownId Long townId) {
         questService.createQuest(requestDTO, townId);
         return ResponseEntity.ok("퀘스트 생성에 성공했습니다.");
+    }
+
+    /**
+     * 퀘스트 현황 리스트 조회
+     * @param townId
+     * @return
+     */
+    @Auth(role = Auth.Role.MAYER)
+    @GetMapping("/status")
+    public ResponseEntity<List<QuestStatusListResponseDTO>> getQuestStatusList(@TownId Long townId) {
+        List<QuestStatusListResponseDTO> response = questService.getQuestStatusList(townId);
+        return ResponseEntity.ok(response);
     }
 }

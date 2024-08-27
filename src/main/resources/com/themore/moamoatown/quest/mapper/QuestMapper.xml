@@ -13,7 +13,7 @@
 * ==========  ========     ===========================
 * 2024.08.26  이주현        최초 생성
 * 2024.08.26  이주현        퀘스트 수락 요청 기능 추가
-* 2024.08.26  임원정        insertQuest 메소드 추가
+* 2024.08.26  임원정        insertQuest, selectQuestStatusListByTownId 메소드 추가
 * </pre>
 -->
 
@@ -57,4 +57,16 @@
             VALUES (QUEST_SEQ.NEXTVAL, #{townId}, #{title}, #{description}, #{reward}, #{capacity}, TO_DATE(#{deadline}, 'YYYY-MM-DD'))
         ]]>
     </insert>
+
+    <!-- 퀘스트 현황 조회 -->
+    <select id="selectQuestStatusListByTownId" resultType="QuestStatusListResponseDTO">
+        <![CDATA[
+            SELECT q.quest_id, q.title, q.reward, TO_CHAR(q.deadline, 'YYYY.MM.DD') as deadline, COUNT(mq.member_quest_id) as request_cnt, COUNT(DECODE(mq.selectedyn, 'Y', 1, NULL)) as selected_cnt, q.capacity
+            FROM quest q
+            LEFT JOIN member_quest mq ON q.quest_id = mq.quest_id
+            WHERE q.town_id = #{townId}
+            GROUP BY q.quest_id, q.title, q.reward, TO_CHAR(q.deadline, 'YYYY.MM.DD'), q.capacity
+            ORDER BY deadline DESC
+        ]]>
+    </select>
 </mapper>

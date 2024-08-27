@@ -3,9 +3,11 @@ package com.themore.moamoatown.quest.service;
 import com.themore.moamoatown.common.exception.CustomException;
 import com.themore.moamoatown.quest.dto.QuestCreateRequestDTO;
 import com.themore.moamoatown.quest.dto.QuestResponseDTO;
+import com.themore.moamoatown.quest.dto.QuestStatusListResponseDTO;
 import com.themore.moamoatown.quest.mapper.QuestMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,7 +25,7 @@ import static com.themore.moamoatown.common.exception.ErrorCode.*;
  * ----------  --------    ---------------------------
  * 2024.08.26  이주현        최초 생성
  * 2024.08.26  이주현        퀘스트 수락 요청 기능 추가
- * 2024.08.27  임원정        퀘스트 생성 추가
+ * 2024.08.27  임원정        퀘스트 생성, 퀘스트 현황 리스트 조회 추가
  * </pre>
  */
 
@@ -69,6 +71,7 @@ public class QuestServiceImpl implements QuestService {
      * @param questId
      */
     @Override
+    @Transactional
     public void addMemberQuest(Long memberId, Long questId) {
         int insertedRows = questMapper.insertMemberQuest(memberId, questId);
         if (insertedRows < 1) {
@@ -82,6 +85,7 @@ public class QuestServiceImpl implements QuestService {
      * @param townId
      */
     @Override
+    @Transactional
     public void createQuest(QuestCreateRequestDTO requestDTO, Long townId) {
         QuestCreateRequestDTO questCreateRequestDTO = QuestCreateRequestDTO.builder()
                 .title(requestDTO.getTitle())
@@ -92,5 +96,26 @@ public class QuestServiceImpl implements QuestService {
                 .townId(townId)
                 .build();
         if(questMapper.insertQuest(questCreateRequestDTO) != 1) throw new CustomException(QUEST_CREATE_FAILED);
+    }
+
+    /**
+     * 퀘스트 현황 리스트 조회
+     * @param townId
+     * @return
+     */
+    @Override
+    public List<QuestStatusListResponseDTO> getQuestStatusList(Long townId) {
+        return questMapper.selectQuestStatusListByTownId(townId)
+                .stream()
+                .map(questStatus -> QuestStatusListResponseDTO.builder()
+                        .questId(questStatus.getQuestId())
+                        .title(questStatus.getTitle())
+                        .reward(questStatus.getReward())
+                        .deadline(questStatus.getDeadline())
+                        .requestCnt(questStatus.getRequestCnt())
+                        .selectedCnt(questStatus.getSelectedCnt())
+                        .capacity(questStatus.getCapacity())
+                        .build())
+                .collect(Collectors.toList());
     }
 }
