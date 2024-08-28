@@ -58,11 +58,6 @@ public class QuestServiceImpl implements QuestService {
                             .status(quest.getStatus())
                             .build())
                     .collect(Collectors.toList());
-
-            if (quests.isEmpty()) {
-                throw new CustomException(QUESTS_NOT_FOUND);
-            }
-
             return quests;
         } catch (Exception e) {
             throw new CustomException(DATABASE_ERROR);
