@@ -10,6 +10,8 @@
  * 수정일        수정자        수정내용
  * ==========  ========     ===========================
  * 2024.08.25   임원정       최초 생성
+ * 2024.08.25   임원정       selectClothesByMemberId, updateProfile 추가
+ * 2024.08.28   임원정       selectProfileByMemberId 추가
  * </pre>
 -->
 <mapper namespace="com.themore.moamoatown.coordi.mapper.CoordiMapper">
@@ -30,4 +32,13 @@
         WHERE member_id = #{memberId}
         ]]>
     </update>
+
+    <!-- 프로필 가져오기 -->
+    <select id="selectProfileByMemberId" resultType="GetProfileInternalDTO">
+        <![CDATA[
+            SELECT profile
+            FROM member
+            WHERE member_id = #{memberId}
+        ]]>
+    </select>
 </mapper>
