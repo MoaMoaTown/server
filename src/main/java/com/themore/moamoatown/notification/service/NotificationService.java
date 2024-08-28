@@ -12,11 +12,13 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
  * 수정일        수정자        수정내용
  * ----------  --------    ---------------------------
  * 2024.08.28  	임원정        최초 생성
- * 2024.08.28   임원정        알림 구독 추가
+ * 2024.08.28   임원정        알림 구독, 회원에게 알림 전송 추가
  * </pre>
  */
 
 public interface NotificationService {
     // 알림 구독
     SseEmitter subscribe(Long memberId);
+    // 회원에게 알림 전송
+    void notifyMember(Long memberId, String content, String eventType);
 }

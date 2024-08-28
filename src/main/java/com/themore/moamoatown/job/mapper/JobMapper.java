@@ -24,6 +24,7 @@ import java.util.List;
  * 2024.08.26   임재성        역할 리스트 조회 메서드 수정
  * 2024.08.26   임재성        역할 요청 기능 추가
  * 2024.08.26   임원정        selectJobRequestByTownId, insertJob, updateJobRequestAllowed 추가
+ * 2024.08.28   임원정        findMemberIdByJobRequestId 추가
  * </pre>
  */
 @Mapper
@@ -49,4 +50,6 @@ public interface JobMapper {
     int insertJob(JobCreateRequestDTO jobCreateRequestDTO);
     // 역할 요청 승인
     int updateJobRequestAllowed(Long jobRequestId);
+    // 역할 승인된 회원 ID 조회
+    Long findMemberIdByJobRequestId(Long jobRequestId);
 }

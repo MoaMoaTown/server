@@ -1,11 +1,14 @@
 package com.themore.moamoatown.notification.service;
 
+import com.themore.moamoatown.notification.dto.NotificationInsertDTO;
 import com.themore.moamoatown.notification.mapper.NotificationMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
+import java.io.IOException;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -19,7 +22,7 @@ import java.util.concurrent.ConcurrentMap;
  * 수정일        수정자        수정내용
  * ----------  --------    ---------------------------
  * 2024.08.28  	임원정        최초 생성
- * 2024.08.28   임원정        알림 구독 추가
+ * 2024.08.28   임원정        알림 구독, 회원 알림 전송 관련 메소드 추가
  * </pre>
  */
 
@@ -45,10 +48,48 @@ public class NotificationServiceImpl implements NotificationService {
 
         emitter.onCompletion(() -> sseEmitters.remove(memberId));
         emitter.onTimeout(() -> {
-            log.info("SSE connection timeout for memberId: " + memberId);
+            log.info("SSE 연결 timeout, 회원아이디: " + memberId);
             sseEmitters.remove(memberId);
         });
-
         return emitter;
+    }
+
+    /**
+     * 회원 알림 전송 메소드
+     * @param memberId
+     * @param content
+     */
+    @Override
+    @Transactional
+    public void notifyMember(Long memberId, String content, String eventType) {
+        NotificationInsertDTO insertDTO = NotificationInsertDTO.builder()
+                .memberId(memberId)
+                .content(content)
+                .build();
+        // 알림 저장
+        notificationMapper.insertNotification(insertDTO);
+        // 실시간 알림 전송
+        sendNotification(memberId, content, eventType);
+    }
+
+    /**
+     * 알림 전송
+     *
+     * @param memberId
+     * @param content
+     * @param eventType
+     */
+    public void sendNotification(Long memberId, String content, String eventType) {
+        SseEmitter emitter = sseEmitters.get(memberId);
+        if (emitter != null) {
+            try {
+                emitter.send(SseEmitter.event()
+                        .name(eventType)
+                        .data(content));
+            } catch (IOException e) {
+                log.error("알림을 보내는데 실패하였습니다.", e);
+                sseEmitters.remove(memberId);
+            }
+        }
     }
 }
