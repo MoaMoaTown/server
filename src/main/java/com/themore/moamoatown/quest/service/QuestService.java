@@ -19,7 +19,7 @@ import java.util.List;
  * 2024.08.26  이주현        최초 생성
  * 2024.08.26  이주현        퀘스트 수락 요청 기능 추가
  * 2024.08.27  임원정        퀘스트 생성, 퀘스트 현황 리스트 추가
- * 2024.08.28   임원정       퀘스트 요청 조회 추가
+ * 2024.08.28   임원정       퀘스트 요청 조회, 퀘스트 수행인 선정 추가
  * </pre>
  */
 
@@ -35,4 +35,6 @@ public interface QuestService {
     List<QuestStatusListResponseDTO> getQuestStatusList(Long townId);
     // 퀘스트 요청(memberQuest) 조회
     List<MemberQuestRequestsResponseDTO> getMemberQuests(Long questId);
+    // 퀘스트 수행인 선정
+    void updateMemberQuestSelected(Long memberQuestId);
 }

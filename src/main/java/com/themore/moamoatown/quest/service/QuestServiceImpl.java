@@ -27,7 +27,7 @@ import static com.themore.moamoatown.common.exception.ErrorCode.*;
  * 2024.08.26  이주현        최초 생성
  * 2024.08.26  이주현        퀘스트 수락 요청 기능 추가
  * 2024.08.27  임원정        퀘스트 생성, 퀘스트 현황 리스트 조회 추가
- * 2024.08.28   임원정       퀘스트 요청 조회 추가
+ * 2024.08.28   임원정       퀘스트 요청 조회, 퀘스트 수행인 선정 추가
  * </pre>
  */
 
@@ -136,5 +136,14 @@ public class QuestServiceImpl implements QuestService {
                         .status(memberQuest.getStatus())
                         .build())
                 .collect(Collectors.toList());
+    }
+
+    /**
+     * 멤버 퀘스트(요청) 승인
+     * @param memberQuestId
+     */
+    @Override
+    public void updateMemberQuestSelected(Long memberQuestId) {
+        if(questMapper.updateMemberQuestSelected(memberQuestId) < 1) throw new CustomException(QUEST_SELECTED_FAILED);
     }
 }

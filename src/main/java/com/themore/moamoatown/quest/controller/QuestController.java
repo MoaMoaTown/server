@@ -27,6 +27,7 @@ import java.util.List;
  * 2024.08.26  이주현        최초 생성
  * 2024.08.26  이주현        퀘스트 수락 요청 기능 추가
  * 2024.08.27  임원정        퀘스트 만들기, 퀘스트 현황 조회 추가
+ * 2024.08.28   임원정       퀘스트 요청 조회, 퀘스트 요청 수락 추가
  * </pre>
  */
 
@@ -97,4 +98,17 @@ public class QuestController {
         List<MemberQuestRequestsResponseDTO> response = questService.getMemberQuests(questId);
         return ResponseEntity.ok(response);
     }
+
+    /**
+     * 퀘스트 요청 수락
+     * @param memberQuestId
+     * @return
+     */
+    @Auth(role = Auth.Role.MAYER)
+    @PatchMapping("/select/{memberQuestId}")
+    public ResponseEntity<String> selectMemberQuestRequest(@PathVariable Long memberQuestId){
+        questService.updateMemberQuestSelected(memberQuestId);
+        return ResponseEntity.ok("회원의 퀘스트 요청이 수락되었습니다.");
+    }
+
 }
