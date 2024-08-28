@@ -1,19 +1,21 @@
 package com.themore.moamoatown.town.controller;
 
-import com.themore.moamoatown.common.annotation.Auth;
-import com.themore.moamoatown.common.annotation.MemberId;
-import com.themore.moamoatown.common.annotation.TownId;
-import com.themore.moamoatown.town.dto.TownCreateInternalDTO;
-import com.themore.moamoatown.town.dto.TownCreateRequestDTO;
-import com.themore.moamoatown.town.dto.TownCreateResponseDTO;
-import com.themore.moamoatown.town.dto.TownTaxResponseDTO;
+import com.themore.moamoatown.common.annotation.*;
+import com.themore.moamoatown.town.dto.MemberQuestRequestsResponseDTO;
+import com.themore.moamoatown.town.dto.QuestCreateRequestDTO;
+import com.themore.moamoatown.town.dto.QuestStatusListResponseDTO;
+import com.themore.moamoatown.town.dto.*;
 import com.themore.moamoatown.town.service.TownService;
+import com.themore.moamoatown.town.dto.MemberWishRequestsResponseDTO;
+import com.themore.moamoatown.town.dto.WishItemCreateRequestDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
+import java.util.List;
 
 /**
  * 타운 컨트롤러
@@ -28,6 +30,12 @@ import javax.servlet.http.HttpSession;
  * 2024.08.23   임원정        타운 만들기 추가
  * 2024.08.24   임원정        타운 만들기 메소드 수정
  * 2024.08.26   임원정        타운 세금 현황 조회 추가
+ * 2024.08.26   임원정        타운 역할 신청 현황, 역할 만들기, 역할 선정 추가
+ * 2024.08.26   임원정        위시 상품 생성, 삭제 추가
+ * 2024.08.26   임원정        멤버 위시 상품 완료 처리 추가
+ * 2024.08.27   임원정        멤버 위시 요청 리스트 조회 추가
+ * 2024.08.27   임원정        퀘스트 만들기, 퀘스트 현황 조회 추가
+ * 2024.08.28   임원정        퀘스트 요청 조회, 퀘스트 요청 수락, 퀘스트 완료 처리 추가
  * </pre>
  */
 
@@ -36,6 +44,7 @@ import javax.servlet.http.HttpSession;
 @RequiredArgsConstructor
 @RequestMapping(value="/town",
         produces = "application/json; charset=UTF-8")
+@Auth(role = Auth.Role.MAYER)
 public class TownController {
     private final TownService townService;
 
@@ -54,7 +63,7 @@ public class TownController {
 
         // 세션에 town_id 저장
         session.setAttribute("town_id", internalDTO.getTownId());
-        // response 생성
+
         TownCreateResponseDTO response = TownCreateResponseDTO.builder()
                 .townCode(internalDTO.getTownCode())
                 .build();
@@ -68,10 +77,145 @@ public class TownController {
      * @param townId
      * @return
      */
-    @Auth(role = Auth.Role.MAYER)
     @GetMapping("/tax")
     public ResponseEntity<TownTaxResponseDTO> getTotalTax(@TownId Long townId) {
         TownTaxResponseDTO response = townService.getTotalTax(townId);
+        return ResponseEntity.ok(response);
+    }
+
+    /**
+     * 타운 내 역할 신청 현황 조회
+     * @param townId
+     * @return
+     */
+    @GetMapping("/job/requests")
+    public ResponseEntity<List<JobRequestsResponseDTO>> getJobRequests(@TownId Long townId) {
+        List<JobRequestsResponseDTO> response = townService.getJobRequests(townId);
+        return ResponseEntity.ok(response);
+    }
+
+    /**
+     * 역할 만들기
+     * @param requestDTO
+     * @param townId
+     * @return
+     */
+    @PostMapping("/job/create")
+    public ResponseEntity<String> createJob(@Valid @RequestBody JobCreateRequestDTO requestDTO, @TownId Long townId){
+        townService.createJob(requestDTO, townId);
+        return ResponseEntity.ok("역할 생성이 완료 되었습니다.");
+    }
+
+    /**
+     * 역할 요청 승인(역할 선정)
+     * @param jobRequestId
+     * @return
+     */
+    @PatchMapping("/job/allow/{jobRequestId}")
+    public ResponseEntity<String> allowJobRequest(@PathVariable Long jobRequestId) {
+        townService.allowJobRequest(jobRequestId);
+        return ResponseEntity.ok("역할이 선정되었습니다.");
+    }
+
+    /**
+     * 퀘스트 만들기
+     * @param requestDTO
+     * @param townId
+     * @return
+     */
+    @PostMapping("/quest/create")
+    public ResponseEntity<String> createQuest(@RequestBody QuestCreateRequestDTO requestDTO, @TownId Long townId) {
+        townService.createQuest(requestDTO, townId);
+        return ResponseEntity.ok("퀘스트 생성에 성공했습니다.");
+    }
+
+    /**
+     * 퀘스트 현황 리스트 조회
+     * @param townId
+     * @return
+     */
+    @GetMapping("/quest/status")
+    public ResponseEntity<List<QuestStatusListResponseDTO>> getQuestStatusList(@TownId Long townId) {
+        List<QuestStatusListResponseDTO> response = townService.getQuestStatusList(townId);
+        return ResponseEntity.ok(response);
+    }
+
+    /**
+     * 퀘스트 요청 조회
+     * @param questId
+     * @return
+     */
+    @GetMapping("/quest/requests/{questId}")
+    public ResponseEntity<List<MemberQuestRequestsResponseDTO>> getMemberQuestRequests(@PathVariable Long questId) {
+        List<MemberQuestRequestsResponseDTO> response = townService.getMemberQuests(questId);
+        return ResponseEntity.ok(response);
+    }
+
+    /**
+     * 퀘스트 요청 수락
+     * @param memberQuestId
+     * @return
+     */
+    @PatchMapping("/quest/select/{memberQuestId}")
+    public ResponseEntity<String> selectMemberQuestRequest(@PathVariable Long memberQuestId){
+        townService.updateMemberQuestSelected(memberQuestId);
+        return ResponseEntity.ok("회원의 퀘스트 요청이 수락되었습니다.");
+    }
+
+    /**
+     * 퀘스트 완료 처리
+     * @param memberQuestId
+     * @return
+     */
+    @PostMapping("/quest/complete/{memberQuestId}")
+    public ResponseEntity<String> completeMemberQuest(@PathVariable Long memberQuestId){
+        townService.completeMemberQuest(memberQuestId);
+        return ResponseEntity.ok("퀘스트가 완료처리 되었습니다.");
+    }
+
+    /**
+     * 위시 상품 생성
+     * @param requestDTO
+     * @param townId
+     * @return
+     */
+    @PostMapping("/wish/create")
+    public ResponseEntity<String> createWishItem(@Valid @RequestBody WishItemCreateRequestDTO requestDTO,
+                                                 @TownId Long townId) {
+        townService.createWishItem(requestDTO, townId);
+        return ResponseEntity.ok("위시 상품 생성이 완료 되었습니다.");
+    }
+
+    /**
+     * 위시 상품 삭제
+     * @param wishId
+     * @return
+     */
+    @DeleteMapping("/wish/delete/{wishId}")
+    public ResponseEntity<String> deleteWishItem(@PathVariable Long wishId) {
+        townService.deleteWishItem(wishId);
+        return ResponseEntity.ok("위시 상품 삭제가 완료 되었습니다.");
+    }
+
+    /**
+     * 멤버 위시 상품 완료
+     * @param memberWishId
+     * @return
+     */
+    @PatchMapping("/wish/complete/{memberWishId}")
+    public ResponseEntity<String> completeWishItem(@PathVariable Long memberWishId) {
+        townService.completeMemberWishItem(memberWishId);
+        return ResponseEntity.ok("위시 상품 사용 완료 처리 되었습니다.");
+    }
+
+    /**
+     * 멤버 위시 요청 리스트 조회
+     * @param townId
+     * @return
+     */
+    @GetMapping("/wish/requests")
+    public ResponseEntity<List<MemberWishRequestsResponseDTO>> getMemberWishRequests(@TownId Long townId) {
+        List<MemberWishRequestsResponseDTO> response = townService.getMemberWishRequests(townId);
         return ResponseEntity.ok(response);
     }
 }

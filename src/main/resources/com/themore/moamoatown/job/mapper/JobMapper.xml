@@ -17,8 +17,6 @@
  * 2024.08.26   임재성        역할 리스트 조회 기능 추가
  * 2024.08.26   임재성        역할 리스트 조회 메서드 수정
  * 2024.08.26   임재성        역할 요청 기능 추가
- * 2024.08.26   임원정        selectJobRequestByTownId, insertJob, updateJobRequestAllowed 추가
- * 2024.08.28   임원정        findMemberIdByJobRequestId 추가
  * </pre>
 -->
 
@@ -45,42 +43,4 @@
         VALUES (JOB_REQUEST_SEQ.NEXTVAL, #{jobId}, #{memberId}, #{comments})
         ]]>
     </insert>
-
-    <!-- 타운 내 역할 신청 현황 조회 -->
-    <select id="selectJobRequestByTownId" resultType="JobRequestsResponseDTO">
-        <![CDATA[
-            SELECT jr.job_request_id, j.name, jr.comments, m.nickname, jr.allowYN
-            FROM job j
-                     JOIN job_request jr ON j.job_id = jr.job_id
-                     JOIN member m ON jr.member_id = m.member_id
-            WHERE j.town_id = #{townId}
-            ORDER BY jr.created_at DESC
-        ]]>
-    </select>
-
-    <!-- 역할 생성 -->
-    <insert id="insertJob">
-        <![CDATA[
-            INSERT INTO job (job_id, town_id, name, description, pay)
-            VALUES (JOB_SEQ.NEXTVAL, #{townId}, #{name}, #{description}, #{pay})
-        ]]>
-    </insert>
-
-    <!-- 역할 선정 -->
-    <update id="updateJobRequestAllowed">
-        <![CDATA[
-            UPDATE job_request
-            SET allowyn = 'Y'
-            WHERE job_request_id = #{jobRequestId}
-        ]]>
-    </update>
-
-    <!-- 역할 승인된 회원 ID 조회 -->
-    <select id="findMemberIdByJobRequestId" resultType="java.lang.Long">
-        <![CDATA[
-            SELECT member_id
-            FROM job_request
-            WHERE job_request_id = #{jobRequestId}
-        ]]>
-    </select>
 </mapper>
