@@ -1,6 +1,7 @@
 package com.themore.moamoatown.quest.service;
 
 import com.themore.moamoatown.common.exception.CustomException;
+import com.themore.moamoatown.notification.service.NotificationService;
 import com.themore.moamoatown.quest.dto.MemberQuestRequestsResponseDTO;
 import com.themore.moamoatown.quest.dto.QuestCreateRequestDTO;
 import com.themore.moamoatown.quest.dto.QuestResponseDTO;
@@ -30,6 +31,7 @@ import static com.themore.moamoatown.common.exception.ErrorCode.*;
  * 2024.08.27  임원정        퀘스트 생성, 퀘스트 현황 리스트 조회 추가
  * 2024.08.28  임원정        퀘스트 요청 조회, 퀘스트 수행인 선정 추가
  * 2024.08.28  임원정        퀘스트 요청 완료 처리 추가
+ * 2024.08.28  임원정        알림 전송 로직 추가
  * </pre>
  */
 
@@ -37,6 +39,7 @@ import static com.themore.moamoatown.common.exception.ErrorCode.*;
 @RequiredArgsConstructor
 public class QuestServiceImpl implements QuestService {
     private final QuestMapper questMapper;
+    private final NotificationService notificationService;
 
     /**
      * 퀘스트 리스트 조회
@@ -142,6 +145,13 @@ public class QuestServiceImpl implements QuestService {
     @Override
     public void updateMemberQuestSelected(Long memberQuestId) {
         if(questMapper.updateMemberQuestSelected(memberQuestId) < 1) throw new CustomException(QUEST_SELECTED_FAILED);
+
+        // 퀘스트 요청 수락된 회원 ID 조회
+        Long memberId = questMapper.findMemberIdByMemberQuestId(memberQuestId);
+        // 알림 내용 설정
+        String content = "퀘스트 신청이 수락되었습니다. 퀘스트를 수행해주세요";
+        // 알림 전송 (eventType은 "quest"로 설정)
+        notificationService.notifyMember(memberId, content, "quest");
     }
 
     /**
@@ -153,6 +163,12 @@ public class QuestServiceImpl implements QuestService {
     public void completeMemberQuest(Long memberQuestId) {
         try {
             questMapper.callCompleteQuestProcedure(memberQuestId);
+            // 퀘스트 완료된 회원 ID 조회
+            Long memberId = questMapper.findMemberIdByMemberQuestId(memberQuestId);
+
+            // 알림 전송
+            String content = "퀘스트가 완료 처리되었습니다. 보상이 지급되었어요!";
+            notificationService.notifyMember(memberId, content, "quest");
         } catch (DataAccessException e) {
             throw new CustomException(QUEST_COMPLETE_FAILED);
         }

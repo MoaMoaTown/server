@@ -22,7 +22,7 @@ import java.util.List;
  * 2024.08.26  이주현        퀘스트 수락 요청 기능 추가
  * 2024.08.27  임원정        insertQuest, selectQuestStatusListByTownId 메소드 추가
  * 2024.08.28  임원정        selectMemberQuestByQuestId, updateMemberQuestSelected 메소드 추가
- * 2024.08.28  임원정        callCompleteQuestProcedure 메소드 추가
+ * 2024.08.28  임원정        callCompleteQuestProcedure, findMemberIdByMemberQuestId 메소드 추가
  * </pre>
  */
 
@@ -43,4 +43,6 @@ public interface QuestMapper {
     int updateMemberQuestSelected(Long memberQuestId);
     // 퀘스트 완료 처리
     void callCompleteQuestProcedure(Long memberQuestId);
+    // 퀘스트 요청 또는 완료 시 회원 ID 조회
+    Long findMemberIdByMemberQuestId(Long memberQuestId);
 }

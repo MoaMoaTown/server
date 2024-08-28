@@ -1,6 +1,8 @@
 package com.themore.moamoatown.wish.service;
 
 import com.themore.moamoatown.common.exception.CustomException;
+import com.themore.moamoatown.member.mapper.MemberMapper;
+import com.themore.moamoatown.notification.service.NotificationService;
 import com.themore.moamoatown.wish.dto.*;
 import com.themore.moamoatown.wish.mapper.WishMapper;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +33,7 @@ import static com.themore.moamoatown.common.exception.ErrorCode.*;
  * 2024.08.26   임재성        위시 상품 구매 메소드 수정
  * 2024.08.26   임원정        멤버 위시 상품 완료 처리 메소드 추가
  * 2024.08.26   임원정        멤버 위시 요청 리스트 조회 메소드 추가
+ * 2024.08.28   임원정        알림 전송 로직 추가
  * </pre>
  */
 @Log4j
@@ -38,6 +41,9 @@ import static com.themore.moamoatown.common.exception.ErrorCode.*;
 @RequiredArgsConstructor
 public class WishServiceImpl implements WishService {
     private final WishMapper wishMapper;
+    private final MemberMapper memberMapper;
+    private final NotificationService notificationService;
+
     /**
      * 타운 ID를 통해 위시 상품 리스트를 조회합니다.
      * @param townId 타운 ID
@@ -57,7 +63,7 @@ public class WishServiceImpl implements WishService {
      */
     @Transactional
     @Override
-    public WishItemPurchaseResponseDTO purchaseWishItem(WishItemPurchaseRequestDTO requestDTO) {
+    public WishItemPurchaseResponseDTO purchaseWishItem(WishItemPurchaseRequestDTO requestDTO, Long townId) {
         Long wishId = requestDTO.getWishId();
         Long memberId = requestDTO.getMemberId();
 
@@ -76,6 +82,13 @@ public class WishServiceImpl implements WishService {
         if (result == null || result.intValue() < 1) {
             throw new CustomException(WISH_INSERT_FAILED);
         }
+
+        // 타운 관리자 조회
+        Long townAdminId = memberMapper.findAdminByTownId(townId);
+
+        // 관리자에게 알림 전송
+        String content = "위시 아이템이 구매되었습니다. 확인해 주세요.";
+        notificationService.notifyMember(townAdminId, content, "wish");
 
         // 응답 반환
         return new WishItemPurchaseResponseDTO("위시상품 구매가 완료되었습니다.");

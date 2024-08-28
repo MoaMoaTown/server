@@ -65,7 +65,8 @@ public class WishController {
     @PostMapping("/wishlist/purchase")
     public ResponseEntity<WishItemPurchaseResponseDTO> purchaseWishItem(
             @RequestBody WishItemPurchaseRequestDTO requestDTO,
-            @MemberId Long memberId // @MemberId 어노테이션으로 세션에서 memberId를 가져옴
+            @MemberId Long memberId, // @MemberId 어노테이션으로 세션에서 memberId를 가져옴
+            @TownId Long townId
     ) {
         log.info("위시 아이템 ID: " + requestDTO.getWishId() + "에 대한 구매 요청 처리 중");
 
@@ -76,7 +77,7 @@ public class WishController {
                 .build();
 
         // requestDTO로부터 wishId와 memberId를 이용해 처리
-        WishItemPurchaseResponseDTO response = wishService.purchaseWishItem(requestDTO);
+        WishItemPurchaseResponseDTO response = wishService.purchaseWishItem(requestDTO, townId);
 
         log.info("구매 완료 - " + response.getMessage());
 

@@ -15,7 +15,7 @@
 * 2024.08.26  이주현        퀘스트 수락 요청 기능 추가
 * 2024.08.27  임원정        insertQuest, selectQuestStatusListByTownId 메소드 추가
 * 2024.08.28  임원정        selectMemberQuestByQuestId, updateMemberQuestSelected 메소드 추가
-* 2024.08.28  임원정        callCompleteQuestProcedure 메소드 추가
+* 2024.08.28  임원정        callCompleteQuestProcedure, findMemberIdByMemberQuestId 메소드 추가
 * </pre>
 -->
 
@@ -101,5 +101,14 @@
     <!-- 퀘스트 완료 처리_프로시저 호출 -->
     <select id="callCompleteQuestProcedure" statementType="CALLABLE">
         {CALL complete_quest(#{memberQuestId, jdbcType=NUMERIC})}
+    </select>
+
+    <!-- 퀘스트 요청 또는 완료 시 회원 ID 조회 -->
+    <select id="findMemberIdByMemberQuestId" resultType="Long">
+        <![CDATA[
+            SELECT member_id
+            FROM member_quest
+            WHERE member_quest_id = #{memberQuestId}
+        ]]>
     </select>
 </mapper>
