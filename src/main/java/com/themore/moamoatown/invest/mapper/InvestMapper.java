@@ -1,8 +1,6 @@
 package com.themore.moamoatown.invest.mapper;
 
-import com.themore.moamoatown.invest.dto.AverageResponseDTO;
-import com.themore.moamoatown.invest.dto.TodayPriceResponseDTO;
-import com.themore.moamoatown.invest.dto.YesterdayPriceResponseDTO;
+import com.themore.moamoatown.invest.dto.*;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -32,4 +30,6 @@ public interface InvestMapper {
     List<YesterdayPriceResponseDTO> getYesterdayPrice();
 
     List<TodayPriceResponseDTO> getTodayPrice();
+
+    BuyInvestResponseDTO updateMemberInvest(BuyInvestInternalRequestDTO internalRequestDTO);
 }

@@ -3,18 +3,14 @@ package com.themore.moamoatown.invest.controller;
 import com.themore.moamoatown.common.annotation.Auth;
 import com.themore.moamoatown.common.annotation.MemberId;
 import com.themore.moamoatown.common.annotation.TownId;
-import com.themore.moamoatown.invest.dto.AverageResponseDTO;
-import com.themore.moamoatown.invest.dto.TodayPriceResponseDTO;
-import com.themore.moamoatown.invest.dto.YesterdayPriceResponseDTO;
+import com.themore.moamoatown.invest.dto.*;
 import com.themore.moamoatown.invest.service.InvestService;
 import com.themore.moamoatown.quest.dto.QuestResponseDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -75,4 +71,19 @@ public class InvestController {
         List<TodayPriceResponseDTO> response = investService.getTodayPrice();
         return ResponseEntity.ok(response);
     }
+    /**
+     * 매수하기
+     * @param memberId 세션에서 받아오는 회원 ID
+     * @param buyInvestRequestDTO 구매 요청 데이터
+     * @return ResponseEntity<BuyInvestResponseDTO>
+     * @throws Exception
+     */
+    @PatchMapping("/buy")
+    public ResponseEntity<BuyInvestResponseDTO> updateMemberInvest(
+            @MemberId Long memberId,
+            @RequestBody BuyInvestRequestDTO buyInvestRequestDTO) {
+        BuyInvestResponseDTO response = investService.updateMemberInvest(memberId, buyInvestRequestDTO);
+        return ResponseEntity.ok(response);
+    }
+
 }

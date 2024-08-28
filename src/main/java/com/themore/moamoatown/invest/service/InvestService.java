@@ -1,8 +1,6 @@
 package com.themore.moamoatown.invest.service;
 
-import com.themore.moamoatown.invest.dto.AverageResponseDTO;
-import com.themore.moamoatown.invest.dto.TodayPriceResponseDTO;
-import com.themore.moamoatown.invest.dto.YesterdayPriceResponseDTO;
+import com.themore.moamoatown.invest.dto.*;
 
 import java.util.List;
 
@@ -28,4 +26,6 @@ public interface InvestService {
     List<YesterdayPriceResponseDTO> getYesterdayPrice();
 
     List<TodayPriceResponseDTO> getTodayPrice();
+
+    BuyInvestResponseDTO updateMemberInvest(Long memberId, BuyInvestRequestDTO buyInvestRequestDTO);
 }

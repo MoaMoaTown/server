@@ -51,6 +51,19 @@
             TRUNC(created_at) = TRUNC(SYSDATE)
         ]]>
     </select>
+    <!-- 매수하기 프로시저 호출 -->
+    <select id="updateMemberInvest" statementType="CALLABLE">
+    <![CDATA[
+        {CALL BUY_INVESTMENT(
+                #{memberId, mode=IN, jdbcType=NUMERIC},
+                #{typeId, mode=IN, jdbcType=NUMERIC},
+                #{purchaseAmount, mode=IN, jdbcType=NUMERIC},
+                #{result, mode=OUT, jdbcType=NUMERIC})}
+        ]]>
+</select>
+
+
+
 
 
 
