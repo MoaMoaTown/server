@@ -1,14 +1,12 @@
-package com.themore.moamoatown.quest.dto;
+package com.themore.moamoatown.town.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.NotNull;
-
 /**
- * 퀘스트 생성 Request DTO
+ * 퀘스트 현황 조회 Response DTO
  * @author 임원정
  * @since 2024.08.27
  * @version 1.0
@@ -24,16 +22,12 @@ import javax.validation.constraints.NotNull;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class QuestCreateRequestDTO {
-    @NotNull
+public class QuestStatusListResponseDTO {
+    private Long questId;
     private String title;
-    @NotNull
-    private String description;
-    @NotNull
     private Long reward;
-    @NotNull
-    private Long capacity;
-    @NotNull
     private String deadline;
-    private Long townId;
+    private Long requestCnt;
+    private Long selectedCnt;
+    private Long capacity;
 }

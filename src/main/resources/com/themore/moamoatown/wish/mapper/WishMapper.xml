@@ -16,10 +16,7 @@
  * 2024.08.25   임재성        위시 상품 조회
  * 2024.08.25   임재성        위시 상품 구매
  * 2024.08.26   임재성        위시 상품 조회 쿼리 수정
- * 2024.08.26   임원정        insertWish, deleteWish, deleteMemberWish 메소드 추가
  * 2024.08.26   임재성        위시 상품 구매 메소드 수정
- * 2024.08.26   임원정        updateMemberWishCompleted 메소드 추가
- * 2024.08.27   임원정        selectWishRequestsByTownId 메소드 추가
  * </pre>
  */
  -->
@@ -34,30 +31,6 @@
         ]]>
     </select>
 
-    <!-- 위시 상품 삽입 -->
-    <insert id="insertWish">
-        <![CDATA[
-            INSERT INTO wish (wish_id, town_id, name, price)
-            VALUES (WISH_SEQ.NEXTVAL, #{townId}, #{wishName}, #{price})
-        ]]>
-    </insert>
-
-    <!-- 회원 위시 상품 삭제 -->
-    <delete id="deleteMemberWish">
-        <![CDATA[
-            DELETE FROM member_wish
-            WHERE wish_id = #{wish_id}
-        ]]>
-    </delete>
-
-    <!-- 위시 상품 삭제 -->
-    <delete id="deleteWish">
-        <![CDATA[
-            DELETE FROM wish
-            WHERE wish_id = #{wish_id}
-        ]]>
-    </delete>
-
     <!-- 위시 상품 구매 -->
     <select id="purchaseWishProcedure" statementType="CALLABLE">
         <![CDATA[
@@ -65,24 +38,5 @@
         ]]>
     </select>
 
-    <!-- 위시 요청 완료 처리 -->
-    <update id="updateMemberWishCompleted">
-        <![CDATA[
-            UPDATE member_wish
-            SET completeyn = 'Y'
-            WHERE member_wish_id = #{memberWishId}
-        ]]>
-    </update>
 
-    <!-- 타운 내 위시 상품 요청 현황 조회 -->
-    <select id="selectWishRequestsByTownId" resultType="MemberWishRequestsResponseDTO">
-        <![CDATA[
-            SELECT mw.member_wish_id, w.name as wish_name, m.nickname, TO_CHAR(mw.created_at, 'YYYY.MM.DD') as created_at, mw.completeyn
-            FROM member_wish mw
-            JOIN wish w on mw.wish_id = w.wish_id
-            JOIN member m on mw.member_id = m.member_id
-            WHERE w.town_id = #{townId}
-            ORDER BY mw.created_at DESC
-        ]]>
-    </select>
 </mapper>

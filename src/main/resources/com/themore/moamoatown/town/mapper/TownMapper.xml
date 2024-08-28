@@ -13,6 +13,12 @@
  * 2024.08.23   임원정       타운 만들기 관련 메소드 추가
  * 2024.08.24   임원정       타운 아이디 가져오기 함수 수정
  * 2024.08.26   임원정       타운 세금현황 조회 메소드 추가
+ * 2024.08.26   임원정        selectJobRequestByTownId, insertJob, updateJobRequestAllowed 추가
+ * 2024.08.26   임원정        insertWish, deleteWish, deleteMemberWish, updateMemberWishCompleted 메소드 추가
+ * 2024.08.27   임원정        selectWishRequestsByTownId 메소드 추가
+ * 2024.08.27   임원정        insertQuest, selectQuestStatusListByTownId 메소드 추가
+ * 2024.08.28   임원정        findMemberIdByJobRequestId, selectMemberQuestByQuestId, updateMemberQuestSelected 메소드 추가
+ * 2024.08.28   임원정        callCompleteQuestProcedure, findMemberIdByMemberQuestId 메소드 추가
  * </pre>
 -->
 <mapper namespace="com.themore.moamoatown.town.mapper.TownMapper">
@@ -34,12 +40,11 @@
         ]]>
     </insert>
 
-    <!-- 타운 만들기_생성한 회원에게 townId와 role 업데이트 -->
+    <!-- 타운 만들기_생성한 회원에게 townId 업데이트 -->
     <update id="updateMember">
         <![CDATA[
         UPDATE member
-        SET town_id = #{townId},
-            role = 1
+        SET town_id = #{townId}
         WHERE member_id = #{memberId}
         ]]>
     </update>
@@ -50,6 +55,149 @@
         SELECT total_tax
         FROM town
         WHERE town_id = #{townId}
+        ]]>
+    </select>
+
+    <!-- 타운 내 역할 신청 현황 조회 -->
+    <select id="selectJobRequestByTownId" resultType="JobRequestsResponseDTO">
+        <![CDATA[
+        SELECT jr.job_request_id, j.name, jr.comments, m.nickname, jr.allowYN
+        FROM job j
+                 JOIN job_request jr ON j.job_id = jr.job_id
+                 JOIN member m ON jr.member_id = m.member_id
+        WHERE j.town_id = #{townId}
+        ORDER BY jr.created_at DESC
+        ]]>
+    </select>
+
+    <!-- 역할 생성 -->
+    <insert id="insertJob">
+        <![CDATA[
+        INSERT INTO job (job_id, town_id, name, description, pay)
+        VALUES (JOB_SEQ.NEXTVAL, #{townId}, #{name}, #{description}, #{pay})
+        ]]>
+    </insert>
+
+    <!-- 역할 선정 -->
+    <update id="updateJobRequestAllowed">
+        <![CDATA[
+        UPDATE job_request
+        SET allowyn = 'Y'
+        WHERE job_request_id = #{jobRequestId}
+        ]]>
+    </update>
+
+    <!-- 역할 승인된 회원 ID 조회 -->
+    <select id="findMemberIdByJobRequestId" resultType="Long">
+        <![CDATA[
+        SELECT member_id
+        FROM job_request
+        WHERE job_request_id = #{jobRequestId}
+        ]]>
+    </select>
+
+    <!-- 퀘스트 삽입 -->
+    <insert id="insertQuest">
+        <![CDATA[
+        INSERT INTO QUEST (QUEST_ID, town_id, title, description, reward, capacity, deadline)
+        VALUES (QUEST_SEQ.NEXTVAL, #{townId}, #{title}, #{description}, #{reward}, #{capacity}, TO_DATE(#{deadline}, 'YYYY-MM-DD'))
+        ]]>
+    </insert>
+
+    <!-- 퀘스트 현황 조회 -->
+    <select id="selectQuestStatusListByTownId" resultType="QuestStatusListResponseDTO">
+        <![CDATA[
+        SELECT q.quest_id, q.title, q.reward, TO_CHAR(q.deadline, 'YYYY.MM.DD') as deadline, COUNT(mq.member_quest_id) as request_cnt, COUNT(DECODE(mq.selectedyn, 'Y', 1, NULL)) as selected_cnt, q.capacity
+        FROM quest q
+                 LEFT JOIN member_quest mq ON q.quest_id = mq.quest_id
+        WHERE q.town_id = #{townId}
+        GROUP BY q.quest_id, q.title, q.reward, TO_CHAR(q.deadline, 'YYYY.MM.DD'), q.capacity
+        ORDER BY deadline DESC
+        ]]>
+    </select>
+
+    <!-- 퀘스트 ID로 member_quest 찾기 -->
+    <select id="selectMemberQuestByQuestId" resultType="MemberQuestRequestsResponseDTO">
+        <![CDATA[
+        SELECT
+            mq.member_quest_id,
+            m.nickname,
+            CASE
+                WHEN mq.endYN = 'Y' THEN 3  -- 퀘스트 완료: 3
+                WHEN mq.selectedYN = 'Y' THEN 2  -- 퀘스트 수락: 2
+                ELSE 1 -- 수락 대기 중: 1
+                END AS status
+        FROM member_quest mq
+                 LEFT JOIN member m ON mq.member_id = m.member_id
+        WHERE mq.quest_id = #{questId}
+        ]]>
+    </select>
+
+    <!-- 퀘스트 요청 승인 -->
+    <update id="updateMemberQuestSelected">
+        <![CDATA[
+        UPDATE member_quest
+        SET selectedyn = 'Y'
+        WHERE member_quest_id = #{memberQuestId}
+        ]]>
+    </update>
+
+    <!-- 퀘스트 완료 처리_프로시저 호출 -->
+    <select id="callCompleteQuestProcedure" statementType="CALLABLE">
+        {CALL complete_quest(#{memberQuestId, jdbcType=NUMERIC})}
+    </select>
+
+    <!-- 퀘스트 요청 또는 완료 시 회원 ID 조회 -->
+    <select id="findMemberIdByMemberQuestId" resultType="Long">
+        <![CDATA[
+        SELECT member_id
+        FROM member_quest
+        WHERE member_quest_id = #{memberQuestId}
+        ]]>
+    </select>
+
+    <!-- 위시 상품 삽입 -->
+    <insert id="insertWish">
+        <![CDATA[
+        INSERT INTO wish (wish_id, town_id, name, price)
+        VALUES (WISH_SEQ.NEXTVAL, #{townId}, #{wishName}, #{price})
+        ]]>
+    </insert>
+
+    <!-- 회원 위시 상품 삭제 -->
+    <delete id="deleteMemberWish">
+        <![CDATA[
+        DELETE FROM member_wish
+        WHERE wish_id = #{wish_id}
+        ]]>
+    </delete>
+
+    <!-- 위시 상품 삭제 -->
+    <delete id="deleteWish">
+        <![CDATA[
+        DELETE FROM wish
+        WHERE wish_id = #{wish_id}
+        ]]>
+    </delete>
+
+    <!-- 위시 요청 완료 처리 -->
+    <update id="updateMemberWishCompleted">
+        <![CDATA[
+        UPDATE member_wish
+        SET completeyn = 'Y'
+        WHERE member_wish_id = #{memberWishId}
+        ]]>
+    </update>
+
+    <!-- 타운 내 위시 상품 요청 현황 조회 -->
+    <select id="selectWishRequestsByTownId" resultType="MemberWishRequestsResponseDTO">
+        <![CDATA[
+        SELECT mw.member_wish_id, w.name as wish_name, m.nickname, TO_CHAR(mw.created_at, 'YYYY.MM.DD') as created_at, mw.completeyn
+        FROM member_wish mw
+                 JOIN wish w on mw.wish_id = w.wish_id
+                 JOIN member m on mw.member_id = m.member_id
+        WHERE w.town_id = #{townId}
+        ORDER BY mw.created_at DESC
         ]]>
     </select>
 </mapper>

@@ -1,4 +1,4 @@
-package com.themore.moamoatown.quest.dto;
+package com.themore.moamoatown.town.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
