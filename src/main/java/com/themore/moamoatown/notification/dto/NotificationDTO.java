@@ -20,8 +20,6 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class NotificationDTO {
-    private Long notificationId;
     private String content;
     private String createdAt;
-    private Long memberId;
 }
