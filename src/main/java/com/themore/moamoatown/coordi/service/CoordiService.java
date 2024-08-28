@@ -1,5 +1,6 @@
 package com.themore.moamoatown.coordi.service;
 
+import com.themore.moamoatown.coordi.dto.GetProfileResponseDTO;
 import com.themore.moamoatown.coordi.dto.MyClothesResponseDTO;
 import com.themore.moamoatown.coordi.dto.UpdateProfileRequestDTO;
 
@@ -15,7 +16,8 @@ import java.util.List;
  * 수정일        수정자        수정내용
  * ----------  --------    ---------------------------
  * 2024.08.25  	임원정        최초 생성
- * 2024.08.25   임원정        getMyClothes, updateProfile 메소드 추가
+ * 2024.08.25  	임원정        구매한 옷 가져오기, 프로필 업데이트 메소드 추가
+ * 2024.08.28   임원정        프로필 사진 가져오기
  * </pre>
  */
 
@@ -24,4 +26,6 @@ public interface CoordiService {
     List<MyClothesResponseDTO> getMyClothes(Long memberId);
     // 프로필 업데이트
     void updateProfile(UpdateProfileRequestDTO requestDTO, Long memberId);
+    // 프로필 사진 가져오기
+    GetProfileResponseDTO getProfile(Long memberId);
 }

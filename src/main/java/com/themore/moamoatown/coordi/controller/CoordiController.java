@@ -1,6 +1,7 @@
 package com.themore.moamoatown.coordi.controller;
 
 import com.themore.moamoatown.common.annotation.MemberId;
+import com.themore.moamoatown.coordi.dto.GetProfileResponseDTO;
 import com.themore.moamoatown.coordi.dto.MyClothesResponseDTO;
 import com.themore.moamoatown.coordi.dto.UpdateProfileRequestDTO;
 import com.themore.moamoatown.coordi.service.CoordiService;
@@ -21,7 +22,8 @@ import java.util.List;
  * 수정일        수정자        수정내용
  * ----------  --------    ---------------------------
  * 2024.08.25  	임원정        최초 생성
- * 
+ * 2024.08.25   임원정        구매한 옷 조회, 프로필 업데이트 기능 추가
+ * 2024.08.28   임원정        프로필 사진 가져오기 추가
  * </pre>
  */
 
@@ -54,5 +56,16 @@ public class CoordiController {
     public ResponseEntity<String> updateProfile(@RequestBody UpdateProfileRequestDTO requestDTO, @MemberId Long memberId) {
         coordiService.updateProfile(requestDTO, memberId);
         return ResponseEntity.ok("프로필이 성공적으로 변경되었습니다.");
+    }
+
+    /**
+     * 프로필 사진 가져오기
+     * @param memberId
+     * @return
+     */
+    @GetMapping("/profile")
+    public ResponseEntity<GetProfileResponseDTO> getProfile(@MemberId Long memberId) {
+        GetProfileResponseDTO response = coordiService.getProfile(memberId);
+        return ResponseEntity.ok(response);
     }
 }
