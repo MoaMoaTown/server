@@ -13,7 +13,7 @@
  * 2024.08.27   임재성       내 평단가 가져오기
  * 2024.08.27   임재성       어제 가격 가져오기
  * 2024.08.27   임재성       오늘 가격과 힌트 가져오기
-
+ * 2024.08.28   임재성       매수하기
  * </pre>
 -->
 <mapper namespace="com.themore.moamoatown.invest.mapper.InvestMapper">

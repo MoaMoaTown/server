@@ -29,7 +29,8 @@ import java.util.List;
  * 2024.08.27  	임재성        내 흰디의 몸무게 평단가 조회
  * 2024.08.27  	임재성        내 흰디의 걸음수 평단가 조회
  * 2024.08.27   임재성        어제 가격 조회
- * 2024.08.27   임재성       오늘 가격과 힌트 가져오기
+ * 2024.08.27   임재성        오늘 가격과 힌트 가져오기
+ * 2024.08.28   임재성        매수하기
  * </pre>
  */
 @Log4j
@@ -90,11 +91,7 @@ public class InvestServiceImpl implements InvestService{
         log.info("InvestMapper의 updateMemberInvest 호출 - 요청 데이터: {}"+ internalRequestDTO);
 
         investMapper.updateMemberInvest(internalRequestDTO);
-//
-//        if (response == null) {
-//            log.info("InvestMapper가 null 응답을 반환했습니다.");
-//            throw new CustomException(UNKNOWN_INVESTMENT_ERROR);
-//        }
+
 
         BigDecimal result = internalRequestDTO.getResult(); // 프로시저 실행 후 결과 가져오기
         log.info("InvestMapper의 결과 값: {}"+ result);
