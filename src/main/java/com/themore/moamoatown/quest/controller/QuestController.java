@@ -3,6 +3,7 @@ package com.themore.moamoatown.quest.controller;
 import com.themore.moamoatown.common.annotation.Auth;
 import com.themore.moamoatown.common.annotation.MemberId;
 import com.themore.moamoatown.common.annotation.TownId;
+import com.themore.moamoatown.quest.dto.MemberQuestRequestsResponseDTO;
 import com.themore.moamoatown.quest.dto.QuestCreateRequestDTO;
 import com.themore.moamoatown.quest.dto.QuestResponseDTO;
 import com.themore.moamoatown.quest.dto.QuestStatusListResponseDTO;
@@ -82,6 +83,18 @@ public class QuestController {
     @GetMapping("/status")
     public ResponseEntity<List<QuestStatusListResponseDTO>> getQuestStatusList(@TownId Long townId) {
         List<QuestStatusListResponseDTO> response = questService.getQuestStatusList(townId);
+        return ResponseEntity.ok(response);
+    }
+
+    /**
+     * 퀘스트 요청 조회
+     * @param questId
+     * @return
+     */
+    @Auth(role = Auth.Role.MAYER)
+    @GetMapping("/requests/{questId}")
+    public ResponseEntity<List<MemberQuestRequestsResponseDTO>> getMemberQuestRequests(@PathVariable Long questId) {
+        List<MemberQuestRequestsResponseDTO> response = questService.getMemberQuests(questId);
         return ResponseEntity.ok(response);
     }
 }

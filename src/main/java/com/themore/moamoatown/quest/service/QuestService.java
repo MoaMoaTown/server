@@ -1,5 +1,6 @@
 package com.themore.moamoatown.quest.service;
 
+import com.themore.moamoatown.quest.dto.MemberQuestRequestsResponseDTO;
 import com.themore.moamoatown.quest.dto.QuestCreateRequestDTO;
 import com.themore.moamoatown.quest.dto.QuestResponseDTO;
 import com.themore.moamoatown.quest.dto.QuestStatusListResponseDTO;
@@ -18,6 +19,7 @@ import java.util.List;
  * 2024.08.26  이주현        최초 생성
  * 2024.08.26  이주현        퀘스트 수락 요청 기능 추가
  * 2024.08.27  임원정        퀘스트 생성, 퀘스트 현황 리스트 추가
+ * 2024.08.28   임원정       퀘스트 요청 조회 추가
  * </pre>
  */
 
@@ -31,4 +33,6 @@ public interface QuestService {
     void createQuest(QuestCreateRequestDTO requestDTO, Long townId);
     // 퀘스트 현황 리스트 조회
     List<QuestStatusListResponseDTO> getQuestStatusList(Long townId);
+    // 퀘스트 요청(memberQuest) 조회
+    List<MemberQuestRequestsResponseDTO> getMemberQuests(Long questId);
 }
