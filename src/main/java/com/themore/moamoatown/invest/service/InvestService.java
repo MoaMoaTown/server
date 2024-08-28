@@ -1,8 +1,6 @@
 package com.themore.moamoatown.invest.service;
 
-import com.themore.moamoatown.invest.dto.AverageResponseDTO;
-import com.themore.moamoatown.invest.dto.TodayPriceResponseDTO;
-import com.themore.moamoatown.invest.dto.YesterdayPriceResponseDTO;
+import com.themore.moamoatown.invest.dto.*;
 
 import java.util.List;
 
@@ -19,7 +17,8 @@ import java.util.List;
  * 2024.08.27  	임재성        내 흰디의 몸무게 평단가 조회
  * 2024.08.27  	임재성        내 흰디의 걸음수 평단가 조회
  * 2024.08.27   임재성        어제 가격 조회
- * 2024.08.27   임재성       오늘 가격과 힌트 가져오기
+ * 2024.08.27   임재성        오늘 가격과 힌트 가져오기
+ * 2024.08.28   임재성        매수하기
  * </pre>
  */
 public interface InvestService {
@@ -28,4 +27,6 @@ public interface InvestService {
     List<YesterdayPriceResponseDTO> getYesterdayPrice();
 
     List<TodayPriceResponseDTO> getTodayPrice();
+
+    BuyInvestResponseDTO updateMemberInvest(Long memberId, BuyInvestRequestDTO buyInvestRequestDTO);
 }

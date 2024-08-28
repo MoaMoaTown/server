@@ -13,7 +13,7 @@
  * 2024.08.27   임재성       내 평단가 가져오기
  * 2024.08.27   임재성       어제 가격 가져오기
  * 2024.08.27   임재성       오늘 가격과 힌트 가져오기
-
+ * 2024.08.28   임재성       매수하기
  * </pre>
 -->
 <mapper namespace="com.themore.moamoatown.invest.mapper.InvestMapper">
@@ -51,6 +51,19 @@
             TRUNC(created_at) = TRUNC(SYSDATE)
         ]]>
     </select>
+    <!-- 매수하기 프로시저 호출 -->
+    <select id="updateMemberInvest" statementType="CALLABLE">
+    <![CDATA[
+        {CALL BUY_INVESTMENT(
+                #{memberId, mode=IN, jdbcType=NUMERIC},
+                #{typeId, mode=IN, jdbcType=NUMERIC},
+                #{purchaseAmount, mode=IN, jdbcType=NUMERIC},
+                #{result, mode=OUT, jdbcType=NUMERIC})}
+        ]]>
+</select>
+
+
+
 
 
 
