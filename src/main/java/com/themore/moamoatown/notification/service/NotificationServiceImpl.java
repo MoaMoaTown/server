@@ -1,5 +1,6 @@
 package com.themore.moamoatown.notification.service;
 
+import com.themore.moamoatown.notification.dto.NotificationDTO;
 import com.themore.moamoatown.notification.dto.NotificationInsertDTO;
 import com.themore.moamoatown.notification.mapper.NotificationMapper;
 import lombok.RequiredArgsConstructor;
@@ -9,8 +10,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+import java.util.stream.Collectors;
 
 /**
  * 알림 서비스 구현체
@@ -23,6 +26,7 @@ import java.util.concurrent.ConcurrentMap;
  * ----------  --------    ---------------------------
  * 2024.08.28  	임원정        최초 생성
  * 2024.08.28   임원정        알림 구독, 회원 알림 전송 관련 메소드 추가
+ * 2024.08.28   임원정        알림 내역 조회 추가
  * </pre>
  */
 
@@ -74,7 +78,6 @@ public class NotificationServiceImpl implements NotificationService {
 
     /**
      * 알림 전송
-     *
      * @param memberId
      * @param content
      * @param eventType
@@ -91,5 +94,21 @@ public class NotificationServiceImpl implements NotificationService {
                 sseEmitters.remove(memberId);
             }
         }
+    }
+
+    /**
+     * 알림 내역 조회
+     * @param memberId
+     * @return
+     */
+    @Override
+    public List<NotificationDTO> getNotifications(Long memberId) {
+        return notificationMapper.findNotificationsByMemberId(memberId)
+                .stream()
+                .map(notification -> NotificationDTO.builder()
+                        .content(notification.getContent())
+                        .createdAt(notification.getCreatedAt())
+                        .build())
+                .collect(Collectors.toList());
     }
 }
