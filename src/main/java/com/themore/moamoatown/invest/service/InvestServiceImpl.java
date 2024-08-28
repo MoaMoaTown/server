@@ -31,6 +31,7 @@ import java.util.List;
  * 2024.08.27   임재성        어제 가격 조회
  * 2024.08.27   임재성        오늘 가격과 힌트 가져오기
  * 2024.08.28   임재성        매수하기
+ * 2024.08.28   임재성        매도하기
  * </pre>
  */
 @Log4j
@@ -79,7 +80,7 @@ public class InvestServiceImpl implements InvestService{
      */
     @Transactional
     @Override
-    public BuyInvestResponseDTO updateMemberInvest(Long memberId, BuyInvestRequestDTO buyInvestRequestDTO) {
+    public BuyInvestResponseDTO buyMemberInvest(Long memberId, BuyInvestRequestDTO buyInvestRequestDTO) {
         log.info("updateMemberInvest 호출됨 - 회원 ID: {}, 유형 ID: {}, 구매 수량: {}"+ memberId+ buyInvestRequestDTO.getTypeId()+ buyInvestRequestDTO.getPurchaseAmount());
 
         BuyInvestInternalRequestDTO internalRequestDTO = BuyInvestInternalRequestDTO.builder()
@@ -90,7 +91,7 @@ public class InvestServiceImpl implements InvestService{
 
         log.info("InvestMapper의 updateMemberInvest 호출 - 요청 데이터: {}"+ internalRequestDTO);
 
-        investMapper.updateMemberInvest(internalRequestDTO);
+        investMapper.buyMemberInvest(internalRequestDTO);
 
 
         BigDecimal result = internalRequestDTO.getResult(); // 프로시저 실행 후 결과 가져오기
@@ -127,6 +128,64 @@ public class InvestServiceImpl implements InvestService{
         log.info("투자 업데이트 성공. 성공 결과 값: {}"+ result);
         return BuyInvestResponseDTO.builder()
                 .message("매수가 성공적으로 완료되었습니다.")
+                .build();
+    }
+
+    /**
+     * 매도하기
+     * @param
+     * @return SellInvestResponseDTO
+     */
+    @Transactional
+    @Override
+    public SellInvestResponseDTO sellMemberInvest(Long memberId, SellInvestRequestDTO sellInvestRequestDTO) {
+        log.info("sellMemberInvest 호출됨 - 회원 ID: {}, 유형 ID: {}, 판매 수량: {}"+ memberId+ sellInvestRequestDTO.getTypeId()+ sellInvestRequestDTO.getSellAmount());
+
+        SellInvestInternalRequestDTO internalRequestDTO = SellInvestInternalRequestDTO.builder()
+                .memberId(memberId)
+                .typeId(sellInvestRequestDTO.getTypeId())
+                .sellAmount(sellInvestRequestDTO.getSellAmount())
+                .build();
+
+        log.info("InvestMapper의 sellMemberInvest 호출 - 요청 데이터: {}"+ internalRequestDTO);
+
+        investMapper.sellMemberInvest(internalRequestDTO);
+
+
+        BigDecimal result = internalRequestDTO.getResult(); // 프로시저 실행 후 결과 가져오기
+        log.info("InvestMapper의 결과 값: {}"+ result);
+
+        // 결과가 1이 아니면 예외 발생
+        if (result == null || result.intValue() < 1) {
+            log.info("실패 결과 값: {}"+result);
+            if (result != null) {
+                switch (result.intValue()) {
+                    case -2:
+                        log.info("Result: -7, 이유: 보유수량이 부족합니다.");
+                        throw new CustomException(INSUFFICIENT_BALANCE);
+                    case -3:
+                        log.info("Result: -3, 이유: 투자 데이터를 찾을 수 없습니다.");
+                        throw new CustomException(NO_INVESTMENT_DATA_FOUND);
+                    case -4:
+                        log.info("Result: -4, 이유: 투자 정보 업데이트 실패.");
+                        throw new CustomException(INVESTMENT_UPDATE_FAILED);
+                    case -5:
+                        log.info("Result: -5, 이유: 계좌 거래 내역 추가 실패.");
+                        throw new CustomException(ACCOUNT_TRANSACTION_FAILED);
+                    case -6:
+                    default:
+                        log.info("Result: -6, 이유: 알 수 없는 투자 관련 오류.");
+                        throw new CustomException(SELL_ERROR);
+                }
+            } else {
+                log.info("결과 값이 null입니다. 알 수 없는 오류 발생.");
+                throw new CustomException(SELL_ERROR);
+            }
+        }
+
+        log.info("투자 업데이트 성공. 성공 결과 값: {}"+ result);
+        return SellInvestResponseDTO.builder()
+                .message("매도가 성공적으로 완료되었습니다.")
                 .build();
     }
 

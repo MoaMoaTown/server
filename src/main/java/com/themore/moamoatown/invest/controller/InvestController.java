@@ -2,10 +2,8 @@ package com.themore.moamoatown.invest.controller;
 
 import com.themore.moamoatown.common.annotation.Auth;
 import com.themore.moamoatown.common.annotation.MemberId;
-import com.themore.moamoatown.common.annotation.TownId;
 import com.themore.moamoatown.invest.dto.*;
 import com.themore.moamoatown.invest.service.InvestService;
-import com.themore.moamoatown.quest.dto.QuestResponseDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +27,7 @@ import java.util.List;
  * 2024.08.27   임재성        어제 가격 조회
  * 2024.08.27   임재성        오늘 가격과 힌트 가져오기
  * 2024.08.28   임재성        매수하기
+ * 2024.08.28   임재성        매도하기
  * </pre>
  */
 @Auth(role = Auth.Role.CITIZEN)
@@ -80,11 +79,28 @@ public class InvestController {
      * @throws Exception
      */
     @PatchMapping("/buy")
-    public ResponseEntity<BuyInvestResponseDTO> updateMemberInvest(
+    public ResponseEntity<BuyInvestResponseDTO> buyMemberInvest(
             @MemberId Long memberId,
             @RequestBody BuyInvestRequestDTO buyInvestRequestDTO) {
-        BuyInvestResponseDTO response = investService.updateMemberInvest(memberId, buyInvestRequestDTO);
+        BuyInvestResponseDTO response = investService.buyMemberInvest(memberId, buyInvestRequestDTO);
         return ResponseEntity.ok(response);
     }
+
+    /**
+     * 매수하기
+     * @param memberId 세션에서 받아오는 회원 ID
+     * @param sellInvestRequestDTO 판매 요청 데이터
+     * @return ResponseEntity<BuyInvestResponseDTO>
+     * @throws Exception
+     */
+    @PatchMapping("/sell")
+    public ResponseEntity<SellInvestResponseDTO> sellMemberInvest(
+            @MemberId Long memberId,
+            @RequestBody SellInvestRequestDTO sellInvestRequestDTO) {
+        SellInvestResponseDTO response = investService.sellMemberInvest(memberId, sellInvestRequestDTO);
+        return ResponseEntity.ok(response);
+    }
+
+
 
 }

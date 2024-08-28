@@ -23,6 +23,7 @@ public enum ErrorCode {
     INVESTMENT_UPDATE_FAILED(INTERNAL_SERVER_ERROR, "투자 정보 업데이트에 실패했습니다."),
     ACCOUNT_TRANSACTION_FAILED(INTERNAL_SERVER_ERROR, "거래 내역 추가에 실패했습니다."),
     UNKNOWN_INVESTMENT_ERROR(INTERNAL_SERVER_ERROR, "매수가 실패했습니다."),
+    SELL_ERROR(INTERNAL_SERVER_ERROR,"매도가 실패했습니다."),
 
     /* code: 409 */
     NICKNAME_ALREADY_EXISTS(CONFLICT, "이미 존재하는 닉네임입니다."),
