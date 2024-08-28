@@ -7,6 +7,7 @@ import com.themore.moamoatown.quest.dto.QuestResponseDTO;
 import com.themore.moamoatown.quest.dto.QuestStatusListResponseDTO;
 import com.themore.moamoatown.quest.mapper.QuestMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,7 +28,8 @@ import static com.themore.moamoatown.common.exception.ErrorCode.*;
  * 2024.08.26  이주현        최초 생성
  * 2024.08.26  이주현        퀘스트 수락 요청 기능 추가
  * 2024.08.27  임원정        퀘스트 생성, 퀘스트 현황 리스트 조회 추가
- * 2024.08.28   임원정       퀘스트 요청 조회, 퀘스트 수행인 선정 추가
+ * 2024.08.28  임원정        퀘스트 요청 조회, 퀘스트 수행인 선정 추가
+ * 2024.08.28  임원정        퀘스트 요청 완료 처리 추가
  * </pre>
  */
 
@@ -145,5 +147,19 @@ public class QuestServiceImpl implements QuestService {
     @Override
     public void updateMemberQuestSelected(Long memberQuestId) {
         if(questMapper.updateMemberQuestSelected(memberQuestId) < 1) throw new CustomException(QUEST_SELECTED_FAILED);
+    }
+
+    /**
+     * 멤버 퀘스트 완료 처리
+     * @param memberQuestId
+     */
+    @Override
+    @Transactional
+    public void completeMemberQuest(Long memberQuestId) {
+        try {
+            questMapper.callCompleteQuestProcedure(memberQuestId);
+        } catch (DataAccessException e) {
+            throw new CustomException(QUEST_COMPLETE_FAILED);
+        }
     }
 }
