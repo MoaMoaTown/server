@@ -160,9 +160,9 @@ public class InvestServiceImpl implements InvestService{
             log.info("실패 결과 값: {}"+result);
             if (result != null) {
                 switch (result.intValue()) {
-                    case -2:
+                    case -7:
                         log.info("Result: -7, 이유: 보유수량이 부족합니다.");
-                        throw new CustomException(INSUFFICIENT_BALANCE);
+                        throw new CustomException(SELL_AMOUNT_ERROR);
                     case -3:
                         log.info("Result: -3, 이유: 투자 데이터를 찾을 수 없습니다.");
                         throw new CustomException(NO_INVESTMENT_DATA_FOUND);
