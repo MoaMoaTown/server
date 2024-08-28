@@ -21,6 +21,7 @@
 * 2024.08.26  이주현        멤버 역할 조회
 * 2024.08.26  이주현        멤버 타운 조회
 * 2024.08.26  이주현        멤버 계좌 조회
+* 2024.08.28  임원정        타운 관리자 조회 기능 추가
 * </pre>
 -->
 
@@ -173,4 +174,11 @@
         ]]>
     </select>
 
+    <!-- 타운 ID로 타운 관리자 ID 조회 -->
+    <select id="findAdminByTownId" resultType="Long">
+        SELECT member_id
+        FROM member
+        WHERE town_id = #{townId}
+        AND role = 1
+    </select>
 </mapper>

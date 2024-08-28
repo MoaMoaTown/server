@@ -37,7 +37,7 @@ public interface WishService {
      * @param requestDTO 위시 상품 구매 요청 DTO.
      * @return 구매 결과 메시지를 포함한 응답 DTO.
      */
-    WishItemPurchaseResponseDTO purchaseWishItem(WishItemPurchaseRequestDTO requestDTO);
+    WishItemPurchaseResponseDTO purchaseWishItem(WishItemPurchaseRequestDTO requestDTO, Long townId);
     // 위시 상품 생성
     void createWishItem(WishItemCreateRequestDTO requestDTO, Long townId);
     // 위시 상품 삭제

@@ -24,6 +24,7 @@ import java.util.List;
  * 2024.08.26  이주현        멤버 역할 조회
  * 2024.08.26  이주현        멤버 타운 조회
  * 2024.08.26  이주현        멤버 계좌 조회
+ * 2024.08.28  임원정        타운 관리자 조회 기능 추가
  * </pre>
  */
 
@@ -68,4 +69,7 @@ public interface MemberMapper {
 
     // 멤버 계좌 조회
     List<MemberAccountResponseDTO> findAccountsByMemberIdWithPaging(MemberAccountInternalDTO internalDTO);
+
+    // 타운 관리자 조회
+    Long findAdminByTownId(Long townId);
 }
