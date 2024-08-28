@@ -22,6 +22,7 @@ import java.util.List;
  * 2024.08.27   임재성        어제 가격 조회
  * 2024.08.27   임재성        오늘 가격과 힌트 가져오기
  * 2024.08.28   임재성        매수하기
+ * 2024.08.28   임재성        매도하기
  * </pre>
  */
 @Mapper
@@ -32,5 +33,7 @@ public interface InvestMapper {
 
     List<TodayPriceResponseDTO> getTodayPrice();
 
-    BuyInvestResponseDTO updateMemberInvest(BuyInvestInternalRequestDTO internalRequestDTO);
+    BuyInvestResponseDTO buyMemberInvest(BuyInvestInternalRequestDTO internalRequestDTO);
+    SellInvestResponseDTO sellMemberInvest(SellInvestInternalRequestDTO internalRequestDTO);
+
 }
