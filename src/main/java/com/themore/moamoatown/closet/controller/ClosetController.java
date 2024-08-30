@@ -1,10 +1,11 @@
-package com.themore.moamoatown.coordi.controller;
+package com.themore.moamoatown.closet.controller;
 
+import com.themore.moamoatown.closet.dto.GetProfileResponseDTO;
+import com.themore.moamoatown.closet.dto.MyClothesResponseDTO;
+import com.themore.moamoatown.closet.dto.UpdateProfileRequestDTO;
+import com.themore.moamoatown.closet.service.ClosetService;
+import com.themore.moamoatown.common.annotation.Auth;
 import com.themore.moamoatown.common.annotation.MemberId;
-import com.themore.moamoatown.coordi.dto.GetProfileResponseDTO;
-import com.themore.moamoatown.coordi.dto.MyClothesResponseDTO;
-import com.themore.moamoatown.coordi.dto.UpdateProfileRequestDTO;
-import com.themore.moamoatown.coordi.service.CoordiService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j;
 import org.springframework.http.ResponseEntity;
@@ -24,16 +25,18 @@ import java.util.List;
  * 2024.08.25  	임원정        최초 생성
  * 2024.08.25   임원정        구매한 옷 조회, 프로필 업데이트 기능 추가
  * 2024.08.28   임원정        프로필 사진 가져오기 추가
+ * 2024.08.30   임원정        Auth 추가 및 Rename
  * </pre>
  */
 
 @Log4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(value="/coordi",
+@RequestMapping(value="/closet",
         produces = "application/json; charset=UTF-8")
-public class CoordiController {
-    private final CoordiService coordiService;
+@Auth(role = Auth.Role.CITIZEN)
+public class ClosetController {
+    private final ClosetService closetService;
 
     /**
      * 내가 구매한 옷 조회
@@ -42,7 +45,7 @@ public class CoordiController {
      */
     @GetMapping("/myclothes")
     public ResponseEntity<List<MyClothesResponseDTO>> getMyClothes(@MemberId Long memberId) {
-        List<MyClothesResponseDTO> response = coordiService.getMyClothes(memberId);
+        List<MyClothesResponseDTO> response = closetService.getMyClothes(memberId);
         return ResponseEntity.ok(response);
     }
 
@@ -52,9 +55,9 @@ public class CoordiController {
      * @param memberId
      * @return
      */
-    @PostMapping("/update")
+    @PostMapping("/profile/update")
     public ResponseEntity<String> updateProfile(@RequestBody UpdateProfileRequestDTO requestDTO, @MemberId Long memberId) {
-        coordiService.updateProfile(requestDTO, memberId);
+        closetService.updateProfile(requestDTO, memberId);
         return ResponseEntity.ok("프로필이 성공적으로 변경되었습니다.");
     }
 
@@ -65,7 +68,7 @@ public class CoordiController {
      */
     @GetMapping("/profile")
     public ResponseEntity<GetProfileResponseDTO> getProfile(@MemberId Long memberId) {
-        GetProfileResponseDTO response = coordiService.getProfile(memberId);
+        GetProfileResponseDTO response = closetService.getProfile(memberId);
         return ResponseEntity.ok(response);
     }
 }

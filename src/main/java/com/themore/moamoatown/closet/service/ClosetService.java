@@ -1,8 +1,8 @@
-package com.themore.moamoatown.coordi.service;
+package com.themore.moamoatown.closet.service;
 
-import com.themore.moamoatown.coordi.dto.GetProfileResponseDTO;
-import com.themore.moamoatown.coordi.dto.MyClothesResponseDTO;
-import com.themore.moamoatown.coordi.dto.UpdateProfileRequestDTO;
+import com.themore.moamoatown.closet.dto.GetProfileResponseDTO;
+import com.themore.moamoatown.closet.dto.MyClothesResponseDTO;
+import com.themore.moamoatown.closet.dto.UpdateProfileRequestDTO;
 
 import java.util.List;
 
@@ -21,7 +21,7 @@ import java.util.List;
  * </pre>
  */
 
-public interface CoordiService {
+public interface ClosetService {
     // 내가 구매한 옷 가져오기
     List<MyClothesResponseDTO> getMyClothes(Long memberId);
     // 프로필 업데이트
