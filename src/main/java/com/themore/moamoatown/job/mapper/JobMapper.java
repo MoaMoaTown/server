@@ -1,8 +1,6 @@
 package com.themore.moamoatown.job.mapper;
 
-import com.themore.moamoatown.job.dto.JobCreateRequestDTO;
 import com.themore.moamoatown.job.dto.JobRequestDTO;
-import com.themore.moamoatown.job.dto.JobRequestsResponseDTO;
 import com.themore.moamoatown.job.dto.JobResponseDTO;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -23,7 +21,6 @@ import java.util.List;
  * 2024.08.26   임재성        역할 리스트 조회 기능 추가
  * 2024.08.26   임재성        역할 리스트 조회 메서드 수정
  * 2024.08.26   임재성        역할 요청 기능 추가
- * 2024.08.26   임원정        selectJobRequestByTownId, insertJob, updateJobRequestAllowed 추가
  * </pre>
  */
 @Mapper
@@ -42,11 +39,4 @@ public interface JobMapper {
      */
 
     int insertJobRequest(JobRequestDTO jobRequestDTO);
-
-    // 타운 역할 신청 현황 조회
-    List<JobRequestsResponseDTO> selectJobRequestByTownId(Long townId);
-    // 역할 만들기
-    int insertJob(JobCreateRequestDTO jobCreateRequestDTO);
-    // 역할 요청 승인
-    int updateJobRequestAllowed(Long jobRequestId);
 }

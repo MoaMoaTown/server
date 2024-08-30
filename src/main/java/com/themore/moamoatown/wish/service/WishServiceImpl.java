@@ -1,7 +1,12 @@
 package com.themore.moamoatown.wish.service;
 
 import com.themore.moamoatown.common.exception.CustomException;
-import com.themore.moamoatown.wish.dto.*;
+import com.themore.moamoatown.member.mapper.MemberMapper;
+import com.themore.moamoatown.notification.service.NotificationService;
+import com.themore.moamoatown.wish.dto.WishItemPurchaseInternalRequestDTO;
+import com.themore.moamoatown.wish.dto.WishItemPurchaseRequestDTO;
+import com.themore.moamoatown.wish.dto.WishItemPurchaseResponseDTO;
+import com.themore.moamoatown.wish.dto.WishItemResponseDTO;
 import com.themore.moamoatown.wish.mapper.WishMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j;
@@ -10,9 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.stream.Collectors;
 
-import static com.themore.moamoatown.common.exception.ErrorCode.*;
+import static com.themore.moamoatown.common.exception.ErrorCode.WISH_INSERT_FAILED;
 
 
 /**
@@ -27,10 +31,8 @@ import static com.themore.moamoatown.common.exception.ErrorCode.*;
  * 2024.08.24  	임재성        최초 생성
  * 2024.08.25   임재성        위시 상품 조회 기능 추가
  * 2024.08.25   임재성        위시 상품 구매 기능 추가
- * 2024.08.26   임원정        위시 상품 생성 메소드 추가
  * 2024.08.26   임재성        위시 상품 구매 메소드 수정
- * 2024.08.26   임원정        멤버 위시 상품 완료 처리 메소드 추가
- * 2024.08.26   임원정        멤버 위시 요청 리스트 조회 메소드 추가
+ * 2024.08.28   임원정        알림 전송 로직 추가
  * </pre>
  */
 @Log4j
@@ -38,6 +40,9 @@ import static com.themore.moamoatown.common.exception.ErrorCode.*;
 @RequiredArgsConstructor
 public class WishServiceImpl implements WishService {
     private final WishMapper wishMapper;
+    private final MemberMapper memberMapper;
+    private final NotificationService notificationService;
+
     /**
      * 타운 ID를 통해 위시 상품 리스트를 조회합니다.
      * @param townId 타운 ID
@@ -57,7 +62,7 @@ public class WishServiceImpl implements WishService {
      */
     @Transactional
     @Override
-    public WishItemPurchaseResponseDTO purchaseWishItem(WishItemPurchaseRequestDTO requestDTO) {
+    public WishItemPurchaseResponseDTO purchaseWishItem(WishItemPurchaseRequestDTO requestDTO, Long townId) {
         Long wishId = requestDTO.getWishId();
         Long memberId = requestDTO.getMemberId();
 
@@ -77,66 +82,14 @@ public class WishServiceImpl implements WishService {
             throw new CustomException(WISH_INSERT_FAILED);
         }
 
+        // 타운 관리자 조회
+        Long townAdminId = memberMapper.findAdminByTownId(townId);
+
+        // 관리자에게 알림 전송
+        String content = "위시 아이템이 구매되었습니다. 확인해 주세요.";
+        notificationService.notifyMember(townAdminId, content, "wish");
+
         // 응답 반환
         return new WishItemPurchaseResponseDTO("위시상품 구매가 완료되었습니다.");
-    }
-
-    /**
-     * 위시 상품 생성
-     * @param requestDTO
-     * @param townId
-     */
-    @Override
-    @Transactional
-    public void createWishItem(WishItemCreateRequestDTO requestDTO, Long townId) {
-        WishItemCreateRequestDTO wishItemCreateRequestDTO = WishItemCreateRequestDTO.builder()
-                .wishName(requestDTO.getWishName())
-                .price(requestDTO.getPrice())
-                .townId(townId)
-                .build();
-        if(wishMapper.insertWish(wishItemCreateRequestDTO) != 1) throw new CustomException(WISH_CREATE_FAILED);
-    }
-
-    /**
-     * 위시 상품 삭제
-     * @param wishId
-     */
-    @Override
-    @Transactional
-    public void deleteWishItem(Long wishId) {
-        // 멤버의 위시 상품 삭제
-        wishMapper.deleteMemberWish(wishId);
-        // 위시 상품 삭제
-        if(wishMapper.deleteWish(wishId) < 1) throw new CustomException(WISH_DELETE_FAILED);
-    }
-
-    /**
-     * 멤버 위시 완료 처리
-     * @param memberWishId
-     */
-    @Override
-    @Transactional
-    public void completeMemberWishItem(Long memberWishId) {
-        if(wishMapper.updateMemberWishCompleted(memberWishId) != 1) throw new CustomException(WISH_COMPLETE_FAILED);
-    }
-
-    /**
-     * 위시 상품 요청 리스트 조회
-     * @param townId
-     * @return
-     */
-    @Override
-    @Transactional
-    public List<MemberWishRequestsResponseDTO> getMemberWishRequests(Long townId) {
-        return wishMapper.selectWishRequestsByTownId(townId)
-                .stream()
-                .map(memberWishRequest -> MemberWishRequestsResponseDTO.builder()
-                        .memberWishId(memberWishRequest.getMemberWishId())
-                        .wishName(memberWishRequest.getWishName())
-                        .nickName(memberWishRequest.getNickName())
-                        .createdAt(memberWishRequest.getCreatedAt())
-                        .completeYN(memberWishRequest.getCompleteYN())
-                    .build())
-                .collect(Collectors.toList());
     }
 }

@@ -1,22 +1,20 @@
-package com.themore.moamoatown.wish.dto;
+package com.themore.moamoatown.coordi.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.NotNull;
-
 /**
- * 위시 상품 생성 Request DTO
+ * 프로필 조회 내부 DTO
  * @author 임원정
- * @since 2024.08.26
+ * @since 2024.08.28
  * @version 1.0
  *
  * <pre>
  * 수정일        수정자        수정내용
  * ----------  --------    ---------------------------
- * 2024.08.26  	임원정        최초 생성
+ * 2024.08.28  	임원정        최초 생성
  * </pre>
  */
 
@@ -24,10 +22,6 @@ import javax.validation.constraints.NotNull;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class WishItemCreateRequestDTO {
-    @NotNull
-    private String wishName;
-    @NotNull
-    private Long price;
-    private Long townId;
+public class GetProfileInternalDTO {
+    byte[] profile; //BLOB 타입
 }

@@ -1,4 +1,4 @@
-package com.themore.moamoatown.quest.dto;
+package com.themore.moamoatown.coordi.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 /**
- * 퀘스트 요청 리스트 조회 Response DTO
+ * 프로필 조회 Response DTO
  * @author 임원정
  * @since 2024.08.28
  * @version 1.0
@@ -22,8 +22,6 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class MemberQuestRequestsResponseDTO {
-    private Long memberQuestId;
-    private String nickName;
-    private Long status;
+public class GetProfileResponseDTO {
+    String encodedProfileImage;
 }
