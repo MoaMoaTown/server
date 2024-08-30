@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * 코디 컨트롤러
+ * 옷장 컨트롤러
  * @author 임원정
  * @since 2024.08.25
  * @version 1.0
@@ -26,6 +26,7 @@ import java.util.List;
  * 2024.08.25   임원정        구매한 옷 조회, 프로필 업데이트 기능 추가
  * 2024.08.28   임원정        프로필 사진 가져오기 추가
  * 2024.08.30   임원정        Auth 추가 및 Rename
+ * 2024.08.30   임원정        구매한 옷 타입별로 조회하도록 수정
  * </pre>
  */
 
@@ -43,9 +44,9 @@ public class ClosetController {
      * @param memberId
      * @return
      */
-    @GetMapping("/myclothes")
-    public ResponseEntity<List<MyClothesResponseDTO>> getMyClothes(@MemberId Long memberId) {
-        List<MyClothesResponseDTO> response = closetService.getMyClothes(memberId);
+    @GetMapping("/myclothes/{type}")
+    public ResponseEntity<List<MyClothesResponseDTO>> getMyClothes(@MemberId Long memberId, @PathVariable Long type) {
+        List<MyClothesResponseDTO> response = closetService.getMyClothes(memberId, type);
         return ResponseEntity.ok(response);
     }
 
