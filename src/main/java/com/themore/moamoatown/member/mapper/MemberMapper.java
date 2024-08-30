@@ -56,7 +56,7 @@ public interface MemberMapper {
     Long findBalanceByMemberId(Long memberId);
 
     // 순위 조회
-    List<MemberRankResponseDTO> getMemberRanks(@Param("currentUserId") Long currentUserId, @Param("townId") Long townId);
+    List<MemberRankInternalDTO> getMemberRanks(@Param("currentUserId") Long currentUserId, @Param("townId") Long townId);
 
     // 멤버의 기본 계좌 데이터를 삽입
     int insertDefaultMemberAccount(Long memberId);
