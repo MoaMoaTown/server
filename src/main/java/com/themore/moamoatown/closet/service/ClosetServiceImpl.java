@@ -81,10 +81,8 @@ public class ClosetServiceImpl implements ClosetService {
     @Override
     public GetProfileResponseDTO getProfile(Long memberId) {
         GetProfileInternalDTO getProfileInternalDTO = closetMapper.selectProfileByMemberId(memberId);
-        // BLOB 데이터를 Base64로 인코딩
-        String base64Image = Base64.getEncoder().encodeToString(getProfileInternalDTO.getProfile());
         return GetProfileResponseDTO.builder()
-                .encodedProfileImage(base64Image)
+                .encodedProfileImage(new String(getProfileInternalDTO.getProfile()))
                 .build();
     }
 }
