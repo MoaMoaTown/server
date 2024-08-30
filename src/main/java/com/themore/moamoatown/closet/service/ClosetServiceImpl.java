@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 import static com.themore.moamoatown.common.exception.ErrorCode.UPDATE_PROFILE_FAILED;
 
 /**
- * 코디 서비스 구현체
+ * 옷장 서비스 구현체
  * @author 임원정
  * @since 2024.08.25
  * @version 1.0
@@ -26,6 +26,7 @@ import static com.themore.moamoatown.common.exception.ErrorCode.UPDATE_PROFILE_F
  * 2024.08.25  	임원정        최초 생성
  * 2024.08.25  	임원정        구매한 옷 가져오기, 프로필 업데이트 메소드 추가
  * 2024.08.28   임원정        프로필 사진 가져오기
+ * 2024.08.30   임원정        getMyClothes 메소드 수정
  * </pre>
  */
 
@@ -42,14 +43,13 @@ public class ClosetServiceImpl implements ClosetService {
      */
     @Override
     @Transactional
-    public List<MyClothesResponseDTO> getMyClothes(Long memberId) {
-        return closetMapper.selectClothesByMemberId(memberId)
+    public List<MyClothesResponseDTO> getMyClothes(Long memberId, Long type) {
+        return closetMapper.selectClothesByMemberId(memberId, type)
                 .stream()
                 .map(clothes -> MyClothesResponseDTO.builder()
                         .clothId(clothes.getClothId())
                         .brand(clothes.getBrand())
                         .name(clothes.getName())
-                        .type(clothes.getType())
                         .imgUrl(clothes.getImgUrl())
                         .build())
                 .collect(Collectors.toList());

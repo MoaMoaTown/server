@@ -19,7 +19,7 @@ public class ClosetServiceTests {
 
     @Test
     public void testGetMyClothes() throws Exception {
-        log.info(service.getMyClothes(17L));
+        log.info(service.getMyClothes(17L, 1L));
     }
 }
 
