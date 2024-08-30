@@ -36,4 +36,6 @@ public interface InvestMapper {
     BuyInvestResponseDTO buyMemberInvest(BuyInvestInternalRequestDTO internalRequestDTO);
     SellInvestResponseDTO sellMemberInvest(SellInvestInternalRequestDTO internalRequestDTO);
 
+    void callProcessTodayInvestmentProcedure();
+
 }

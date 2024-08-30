@@ -73,6 +73,11 @@
         ]]>
 </select>
 
+    <!-- 오늘의 투자 처리를 위한 프로시저 호출 -->
+    <select id="callProcessTodayInvestmentProcedure" statementType="CALLABLE">
+        { CALL process_today_investment() }
+    </select>
+
 
 
 

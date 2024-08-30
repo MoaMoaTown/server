@@ -32,6 +32,7 @@ import java.util.List;
  * 2024.08.27   임재성        오늘 가격과 힌트 가져오기
  * 2024.08.28   임재성        매수하기
  * 2024.08.28   임재성        매도하기
+ * 2024.08.30   임재성        오늘의 투자 처리
  * </pre>
  */
 @Log4j
@@ -194,5 +195,24 @@ public class InvestServiceImpl implements InvestService{
 
 
 
+    /**
+     * 오늘의 투자 처리
+     * 매일 자정에 프로시저를 호출하여 INVEST_SCHEDULER에서 어제와 다른 HINT를 가진
+     * 데이터를 선택하고 investment 테이블에 삽입합니다.
+     */
+    @Transactional
+    @Override
+    public void processTodayInvestment() {
+        log.info("processTodayInvestment 프로시저 호출 시작");
 
+        try {
+            // MyBatis 매퍼를 통해 Oracle 프로시저 호출
+            investMapper.callProcessTodayInvestmentProcedure();
+            log.info("processTodayInvestment 프로시저 호출 완료");
+        } catch (Exception e) {
+            log.error("오늘의 투자 처리 중 오류 발생", e);
+            throw e; // 필요시 예외 처리를 더 구체화할 수 있습니다.
+        }
+    }
 }
+

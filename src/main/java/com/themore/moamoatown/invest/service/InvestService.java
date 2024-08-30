@@ -33,4 +33,6 @@ public interface InvestService {
 
     SellInvestResponseDTO sellMemberInvest(Long memberId, SellInvestRequestDTO sellInvestRequestDTO);
 
+    void processTodayInvestment();
 }
+
