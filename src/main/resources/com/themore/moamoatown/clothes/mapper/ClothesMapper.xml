@@ -20,10 +20,9 @@
 <mapper namespace="com.themore.moamoatown.clothes.mapper.ClothesMapper">
     <select id="getClothesListWithPaging" resultType="ClothesResponseDTO">
          <![CDATA[
-            SELECT cloth_id, brand,name,price,type,img_url
-            FROM clothes
-            ORDER BY cloth_id
-            OFFSET #{offset} ROWS FETCH NEXT #{size} ROWS ONLY
+        SELECT cloth_id, brand, name, price, type, img_url
+        FROM clothes
+        ORDER BY cloth_id
 
         ]]>
     </select>
