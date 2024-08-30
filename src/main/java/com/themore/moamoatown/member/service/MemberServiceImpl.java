@@ -8,6 +8,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Base64;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -159,15 +160,27 @@ public class MemberServiceImpl implements MemberService{
     @Override
     @Transactional(readOnly = true)
     public List<MemberRankResponseDTO> getMemberRanks(Long currentUserId, Long townId) {
-        return memberMapper.getMemberRanks(currentUserId, townId)
-                .stream()
-                .map(member -> MemberRankResponseDTO.builder()
-                        .profile(member.getProfile())
-                        .nickname(member.getNickname())
-                        .balance(member.getBalance())
-                        .isCurrentUser(member.getIsCurrentUser())
-                        .build())
-                .collect(Collectors.toList());
+        try {
+            List<MemberRankInternalDTO> memberRanks = memberMapper.getMemberRanks(currentUserId, townId);
+
+            if (memberRanks == null || memberRanks.isEmpty()) {
+                throw new CustomException(NO_RANKS_FOUND);
+            }
+
+            return memberRanks.stream()
+                    .map(member -> {
+                        String base64Profile = Base64.getEncoder().encodeToString(member.getProfile());
+                        return MemberRankResponseDTO.builder()
+                                .profile(base64Profile)
+                                .nickname(member.getNickname())
+                                .balance(member.getBalance())
+                                .isCurrentUser(member.getIsCurrentUser())
+                                .build();
+                    })
+                    .collect(Collectors.toList());
+        } catch (Exception e) {
+            throw new CustomException(DATABASE_ERROR);
+        }
     }
 
     /**
