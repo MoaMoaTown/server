@@ -4,10 +4,12 @@
 	xmlns:beans="http://www.springframework.org/schema/beans"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:task="http://www.springframework.org/schema/task"
 	xsi:schemaLocation="http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
 		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd
-		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+		http://www.springframework.org/schema/task https://www.springframework.org/schema/task/spring-task.xsd">
 
 	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
 	
@@ -47,10 +49,14 @@
 	
 	<aop:aspectj-autoproxy />
 
+	<!-- 인터셉터 사용 -->
 	<interceptors>
 		<interceptor>
 			<mapping path="/**"/>
 			<beans:bean id="authInterceptor" class="com.themore.moamoatown.common.interceptor.AuthInterceptor"/>
 		</interceptor>
 	</interceptors>
+
+	<!-- 스케줄러 활성화 -->
+	<task:annotation-driven />
 </beans:beans>

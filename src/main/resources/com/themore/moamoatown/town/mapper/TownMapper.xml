@@ -19,6 +19,8 @@
  * 2024.08.27   임원정        insertQuest, selectQuestStatusListByTownId 메소드 추가
  * 2024.08.28   임원정        findMemberIdByJobRequestId, selectMemberQuestByQuestId, updateMemberQuestSelected 메소드 추가
  * 2024.08.28   임원정        callCompleteQuestProcedure, findMemberIdByMemberQuestId 메소드 추가
+ * 2024.08.30   임원정        updateJobRequestAllowed 메소드 수정
+ * 2024.08.30   임원정        callProcessPayrollProcedure 메소드 추가
  * </pre>
 -->
 <mapper namespace="com.themore.moamoatown.town.mapper.TownMapper">
@@ -82,7 +84,8 @@
     <update id="updateJobRequestAllowed">
         <![CDATA[
         UPDATE job_request
-        SET allowyn = 'Y'
+        SET allowyn = 'Y',
+            payment_date = SYSDATE
         WHERE job_request_id = #{jobRequestId}
         ]]>
     </update>
@@ -199,5 +202,10 @@
         WHERE w.town_id = #{townId}
         ORDER BY mw.created_at DESC
         ]]>
+    </select>
+
+    <!-- 급여 지급 및 소득세 징수 -->
+    <select id="callProcessPayrollProcedure" statementType="CALLABLE">
+        {CALL process_payroll()}
     </select>
 </mapper>

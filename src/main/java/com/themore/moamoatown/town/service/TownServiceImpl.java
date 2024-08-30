@@ -34,6 +34,7 @@ import static com.themore.moamoatown.common.exception.ErrorCode.*;
  * 2024.08.27   임원정        퀘스트 생성, 퀘스트 현황 리스트 조회 추가
  * 2024.08.28   임원정        퀘스트 요청 조회, 퀘스트 수행인 선정, 퀘스트 요청 완료 처리 추가
  * 2024.08.28   임원정        알림 전송 로직 추가
+ * 2024.08.30   임원정        급여 지급 프로세스 추가
  * </pre>
  */
 
@@ -296,5 +297,20 @@ public class TownServiceImpl implements TownService {
                         .completeYN(memberWishRequest.getCompleteYN())
                         .build())
                 .collect(Collectors.toList());
+    }
+
+    /**
+     * 급여 지급 프로세스
+     */
+    @Override
+    @Transactional
+    public void processPayroll() {
+        try {
+            // 급여 지급을 위한 프로시저 호출
+            townMapper.callProcessPayrollProcedure();
+            log.info("급여 지급이 성공적으로 완료되었습니다.");
+        } catch (Exception e) {
+            log.error("급여 지급 프로세스 중 오류가 발생했습니다.", e);
+        }
     }
 }
