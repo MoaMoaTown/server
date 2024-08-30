@@ -22,6 +22,7 @@ import java.util.List;
  * 2024.08.26   임원정        멤버 위시 요청 리스트 조회 메소드 추가
  * 2024.08.27   임원정        퀘스트 생성, 퀘스트 현황 리스트 추가
  * 2024.08.28   임원정        퀘스트 요청 조회, 퀘스트 수행인 선정, 퀘스트 요청 완료 처리 추가
+ * 2024.08.30   임원정        급여 지급 프로세스 추가
  * </pre>
  */
 
@@ -54,4 +55,6 @@ public interface TownService {
     void completeMemberWishItem(Long memberWishId);
     // 위시 상품 요청 리스트 조회
     List<MemberWishRequestsResponseDTO> getMemberWishRequests(Long townId);
+    // 급여 지급 프로세스
+    void processPayroll();
 }

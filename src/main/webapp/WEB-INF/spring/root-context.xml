@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:tx="http://www.springframework.org/schema/tx"
-	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
-	xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:aop="http://www.springframework.org/schema/aop"
-	xsi:schemaLocation="http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:tx="http://www.springframework.org/schema/tx"
+	   xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xmlns:aop="http://www.springframework.org/schema/aop"
+	   xmlns:task="http://www.springframework.org/schema/task"
+	   xsi:schemaLocation="http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
 		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
-		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd
+		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
 	
 	<!-- 설정 파일 -->
 	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
@@ -44,15 +46,12 @@
  	<tx:annotation-driven />
 	
 	<mybatis-spring:scan base-package="com.themore.moamoatown.**.mapper"/>
-	
-	<context:component-scan base-package="com.themore.moamoatown.**.service"/>
-	<context:component-scan base-package="com.themore.moamoatown.common.aop"/>
-	<context:component-scan base-package="com.themore.moamoatown.common.exception"/>
-	<context:component-scan base-package="com.themore.moamoatown.common.interceptor"/>
-<!-- 	<context:component-scan base-package="com.themore.moamoatown.util"/>
-	 -->
-	
-	<!-- Enable AspectJ Auto Proxy -->
-	<aop:aspectj-autoproxy />	
 
+	<context:component-scan base-package="com.themore.moamoatown" />
+
+	<!-- Enable AspectJ Auto Proxy -->
+	<aop:aspectj-autoproxy />
+
+	<!-- 스케줄러 활성화 -->
+	<task:annotation-driven />
 </beans>

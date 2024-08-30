@@ -19,13 +19,13 @@ import java.util.List;
  * 2024.08.23  	임원정        타운 만들기 기능 추가
  * 2024.08.26   임원정        타운 세금 현황 조회 추가
  * 2024.08.26   임원정        selectJobRequestByTownId, insertJob, updateJobRequestAllowed 추가
- * 2024.08.26   임원정        insertWish, deleteWish, deleteMemberWish 메소드 추가
- * 2024.08.26   임원정        updateMemberWishCompleted 메소드 추가
+ * 2024.08.26   임원정        insertWish, deleteWish, deleteMemberWish, updateMemberWishCompleted 메소드 추가
  * 2024.08.27   임원정        selectWishRequestsByTownId 메소드 추가
  * 2024.08.27   임원정        insertQuest, selectQuestStatusListByTownId 메소드 추가
  * 2024.08.28   임원정        findMemberIdByJobRequestId 추가
  * 2024.08.28   임원정        selectMemberQuestByQuestId, updateMemberQuestSelected 메소드 추가
  * 2024.08.28   임원정        callCompleteQuestProcedure, findMemberIdByMemberQuestId 메소드 추가
+ * 2024.08.30   임원정        callProcessPayrollProcedure 메소드 추가
  * </pre>
  */
 
@@ -67,4 +67,6 @@ public interface TownMapper {
     int updateMemberWishCompleted(Long memberWishId);
     // 위시 상품 요청 현황
     List<MemberWishRequestsResponseDTO> selectWishRequestsByTownId(Long townId);
+    // 급여 지급 및 소득세 징수
+    void callProcessPayrollProcedure();
 }
