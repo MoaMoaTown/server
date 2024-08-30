@@ -30,8 +30,8 @@ public class TodayInvestScheduler {
 
     private final InvestService investService;
 
-    //@Scheduled(cron = "0 0 0 * * ?")  // 매일 자정에 실행
-    @Scheduled(cron = "0 * * * * ?")  // 매 분 0초에 실행_테스트용
+    @Scheduled(cron = "0 0 0 * * ?")  // 매일 자정에 실행
+    //@Scheduled(cron = "0 * * * * ?")  // 매 분 0초에 실행_테스트용
     public void scheduleInvestmentProcessing() {
         investService.processTodayInvestment();
     }
