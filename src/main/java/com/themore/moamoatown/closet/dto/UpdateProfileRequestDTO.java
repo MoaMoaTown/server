@@ -1,4 +1,4 @@
-package com.themore.moamoatown.coordi.dto;
+package com.themore.moamoatown.closet.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 /**
- * 내 옷장 옷 리스트 Response DTO
+ * 프로필 업데이트 Request DTO
  * @author 임원정
  * @since 2024.08.25
  * @version 1.0
@@ -22,10 +22,6 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class MyClothesResponseDTO {
-    private Long clothId;
-    private String brand;
-    private String name;
-    private Long type;
-    private String imgUrl;
+public class UpdateProfileRequestDTO {
+    private String profile; // base64 인코딩된 String
 }

@@ -1,6 +1,6 @@
-package com.themore.moamoatown.coordi;
+package com.themore.moamoatown.closet;
 
-import com.themore.moamoatown.coordi.service.CoordiService;
+import com.themore.moamoatown.closet.service.ClosetService;
 import lombok.extern.log4j.Log4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,9 +13,9 @@ import org.springframework.test.context.web.WebAppConfiguration;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "file:**/*-context.xml")
 @Log4j
-public class CoordiServiceTests {
+public class ClosetServiceTests {
     @Autowired
-    private CoordiService service;
+    private ClosetService service;
 
     @Test
     public void testGetMyClothes() throws Exception {

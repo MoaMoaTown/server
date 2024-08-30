@@ -1,8 +1,8 @@
-package com.themore.moamoatown.coordi.mapper;
+package com.themore.moamoatown.closet.mapper;
 
-import com.themore.moamoatown.coordi.dto.GetProfileInternalDTO;
-import com.themore.moamoatown.coordi.dto.MyClothesResponseDTO;
-import com.themore.moamoatown.coordi.dto.UpdateProfileInternalDTO;
+import com.themore.moamoatown.closet.dto.GetProfileInternalDTO;
+import com.themore.moamoatown.closet.dto.MyClothesResponseDTO;
+import com.themore.moamoatown.closet.dto.UpdateProfileInternalDTO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -23,7 +23,7 @@ import java.util.List;
  */
 
 @Mapper
-public interface CoordiMapper {
+public interface ClosetMapper {
     // 내 옷 가져오기
     List<MyClothesResponseDTO> selectClothesByMemberId(Long memberId);
     // 프로필 업데이트

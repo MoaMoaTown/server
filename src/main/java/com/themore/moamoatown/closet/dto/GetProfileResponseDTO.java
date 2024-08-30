@@ -1,4 +1,4 @@
-package com.themore.moamoatown.coordi.dto;
+package com.themore.moamoatown.closet.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -1,8 +1,8 @@
-package com.themore.moamoatown.coordi.service;
+package com.themore.moamoatown.closet.service;
 
 import com.themore.moamoatown.common.exception.CustomException;
-import com.themore.moamoatown.coordi.dto.*;
-import com.themore.moamoatown.coordi.mapper.CoordiMapper;
+import com.themore.moamoatown.closet.dto.*;
+import com.themore.moamoatown.closet.mapper.ClosetMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j;
 import org.springframework.stereotype.Service;
@@ -32,8 +32,8 @@ import static com.themore.moamoatown.common.exception.ErrorCode.UPDATE_PROFILE_F
 @Log4j
 @Service
 @RequiredArgsConstructor
-public class CoordiServiceImpl implements CoordiService{
-    private final CoordiMapper coordiMapper;
+public class ClosetServiceImpl implements ClosetService {
+    private final ClosetMapper closetMapper;
 
     /**
      * 내가 구매한 옷 가져오기
@@ -43,7 +43,7 @@ public class CoordiServiceImpl implements CoordiService{
     @Override
     @Transactional
     public List<MyClothesResponseDTO> getMyClothes(Long memberId) {
-        return coordiMapper.selectClothesByMemberId(memberId)
+        return closetMapper.selectClothesByMemberId(memberId)
                 .stream()
                 .map(clothes -> MyClothesResponseDTO.builder()
                         .clothId(clothes.getClothId())
@@ -70,7 +70,7 @@ public class CoordiServiceImpl implements CoordiService{
                 .profileImage(decodedImage)
                 .build();
 
-        if(coordiMapper.updateProfile(internalDTO)!=1) throw new CustomException(UPDATE_PROFILE_FAILED);
+        if(closetMapper.updateProfile(internalDTO)!=1) throw new CustomException(UPDATE_PROFILE_FAILED);
     }
 
     /**
@@ -80,7 +80,7 @@ public class CoordiServiceImpl implements CoordiService{
      */
     @Override
     public GetProfileResponseDTO getProfile(Long memberId) {
-        GetProfileInternalDTO getProfileInternalDTO = coordiMapper.selectProfileByMemberId(memberId);
+        GetProfileInternalDTO getProfileInternalDTO = closetMapper.selectProfileByMemberId(memberId);
         // BLOB 데이터를 Base64로 인코딩
         String base64Image = Base64.getEncoder().encodeToString(getProfileInternalDTO.getProfile());
         return GetProfileResponseDTO.builder()
