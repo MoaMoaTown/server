@@ -26,5 +26,6 @@ public class MyClothesResponseDTO {
     private Long clothId;
     private String brand;
     private String name;
+    private Long type;
     private String imgUrl;
 }
