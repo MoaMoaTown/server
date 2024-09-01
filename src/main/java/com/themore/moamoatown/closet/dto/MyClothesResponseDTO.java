@@ -15,6 +15,7 @@ import lombok.NoArgsConstructor;
  * 수정일        수정자        수정내용
  * ----------  --------    ---------------------------
  * 2024.08.25  	임원정        최초 생성
+ * 2024.09.01   임원정        imageUrl -> image로 변수명 변경
  * </pre>
  */
 
@@ -26,5 +27,6 @@ public class MyClothesResponseDTO {
     private Long clothId;
     private String brand;
     private String name;
-    private String imgUrl;
+    private Long type;
+    private String image;
 }
