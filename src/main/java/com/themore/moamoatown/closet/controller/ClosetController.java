@@ -42,6 +42,7 @@ public class ClosetController {
     /**
      * 내가 구매한 옷 조회
      * @param memberId
+     * @param type
      * @return
      */
     @GetMapping("/myclothes/{type}")

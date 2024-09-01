@@ -29,6 +29,7 @@ import static com.themore.moamoatown.common.exception.ErrorCode.UPDATE_PROFILE_F
  * 2024.08.25  	임원정        구매한 옷 가져오기, 프로필 업데이트 메소드 추가
  * 2024.08.28   임원정        프로필 사진 가져오기
  * 2024.08.30   임원정        getMyClothes 메소드 수정
+ * 2024.09.01   임원정        getMyClothes에서 imageUrl을 base64인코딩 하도록 수정
  * </pre>
  */
 
@@ -41,6 +42,7 @@ public class ClosetServiceImpl implements ClosetService {
     /**
      * 내가 구매한 옷 가져오기
      * @param memberId
+     * @param type
      * @return
      */
     @Override
@@ -51,7 +53,7 @@ public class ClosetServiceImpl implements ClosetService {
                 .map(clothes -> {
                     String base64Image = "";
                     try {
-                        base64Image = ImageUtils.encodeImageToBase64(clothes.getImgUrl()); // URL을 Base64로 인코딩
+                        base64Image = ImageUtils.encodeImageToBase64(clothes.getImage()); // URL을 Base64로 인코딩
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -61,7 +63,7 @@ public class ClosetServiceImpl implements ClosetService {
                             .brand(clothes.getBrand())
                             .name(clothes.getName())
                             .type(clothes.getType())
-                            .imgUrl(base64Image)
+                            .image(base64Image)
                             .build();
                 })
                 .collect(Collectors.toList());
