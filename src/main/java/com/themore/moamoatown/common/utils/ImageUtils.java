@@ -1,5 +1,10 @@
 package com.themore.moamoatown.common.utils;
 
+import lombok.extern.java.Log;
+import lombok.extern.log4j.Log4j;
+
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.util.Base64;
 import java.io.InputStream;
 import java.io.ByteArrayOutputStream;
@@ -19,6 +24,7 @@ import java.io.IOException;
  * </pre>
  */
 
+@Log4j
 public class ImageUtils {
     public static String encodeImageToBase64(String imageUrl) throws IOException {
         URL url = new URL(imageUrl);
