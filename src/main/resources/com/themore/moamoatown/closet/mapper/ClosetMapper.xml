@@ -19,7 +19,7 @@
     <!-- 내 옷장의 옷 가져오기 -->
     <select id="selectClothesByMemberId" resultType="MyClothesResponseDTO">
         <![CDATA[
-        SELECT c.cloth_id, c.brand, c.name, c.type, c.img_url
+        SELECT c.cloth_id, c.brand, c.name, c.type, c.img_url as image
         FROM closet cl JOIN clothes c ON cl.cloth_id = c.cloth_id
         WHERE member_id = #{memberId}
         AND type = #{type}

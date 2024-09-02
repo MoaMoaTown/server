@@ -49,6 +49,9 @@ public interface MemberMapper {
     // 타운 ID 업데이트
     int updateMemberTownId(@Param("memberId") Long memberId, @Param("townId") Long townId);
 
+    // 타운의 total_members 값 증가
+    int incrementTotalMembers(Long townId);
+
     // 멤버의 기본 투자 데이터를 삽입
     int insertDefaultMemberInvestment(MemberInvestmentDTO investmentData);
 
