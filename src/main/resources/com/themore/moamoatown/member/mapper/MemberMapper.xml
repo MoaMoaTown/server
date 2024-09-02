@@ -77,6 +77,15 @@
         ]]>
     </select>
 
+    <!-- 타운의 total_members 값을 1 증가 -->
+    <update id="incrementTotalMembers" parameterType="Long">
+    <![CDATA[
+        UPDATE town
+        SET total_members = total_members + 1
+        WHERE town_id = #{townId}
+        ]]>
+    </update>
+
     <!-- 멤버의 타운 아이디 업데이트 -->
     <update id="updateMemberTownId" parameterType="map">
     <![CDATA[
