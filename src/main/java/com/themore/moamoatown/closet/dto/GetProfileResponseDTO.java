@@ -1,4 +1,4 @@
-package com.themore.moamoatown.coordi.dto;
+package com.themore.moamoatown.closet.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 /**
- * 프로필 조회 내부 DTO
+ * 프로필 조회 Response DTO
  * @author 임원정
  * @since 2024.08.28
  * @version 1.0
@@ -22,6 +22,6 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class GetProfileInternalDTO {
-    byte[] profile; //BLOB 타입
+public class GetProfileResponseDTO {
+    String encodedProfileImage;
 }

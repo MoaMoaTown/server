@@ -1,13 +1,15 @@
-package com.themore.moamoatown.coordi.service;
+package com.themore.moamoatown.closet.service;
 
 import com.themore.moamoatown.common.exception.CustomException;
-import com.themore.moamoatown.coordi.dto.*;
-import com.themore.moamoatown.coordi.mapper.CoordiMapper;
+import com.themore.moamoatown.closet.dto.*;
+import com.themore.moamoatown.closet.mapper.ClosetMapper;
+import com.themore.moamoatown.common.utils.ImageUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.util.Base64;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -15,7 +17,7 @@ import java.util.stream.Collectors;
 import static com.themore.moamoatown.common.exception.ErrorCode.UPDATE_PROFILE_FAILED;
 
 /**
- * 코디 서비스 구현체
+ * 옷장 서비스 구현체
  * @author 임원정
  * @since 2024.08.25
  * @version 1.0
@@ -26,32 +28,44 @@ import static com.themore.moamoatown.common.exception.ErrorCode.UPDATE_PROFILE_F
  * 2024.08.25  	임원정        최초 생성
  * 2024.08.25  	임원정        구매한 옷 가져오기, 프로필 업데이트 메소드 추가
  * 2024.08.28   임원정        프로필 사진 가져오기
+ * 2024.08.30   임원정        getMyClothes 메소드 수정
+ * 2024.09.01   임원정        getMyClothes에서 imageUrl을 base64인코딩 하도록 수정
  * </pre>
  */
 
 @Log4j
 @Service
 @RequiredArgsConstructor
-public class CoordiServiceImpl implements CoordiService{
-    private final CoordiMapper coordiMapper;
+public class ClosetServiceImpl implements ClosetService {
+    private final ClosetMapper closetMapper;
 
     /**
      * 내가 구매한 옷 가져오기
      * @param memberId
+     * @param type
      * @return
      */
     @Override
     @Transactional
-    public List<MyClothesResponseDTO> getMyClothes(Long memberId) {
-        return coordiMapper.selectClothesByMemberId(memberId)
+    public List<MyClothesResponseDTO> getMyClothes(Long memberId, Long type) {
+        return closetMapper.selectClothesByMemberId(memberId, type)
                 .stream()
-                .map(clothes -> MyClothesResponseDTO.builder()
-                        .clothId(clothes.getClothId())
-                        .brand(clothes.getBrand())
-                        .name(clothes.getName())
-                        .type(clothes.getType())
-                        .imgUrl(clothes.getImgUrl())
-                        .build())
+                .map(clothes -> {
+                    String base64Image = "";
+                    try {
+                        base64Image = ImageUtils.encodeImageToBase64(clothes.getImage()); // URL을 Base64로 인코딩
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    base64Image = "data:image/png;base64," + base64Image;
+                    return MyClothesResponseDTO.builder()
+                            .clothId(clothes.getClothId())
+                            .brand(clothes.getBrand())
+                            .name(clothes.getName())
+                            .type(clothes.getType())
+                            .image(base64Image)
+                            .build();
+                })
                 .collect(Collectors.toList());
     }
 
@@ -70,7 +84,7 @@ public class CoordiServiceImpl implements CoordiService{
                 .profileImage(decodedImage)
                 .build();
 
-        if(coordiMapper.updateProfile(internalDTO)!=1) throw new CustomException(UPDATE_PROFILE_FAILED);
+        if(closetMapper.updateProfile(internalDTO)!=1) throw new CustomException(UPDATE_PROFILE_FAILED);
     }
 
     /**
@@ -80,11 +94,9 @@ public class CoordiServiceImpl implements CoordiService{
      */
     @Override
     public GetProfileResponseDTO getProfile(Long memberId) {
-        GetProfileInternalDTO getProfileInternalDTO = coordiMapper.selectProfileByMemberId(memberId);
-        // BLOB 데이터를 Base64로 인코딩
-        String base64Image = Base64.getEncoder().encodeToString(getProfileInternalDTO.getProfile());
+        GetProfileInternalDTO getProfileInternalDTO = closetMapper.selectProfileByMemberId(memberId);
         return GetProfileResponseDTO.builder()
-                .encodedProfileImage(base64Image)
+                .encodedProfileImage(new String(getProfileInternalDTO.getProfile()))
                 .build();
     }
 }

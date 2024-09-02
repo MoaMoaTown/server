@@ -169,9 +169,8 @@ public class MemberServiceImpl implements MemberService{
 
             return memberRanks.stream()
                     .map(member -> {
-                        String base64Profile = Base64.getEncoder().encodeToString(member.getProfile());
                         return MemberRankResponseDTO.builder()
-                                .profile(base64Profile)
+                                .profile(new String(member.getProfile()))
                                 .nickname(member.getNickname())
                                 .balance(member.getBalance())
                                 .isCurrentUser(member.getIsCurrentUser())

@@ -38,6 +38,7 @@
         FROM quest q
                  LEFT JOIN member_quest mq ON q.quest_id = mq.quest_id AND mq.member_id = #{memberId}
         WHERE q.town_id = #{townId}
+        ORDER BY q.deadline DESC
         ]]>
     </select>
 
