@@ -59,16 +59,15 @@ public class ClothesController {
     /**
      * 옷 구매 후 클로젯에 추가
      * @param memberId 세션에서 가져온 멤버 아이디
+     * @param ClothId 세션에서 가져온 멤버 아이디
      * @return
      * @throws Exception
      */
     @PostMapping("/purchase")
     public ResponseEntity<ClothesPurchaseResponseDTO> purchaseClothes(
-//            @RequestBody ClothesPurchaseRequestDTO requestDTO,
             @RequestBody Long ClothId,
             @MemberId Long memberId
     ) throws Exception {
-//        log.info("옷 ID: " + requestDTO.getClothId() + "에 대한 구매 요청 처리 중");
         log.info("옷 ID:"+ ClothId);
 
         ClothesPurchaseResponseDTO response = clothesService.purchaseClothes(ClothId, memberId);

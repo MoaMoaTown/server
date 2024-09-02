@@ -23,7 +23,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-public class SellInvestRequestDTO {
-    private int typeId;
-    private int sellAmount;
-}
+    public class SellInvestRequestDTO {
+        private int typeId;
+        private int sellAmount;
+    }
