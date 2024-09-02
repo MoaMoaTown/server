@@ -46,32 +46,31 @@ public class ClothesController {
      */
     @GetMapping("/list")
     public ResponseEntity<List<ClothesResponseDTO>> getClothesListWithPaging(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "2") int size
+//            @RequestParam(defaultValue = "0") int page,
+//            @RequestParam(defaultValue = "3") int size
     ) {
-        log.info("Fetching clothes list with pagination - Page: " + page + ", Size: " + size);
+        log.info("Fetching clothes list");
 
-        List<ClothesResponseDTO> response = clothesService.getClothesListWithPaging(page,size);
+        List<ClothesResponseDTO> response = clothesService.getClothesListWithPaging();
         log.info("Fetched " + response.size() + " clothes items.");
 
         return ResponseEntity.ok(response);
     }
     /**
      * 옷 구매 후 클로젯에 추가
-     * @param requestDTO
      * @param memberId 세션에서 가져온 멤버 아이디
+     * @param ClothId 세션에서 가져온 멤버 아이디
      * @return
      * @throws Exception
      */
     @PostMapping("/purchase")
     public ResponseEntity<ClothesPurchaseResponseDTO> purchaseClothes(
-            @RequestBody ClothesPurchaseRequestDTO requestDTO,
+            @RequestBody Long ClothId,
             @MemberId Long memberId
     ) throws Exception {
-        log.info("옷 ID: " + requestDTO.getClothId() + "에 대한 구매 요청 처리 중");
+        log.info("옷 ID:"+ ClothId);
 
-
-        ClothesPurchaseResponseDTO response = clothesService.purchaseClothes(requestDTO, memberId);
+        ClothesPurchaseResponseDTO response = clothesService.purchaseClothes(ClothId, memberId);
         log.info("구매 완료 - " + response.getMessage());
 
         return ResponseEntity.ok(response);

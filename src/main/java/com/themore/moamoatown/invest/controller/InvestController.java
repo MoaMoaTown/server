@@ -71,23 +71,23 @@ public class InvestController {
         List<TodayPriceResponseDTO> response = investService.getTodayPrice();
         return ResponseEntity.ok(response);
     }
-    /**
-     * 매수하기
-     * @param memberId 세션에서 받아오는 회원 ID
-     * @param buyInvestRequestDTO 구매 요청 데이터
-     * @return ResponseEntity<BuyInvestResponseDTO>
-     * @throws Exception
-     */
-    @PatchMapping("/buy")
-    public ResponseEntity<BuyInvestResponseDTO> buyMemberInvest(
-            @MemberId Long memberId,
-            @RequestBody BuyInvestRequestDTO buyInvestRequestDTO) {
-        BuyInvestResponseDTO response = investService.buyMemberInvest(memberId, buyInvestRequestDTO);
-        return ResponseEntity.ok(response);
-    }
+        /**
+         * 매수하기
+         * @param memberId 세션에서 받아오는 회원 ID
+         * @param buyInvestRequestDTO 구매 요청 데이터
+         * @return ResponseEntity<BuyInvestResponseDTO>
+         * @throws Exception
+         */
+        @PatchMapping("/buy")
+        public ResponseEntity<BuyInvestResponseDTO> buyMemberInvest(
+                @MemberId Long memberId,
+                @RequestBody BuyInvestRequestDTO buyInvestRequestDTO) {
+            BuyInvestResponseDTO response = investService.buyMemberInvest(memberId, buyInvestRequestDTO);
+            return ResponseEntity.ok(response);
+        }
 
     /**
-     * 매수하기
+     * 매도하기
      * @param memberId 세션에서 받아오는 회원 ID
      * @param sellInvestRequestDTO 판매 요청 데이터
      * @return ResponseEntity<BuyInvestResponseDTO>
