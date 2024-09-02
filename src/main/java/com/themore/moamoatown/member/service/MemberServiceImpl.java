@@ -102,6 +102,12 @@ public class MemberServiceImpl implements MemberService{
             throw new CustomException(UPDATE_FAILED);
         }
 
+        // 타운의 total_members 값을 증가
+        int updatedTownRows = memberMapper.incrementTotalMembers(townId);
+        if (updatedTownRows < 1) {
+            throw new CustomException(UPDATE_FAILED);
+        }
+
         // 기본 투자 데이터 삽입 (type_id 0, 1)
         int insertedRows = memberMapper.insertDefaultMemberInvestment(
                 MemberInvestmentDTO.builder()
