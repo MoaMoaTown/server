@@ -135,7 +135,7 @@ public class MemberController {
      * @param memberId 세션에서 가져온 멤버 아이디
      * @return ResponseEntity
      */
-    @Auth(role = Auth.Role.CITIZEN)
+    @Auth(role = {Auth.Role.CITIZEN, Auth.Role.MAYOR})
     @GetMapping("/town")
     public ResponseEntity<MemberTownResponseDTO> getMemberTown(@MemberId Long memberId) {
         MemberTownResponseDTO response = memberService.getMemberTown(memberId);
