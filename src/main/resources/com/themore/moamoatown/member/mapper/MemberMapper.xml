@@ -185,9 +185,11 @@
 
     <!-- 타운 ID로 타운 관리자 ID 조회 -->
     <select id="findAdminByTownId" resultType="Long">
+    <![CDATA[
         SELECT member_id
         FROM member
         WHERE town_id = #{townId}
         AND role = 1
+    ]]>
     </select>
 </mapper>

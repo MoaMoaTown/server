@@ -32,7 +32,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping(value="/notification",
         produces = "application/json; charset=UTF-8")
-@Auth(role = Auth.Role.CITIZEN)
+@Auth(role = {Auth.Role.CITIZEN, Auth.Role.MAYOR})
 public class NotificationController {
     private final NotificationService notificationService;
 
