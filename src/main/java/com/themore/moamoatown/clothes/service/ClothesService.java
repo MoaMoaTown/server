@@ -21,7 +21,8 @@ import java.util.List;
  * </pre>
  */
 public interface ClothesService {
-    List<ClothesResponseDTO> getClothesListWithPaging();
+    //List<ClothesResponseDTO> getClothesListWithPaging();
+        List<ClothesResponseDTO> getClothesListWithPaging(int page, int size);
 //    ClothesPurchaseResponseDTO purchaseClothes(ClothesPurchaseRequestDTO requestDTO, Long memberId) throws Exception;
     ClothesPurchaseResponseDTO purchaseClothes(Long ClothId, Long memberId) throws Exception;
 

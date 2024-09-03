@@ -4,6 +4,7 @@ package com.themore.moamoatown.wish.mapper;
 import com.themore.moamoatown.wish.dto.WishItemPurchaseInternalRequestDTO;
 import com.themore.moamoatown.wish.dto.WishItemResponseDTO;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 /**
@@ -32,7 +33,7 @@ public interface WishMapper {
      * @param townId 타운 ID.
      * @return 위시 아이템 목록.
      */
-    List<WishItemResponseDTO> findWishItemsByTownId(Long townId);
+    List<WishItemResponseDTO> findWishItemsByTownId(@Param("townId") Long townId, @Param("offset") int offset, @Param("size") int size);
 
     /**
      * 위시 상품 구매 메소드

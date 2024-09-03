@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.themore.moamoatown.common.exception.ErrorCode.CLOTH_ALREADY_PURCHASED;
 import static com.themore.moamoatown.common.exception.ErrorCode.CLOTH_INSERT_FAILED;
 
 /**
@@ -42,12 +43,19 @@ public class ClothesServiceImpl implements ClothesService{
      * 페이지와 사이즈에 따른 옷 목록을 페이징 처리하여 가져옵니다.
      * @return 옷 목록의 리스트
      */
+//    @Transactional(readOnly = true)
+//    @Override
+//    public List<ClothesResponseDTO> getClothesListWithPaging() {
+//
+//        return clothesmapper.getClothesListWithPaging();
+//    }
     @Transactional(readOnly = true)
     @Override
-    public List<ClothesResponseDTO> getClothesListWithPaging() {
-
-        return clothesmapper.getClothesListWithPaging();
+    public List<ClothesResponseDTO> getClothesListWithPaging(int page, int size) {
+        int offset = page * size;
+        return clothesmapper.getClothesListWithPaging(offset, size);
     }
+
 
 
     /**
@@ -58,32 +66,65 @@ public class ClothesServiceImpl implements ClothesService{
      * @return 구매 결과를 나타내는 DTO
      * @throws Exception 옷 구매 실패 시 예외 발생
      */
-@Transactional
-@Override
-public ClothesPurchaseResponseDTO purchaseClothes(Long ClothId, Long memberId) throws Exception {
-    log.info("memberId: " + memberId);
+//@Transactional
+//@Override
+//public ClothesPurchaseResponseDTO purchaseClothes(Long ClothId, Long memberId) throws Exception {
+//    log.info("memberId: " + memberId);
+//
+//    // 내부 로직용 DTO 생성
+//    ClothesPurchaseInternalRequestDTO internalDTO = ClothesPurchaseInternalRequestDTO.builder()
+//            .memberId(memberId)
+//            .clothId(ClothId)
+//            .result(BigDecimal.ZERO) // 초기값 설정
+//            .build();
+//
+//    // 프로시저 호출 및 결과 확인
+//    clothesmapper.purchaseClothesProcedure(internalDTO);
+//
+//    BigDecimal result = internalDTO.getResult(); // 프로시저 실행 후 결과 가져오기
+//    log.info("result:" + result);
+//
+//    // 결과가 1이 아니면 예외 발생
+//    if (result == null || result.intValue() < 1) {
+//        throw new CustomException(CLOTH_INSERT_FAILED);
+//    }
+//
+//    // 응답 반환
+//    return new ClothesPurchaseResponseDTO("옷이 클로젯에 추가되었습니다.");
+//}
+    @Transactional
+    @Override
+    public ClothesPurchaseResponseDTO purchaseClothes(Long ClothId, Long memberId) throws Exception {
+        log.info("memberId: " + memberId);
 
-    // 내부 로직용 DTO 생성
-    ClothesPurchaseInternalRequestDTO internalDTO = ClothesPurchaseInternalRequestDTO.builder()
-            .memberId(memberId)
-            .clothId(ClothId)
-            .result(BigDecimal.ZERO) // 초기값 설정
-            .build();
+        // 중복 구매 확인
+        boolean isAlreadyPurchased = clothesmapper.isClothAlreadyInCloset(memberId, ClothId);
+        if (isAlreadyPurchased) {
+            throw new CustomException(CLOTH_ALREADY_PURCHASED); // 예외 메시지는 적절히 정의하세요
+        }
 
-    // 프로시저 호출 및 결과 확인
-    clothesmapper.purchaseClothesProcedure(internalDTO);
+        // 내부 로직용 DTO 생성
+        ClothesPurchaseInternalRequestDTO internalDTO = ClothesPurchaseInternalRequestDTO.builder()
+                .memberId(memberId)
+                .clothId(ClothId)
+                .result(BigDecimal.ZERO) // 초기값 설정
+                .build();
 
-    BigDecimal result = internalDTO.getResult(); // 프로시저 실행 후 결과 가져오기
-    log.info("result:" + result);
+        // 프로시저 호출 및 결과 확인
+        clothesmapper.purchaseClothesProcedure(internalDTO);
 
-    // 결과가 1이 아니면 예외 발생
-    if (result == null || result.intValue() < 1) {
-        throw new CustomException(CLOTH_INSERT_FAILED);
+        BigDecimal result = internalDTO.getResult(); // 프로시저 실행 후 결과 가져오기
+        log.info("result:" + result);
+
+        // 결과가 1이 아니면 예외 발생
+        if (result == null || result.intValue() < 1) {
+            throw new CustomException(CLOTH_INSERT_FAILED);
+        }
+
+        // 응답 반환
+        return new ClothesPurchaseResponseDTO("옷이 클로젯에 추가되었습니다.");
     }
 
-    // 응답 반환
-    return new ClothesPurchaseResponseDTO("옷이 클로젯에 추가되었습니다.");
-}
 
 
 

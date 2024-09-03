@@ -18,14 +18,30 @@
 * </pre>
 -->
 <mapper namespace="com.themore.moamoatown.clothes.mapper.ClothesMapper">
-    <select id="getClothesListWithPaging" resultType="ClothesResponseDTO">
-         <![CDATA[
-        SELECT cloth_id, brand, name, price, type, img_url
-        FROM clothes
-        ORDER BY cloth_id
+<!--    <select id="getClothesListWithPaging" resultType="ClothesResponseDTO">-->
+<!--         <![CDATA[-->
+<!--        SELECT cloth_id, brand, name, price, type, img_url-->
+<!--        FROM clothes-->
+<!--        ORDER BY cloth_id-->
 
+<!--        ]]>-->
+<!--    </select>-->
+
+        <select id="getClothesListWithPaging" resultType="ClothesResponseDTO">
+         <![CDATA[
+        select cloth_id,brand,name,price,type,img_url
+        from clothes
+        ORDER BY cloth_id
+        OFFSET #{offset} ROWS FETCH NEXT #{size} ROWS ONLY
         ]]>
     </select>
+    <select id="isClothAlreadyInCloset" resultType="boolean">
+        SELECT COUNT(*)
+        FROM closet
+        WHERE member_id = #{memberId}
+          AND cloth_id = #{clothId}
+    </select>
+
 
 
     <select id="purchaseClothesProcedure" statementType="CALLABLE">

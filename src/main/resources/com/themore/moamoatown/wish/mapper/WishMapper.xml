@@ -24,12 +24,14 @@
 
     <!-- 위시 상품 조회 -->
     <select id="findWishItemsByTownId" resultType="WishItemResponseDTO">
-        <![CDATA[
-            SELECT wish_id AS wishId, town_id AS townId, name, price
-            FROM wish
-            WHERE town_id = #{townId}
+    <![CDATA[
+        SELECT wish_id AS wishId, town_id AS townId, name, price
+        FROM wish
+        WHERE town_id = #{townId}
+        ORDER BY wish_id
+        OFFSET #{offset} ROWS FETCH NEXT #{size} ROWS ONLY
         ]]>
-    </select>
+</select>
 
     <!-- 위시 상품 구매 -->
     <select id="purchaseWishProcedure" statementType="CALLABLE">
