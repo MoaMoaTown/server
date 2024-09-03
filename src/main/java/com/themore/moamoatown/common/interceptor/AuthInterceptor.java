@@ -88,15 +88,16 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
     }
 
     private Auth.Role mapRole(Long role, Long townId) {
-        // townId가 -1이면 권한 없음
-        if (townId == -1L) {
-            return null; // 권한 없음
-        }
-
-        if (role == 1L) {
-            return Auth.Role.MAYOR;
-        } else {
+        if (role == 0L){
+            // townId가 -1이면 권한 없음
+            if (townId == -1L) {
+                return null;
+            }
             return Auth.Role.CITIZEN;
         }
+        else if (role == 1L) {
+            return Auth.Role.MAYOR;
+        }
+        else return null;
     }
 }
