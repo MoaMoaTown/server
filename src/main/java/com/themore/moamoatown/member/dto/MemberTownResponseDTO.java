@@ -27,4 +27,5 @@ public class MemberTownResponseDTO {
     private String description;
     private Long totalMembers;
     private Long totalTax;
+    private String townCode;
 }

@@ -158,7 +158,7 @@
     <!-- 멤버 타운 조회 -->
     <select id="findTownByMemberId" resultType="MemberTownResponseDTO">
     <![CDATA[
-        SELECT t.name, t.description, t.total_members AS totalMembers, t.total_tax AS totalTax
+        SELECT t.name, t.description, t.total_members AS totalMembers, t.total_tax AS totalTax, t.town_code AS townCode
         FROM member m
                  JOIN town t ON m.town_id = t.town_id
         WHERE m.member_id = #{memberId}

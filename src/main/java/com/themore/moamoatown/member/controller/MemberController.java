@@ -31,6 +31,7 @@ import java.util.List;
  * 2024.08.26  이주현        멤버 역할 조회
  * 2024.08.26  이주현        멤버 타운 조회
  * 2024.08.26  이주현        멤버 계좌 조회
+ * 2024.09.03  이주현        로그아웃 기능 추가
  * </pre>
  */
 
@@ -157,5 +158,16 @@ public class MemberController {
             @RequestParam(defaultValue = "10") int size) {
         List<MemberAccountResponseDTO> response = memberService.getAccountsByMemberId(memberId, page, size);
         return ResponseEntity.ok(response);
+    }
+
+    /**
+     * 로그아웃
+     * @param session
+     * @return ResponseEntity
+     */
+    @PostMapping("/logout")
+    public ResponseEntity<String> logout(HttpSession session) {
+        session.invalidate();
+        return ResponseEntity.ok("로그아웃에 성공했습니다.");
     }
 }
