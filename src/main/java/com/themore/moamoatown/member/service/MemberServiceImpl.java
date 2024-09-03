@@ -175,8 +175,9 @@ public class MemberServiceImpl implements MemberService{
 
             return memberRanks.stream()
                     .map(member -> {
+                        String profile = member.getProfile() != null ? new String(member.getProfile()) : null;
                         return MemberRankResponseDTO.builder()
-                                .profile(new String(member.getProfile()))
+                                .profile(profile)
                                 .nickname(member.getNickname())
                                 .balance(member.getBalance())
                                 .isCurrentUser(member.getIsCurrentUser())
