@@ -26,7 +26,6 @@ import java.util.List;
  */
 @Mapper
 public interface ClothesMapper {
-    //List<ClothesResponseDTO> getClothesListWithPaging();
     List<ClothesResponseDTO> getClothesListWithPaging(@Param("offset") int offset, @Param("size") int size);
 
     void purchaseClothesProcedure(ClothesPurchaseInternalRequestDTO internalDTO);

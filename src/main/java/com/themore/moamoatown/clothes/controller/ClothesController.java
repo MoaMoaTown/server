@@ -44,19 +44,7 @@ public class ClothesController {
      * @return
      * @throws Exception
      */
-//    @GetMapping("/list")
-//    public ResponseEntity<List<ClothesResponseDTO>> getClothesListWithPaging(
-////            @RequestParam(defaultValue = "0") int page,
-////            @RequestParam(defaultValue = "3") int size
-//    ) {
-//        log.info("Fetching clothes list");
-//
-//        List<ClothesResponseDTO> response = clothesService.getClothesListWithPaging();
-//        log.info("Fetched " + response.size() + " clothes items.");
-//
-//        return ResponseEntity.ok(response);
-//    }
-        @GetMapping("/list")
+    @GetMapping("/list")
     public ResponseEntity<List<ClothesResponseDTO>> getClothesListWithPaging(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "3") int size
