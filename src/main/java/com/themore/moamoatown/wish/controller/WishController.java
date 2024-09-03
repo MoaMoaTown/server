@@ -27,6 +27,7 @@ import java.util.List;
  * 2024.08.25   임재성        위시 상품 조회 기능 추가
  * 2024.08.25   임재성        위시 상품 구매 기능 추가
  * 2024.08.26   임재성        위시 상품 구매 메소드 수정
+ * 2024.09.03   임재성        위시 조회 메서드 수정
  * </pre>
  */
 @Auth(role = Auth.Role.CITIZEN)
@@ -43,17 +44,6 @@ public class WishController {
      * @param townId 세션에서 가져온 타운 ID
      * @return 위시 아이템 목록
      */
-//    @GetMapping("/wishlist")
-//    public ResponseEntity<List<WishItemResponseDTO>> getWishItemsByTown(
-//            @TownId Long townId   //세션에서 가져올 시 이 방식 사용
-//    ) {
-//        log.info("타운 ID: " + townId + "의 위시 아이템 목록 조회 요청");
-//
-//        List<WishItemResponseDTO> response = wishService.getWishItemsByTown(townId);
-//        log.info("조회된 위시 아이템 수: " + response.size());
-//
-//        return ResponseEntity.ok(response);
-//    }
     @GetMapping("/wishlist")
     public ResponseEntity<List<WishItemResponseDTO>> getWishItemsByTown(
             @RequestParam(defaultValue = "0") int page,

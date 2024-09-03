@@ -33,6 +33,7 @@ import static com.themore.moamoatown.common.exception.ErrorCode.WISH_INSERT_FAIL
  * 2024.08.25   임재성        위시 상품 구매 기능 추가
  * 2024.08.26   임재성        위시 상품 구매 메소드 수정
  * 2024.08.28   임원정        알림 전송 로직 추가
+ * 2024.09.03   임재성        위시 조회 메서드 수정
  * </pre>
  */
 @Log4j

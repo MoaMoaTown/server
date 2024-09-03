@@ -66,32 +66,6 @@ public class ClothesServiceImpl implements ClothesService{
      * @return 구매 결과를 나타내는 DTO
      * @throws Exception 옷 구매 실패 시 예외 발생
      */
-//@Transactional
-//@Override
-//public ClothesPurchaseResponseDTO purchaseClothes(Long ClothId, Long memberId) throws Exception {
-//    log.info("memberId: " + memberId);
-//
-//    // 내부 로직용 DTO 생성
-//    ClothesPurchaseInternalRequestDTO internalDTO = ClothesPurchaseInternalRequestDTO.builder()
-//            .memberId(memberId)
-//            .clothId(ClothId)
-//            .result(BigDecimal.ZERO) // 초기값 설정
-//            .build();
-//
-//    // 프로시저 호출 및 결과 확인
-//    clothesmapper.purchaseClothesProcedure(internalDTO);
-//
-//    BigDecimal result = internalDTO.getResult(); // 프로시저 실행 후 결과 가져오기
-//    log.info("result:" + result);
-//
-//    // 결과가 1이 아니면 예외 발생
-//    if (result == null || result.intValue() < 1) {
-//        throw new CustomException(CLOTH_INSERT_FAILED);
-//    }
-//
-//    // 응답 반환
-//    return new ClothesPurchaseResponseDTO("옷이 클로젯에 추가되었습니다.");
-//}
     @Transactional
     @Override
     public ClothesPurchaseResponseDTO purchaseClothes(Long ClothId, Long memberId) throws Exception {
