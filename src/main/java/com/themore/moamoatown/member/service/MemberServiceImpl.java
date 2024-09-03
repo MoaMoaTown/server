@@ -224,6 +224,7 @@ public class MemberServiceImpl implements MemberService{
                 .description(memberTownResponseDTO.getDescription())
                 .totalMembers(memberTownResponseDTO.getTotalMembers())
                 .totalTax(memberTownResponseDTO.getTotalTax())
+                .townCode(memberTownResponseDTO.getTownCode())
                 .build();
     }
 
