@@ -28,7 +28,7 @@ public interface WishService {
      * @param townId 타운 ID.
      * @return 위시 아이템 목록.
      */
-    List<WishItemResponseDTO> getWishItemsByTown(Long townId);
+    List<WishItemResponseDTO> getWishItemsByTown(Long townId,int page,int size);
 
     /**
      * 위시 상품을 구매합니다.

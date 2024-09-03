@@ -43,17 +43,31 @@ public class WishController {
      * @param townId 세션에서 가져온 타운 ID
      * @return 위시 아이템 목록
      */
+//    @GetMapping("/wishlist")
+//    public ResponseEntity<List<WishItemResponseDTO>> getWishItemsByTown(
+//            @TownId Long townId   //세션에서 가져올 시 이 방식 사용
+//    ) {
+//        log.info("타운 ID: " + townId + "의 위시 아이템 목록 조회 요청");
+//
+//        List<WishItemResponseDTO> response = wishService.getWishItemsByTown(townId);
+//        log.info("조회된 위시 아이템 수: " + response.size());
+//
+//        return ResponseEntity.ok(response);
+//    }
     @GetMapping("/wishlist")
     public ResponseEntity<List<WishItemResponseDTO>> getWishItemsByTown(
-            @TownId Long townId   //세션에서 가져올 시 이 방식 사용
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size,
+            @TownId Long townId   // 세션에서 가져올 시 이 방식 사용
     ) {
-        log.info("타운 ID: " + townId + "의 위시 아이템 목록 조회 요청");
+        log.info("타운 ID: " + townId + "의 위시 아이템 목록 조회 요청 - 페이지: " + page + ", 사이즈: " + size);
 
-        List<WishItemResponseDTO> response = wishService.getWishItemsByTown(townId);
+        List<WishItemResponseDTO> response = wishService.getWishItemsByTown(townId, page, size);
         log.info("조회된 위시 아이템 수: " + response.size());
 
         return ResponseEntity.ok(response);
     }
+
     /**
      * 위시 아이템 구매
      *

@@ -26,9 +26,13 @@ import java.util.List;
  */
 @Mapper
 public interface ClothesMapper {
-    List<ClothesResponseDTO> getClothesListWithPaging();
+    //List<ClothesResponseDTO> getClothesListWithPaging();
+    List<ClothesResponseDTO> getClothesListWithPaging(@Param("offset") int offset, @Param("size") int size);
+
     void purchaseClothesProcedure(ClothesPurchaseInternalRequestDTO internalDTO);
 
+    // 클로젯에 이미 옷이 있는지 확인하는 메서드 추가
+    boolean isClothAlreadyInCloset(@Param("memberId") Long memberId, @Param("clothId") Long clothId);
 
 
 }

@@ -50,8 +50,9 @@ public class WishServiceImpl implements WishService {
      */
     @Transactional(readOnly = true)
     @Override
-    public List<WishItemResponseDTO> getWishItemsByTown(Long townId) {
-        return wishMapper.findWishItemsByTownId(townId);
+    public List<WishItemResponseDTO> getWishItemsByTown(Long townId,int page,int size) {
+        int offset = page * size;
+        return wishMapper.findWishItemsByTownId(townId,offset,size);
     }
     /**
      * 주어진 요청 정보를 바탕으로 위시 상품을 구매합니다.

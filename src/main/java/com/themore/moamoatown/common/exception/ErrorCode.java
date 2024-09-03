@@ -26,7 +26,7 @@ public enum ErrorCode {
     UNKNOWN_INVESTMENT_ERROR(INTERNAL_SERVER_ERROR, "매수가 실패했습니다."),
     SELL_ERROR(INTERNAL_SERVER_ERROR,"매도가 실패했습니다."),
     SELL_AMOUNT_ERROR(INTERNAL_SERVER_ERROR,"보유 수량이 없습니다."),
-
+    CLOTH_ALREADY_PURCHASED(INTERNAL_SERVER_ERROR,"이미 구매한 상품 입니다."),
     /* code: 409 */
     NICKNAME_ALREADY_EXISTS(CONFLICT, "이미 존재하는 닉네임입니다."),
     LOGINID_ALREADY_EXISTS(CONFLICT, "이미 존재하는 아이디입니다."),
