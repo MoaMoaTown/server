@@ -43,6 +43,7 @@ public class WishController {
      * @param townId 세션에서 가져온 타운 ID
      * @return 위시 아이템 목록
      */
+    @Auth(role = {Auth.Role.CITIZEN, Auth.Role.MAYOR})
     @GetMapping("/wishlist")
     public ResponseEntity<List<WishItemResponseDTO>> getWishItemsByTown(
             @TownId Long townId   //세션에서 가져올 시 이 방식 사용
