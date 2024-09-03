@@ -21,10 +21,10 @@ import java.lang.annotation.Target;
 @Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Auth {
-    Role role();
+    Role[] role();
 
     enum Role {
         CITIZEN, // 시민
-        MAYER // 시장
+        MAYOR // 시장
     }
 }

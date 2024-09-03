@@ -44,7 +44,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping(value="/town",
         produces = "application/json; charset=UTF-8")
-@Auth(role = Auth.Role.MAYER)
+@Auth(role = Auth.Role.MAYOR)
 public class TownController {
     private final TownService townService;
 

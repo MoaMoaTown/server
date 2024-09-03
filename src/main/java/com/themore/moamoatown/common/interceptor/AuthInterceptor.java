@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import java.util.Arrays;
+
 import static com.themore.moamoatown.common.exception.ErrorCode.UNAUTHORIZED_ERROR;
 
 /**
@@ -64,14 +66,16 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
                 Auth.Role userRole = mapRole(role, townId);
 
                 // 요구되는 권한이 있는지 체크
-                if (userRole != auth.role()) {
+                boolean hasAccess = Arrays.stream(auth.role())
+                        .anyMatch(requiredRole -> requiredRole == userRole);
+
+                // 요구되는 권한이 있는지 체크
+                if (!hasAccess) {
                     log.info("%%%%%%%%%%%%%%%%%%%%%%%%");
                     log.info("권한이 부족합니다");
                     log.info("필요 권한: " + auth.role());
                     log.info("현재 권한: " + userRole);
                     log.info("%%%%%%%%%%%%%%%%%%%%%%%%");
-
-
 
                     throw new CustomException(UNAUTHORIZED_ERROR);
                 }
@@ -90,7 +94,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
         }
 
         if (role == 1L) {
-            return Auth.Role.MAYER;
+            return Auth.Role.MAYOR;
         } else {
             return Auth.Role.CITIZEN;
         }
