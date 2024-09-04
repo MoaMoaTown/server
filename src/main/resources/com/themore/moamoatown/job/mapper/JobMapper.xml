@@ -33,6 +33,8 @@
             pay
         FROM job
         WHERE town_id = #{townId}
+        ORDER BY job_id
+        OFFSET #{offset} ROWS FETCH NEXT #{size} ROWS ONLY
         ]]>
     </select>
 
