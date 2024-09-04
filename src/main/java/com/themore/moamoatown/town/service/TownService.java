@@ -23,16 +23,15 @@ import java.util.List;
  * 2024.08.27   임원정        퀘스트 생성, 퀘스트 현황 리스트 추가
  * 2024.08.28   임원정        퀘스트 요청 조회, 퀘스트 수행인 선정, 퀘스트 요청 완료 처리 추가
  * 2024.08.30   임원정        급여 지급 프로세스 추가
+ * 2024.09.04   임원정        타운 세금 현황 조회 삭제, 페이지네이션 적용
  * </pre>
  */
 
 public interface TownService {
     // 타운 생성
     TownCreateInternalDTO createTown(TownCreateRequestDTO townCreateRequestDTO, Long memberId);
-    // 타운 세금 현황 조회
-    TownTaxResponseDTO getTotalTax(Long townId);
     // 역할 요청 현황 조회
-    List<JobRequestsResponseDTO> getJobRequests(Long townId);
+    PageDTO<JobRequestsResponseDTO> getJobRequests(Long townId, Criteria cri);
     // 역할 만들기
     void createJob(JobCreateRequestDTO requestDTO, Long townId);
     // 역할 선정
@@ -40,9 +39,9 @@ public interface TownService {
     // 퀘스트 생성
     void createQuest(QuestCreateRequestDTO requestDTO, Long townId);
     // 퀘스트 현황 리스트 조회
-    List<QuestStatusListResponseDTO> getQuestStatusList(Long townId);
+    List<QuestStatusListResponseDTO> getQuestStatusList(Long townId, int page, int size);
     // 퀘스트 요청(memberQuest) 조회
-    List<MemberQuestRequestsResponseDTO> getMemberQuests(Long questId);
+    List<MemberQuestRequestsResponseDTO> getMemberQuests(Long questId, int page, int size);
     // 퀘스트 수행인 선정
     void updateMemberQuestSelected(Long memberQuestId);
     // 퀘스트 요청 완료 처리
@@ -54,7 +53,7 @@ public interface TownService {
     // 위시 상품 완료 처리
     void completeMemberWishItem(Long memberWishId);
     // 위시 상품 요청 리스트 조회
-    List<MemberWishRequestsResponseDTO> getMemberWishRequests(Long townId);
+    List<MemberWishRequestsResponseDTO> getMemberWishRequests(Long townId, int page, int size);
     // 급여 지급 프로세스
     void processPayroll();
 }

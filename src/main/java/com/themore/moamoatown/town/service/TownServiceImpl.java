@@ -35,6 +35,7 @@ import static com.themore.moamoatown.common.exception.ErrorCode.*;
  * 2024.08.28   임원정        퀘스트 요청 조회, 퀘스트 수행인 선정, 퀘스트 요청 완료 처리 추가
  * 2024.08.28   임원정        알림 전송 로직 추가
  * 2024.08.30   임원정        급여 지급 프로세스 추가
+ * 2024.09.04   임원정        타운 세금 현황 조회 삭제, 페이지네이션 적용
  * </pre>
  */
 
@@ -81,37 +82,25 @@ public class TownServiceImpl implements TownService {
     }
 
     /**
-     * 타운 세금 현황 조회
+     *
      * @param townId
+     * @param cri
      * @return
      */
     @Override
     @Transactional
-    public TownTaxResponseDTO getTotalTax(Long townId) {
-        TownTaxResponseDTO townTaxResponseDTO = townMapper.selectTotalTaxByTownId(townId);
-        return TownTaxResponseDTO.builder()
-                .totalTax(townTaxResponseDTO.getTotalTax())
-                .build();
-    }
+    public PageDTO<JobRequestsResponseDTO> getJobRequests(Long townId, Criteria cri){
+        List<JobRequestsResponseDTO> content = townMapper.selectJobRequestByTownId(townId, cri);
 
-    /**
-     * 타운 내 역할 신청 현황 조회
-     * @param townId
-     * @return
-     */
-    @Override
-    @Transactional
-    public List<JobRequestsResponseDTO> getJobRequests(Long townId){
-        return townMapper.selectJobRequestByTownId(townId)
-                .stream()
-                .map(jobRequest -> JobRequestsResponseDTO.builder()
-                        .jobRequestId(jobRequest.getJobRequestId())
-                        .name(jobRequest.getName())
-                        .comments(jobRequest.getComments())
-                        .nickName(jobRequest.getNickName())
-                        .allowYN(jobRequest.getAllowYN())
-                        .build())
-                .collect(Collectors.toList());
+        int totalItems = townMapper.countJobRequests(townId);
+        int totalPages = (int) Math.ceil((double) totalItems / cri.getSize());
+
+        // PageDTO 객체로 반환
+        return PageDTO.<JobRequestsResponseDTO>builder()
+                .content(content)
+                .currentPage(cri.getPage())
+                .totalPages(totalPages)
+                .build();
     }
 
     /**
@@ -168,11 +157,14 @@ public class TownServiceImpl implements TownService {
 
     /**
      * 퀘스트 현황 리스트 조회
+     *
      * @param townId
+     * @param page
+     * @param size
      * @return
      */
     @Override
-    public List<QuestStatusListResponseDTO> getQuestStatusList(Long townId) {
+    public List<QuestStatusListResponseDTO> getQuestStatusList(Long townId, int page, int size) {
         return townMapper.selectQuestStatusListByTownId(townId)
                 .stream()
                 .map(questStatus -> QuestStatusListResponseDTO.builder()
@@ -189,11 +181,14 @@ public class TownServiceImpl implements TownService {
 
     /**
      * 퀘스트 요청 조회
+     *
      * @param questId
+     * @param page
+     * @param size
      * @return
      */
     @Override
-    public List<MemberQuestRequestsResponseDTO> getMemberQuests(Long questId) {
+    public List<MemberQuestRequestsResponseDTO> getMemberQuests(Long questId, int page, int size) {
         return townMapper.selectMemberQuestByQuestId(questId)
                 .stream()
                 .map(memberQuest -> MemberQuestRequestsResponseDTO.builder()
@@ -281,12 +276,15 @@ public class TownServiceImpl implements TownService {
 
     /**
      * 위시 상품 요청 리스트 조회
+     *
      * @param townId
+     * @param page
+     * @param size
      * @return
      */
     @Override
     @Transactional
-    public List<MemberWishRequestsResponseDTO> getMemberWishRequests(Long townId) {
+    public List<MemberWishRequestsResponseDTO> getMemberWishRequests(Long townId, int page, int size) {
         return townMapper.selectWishRequestsByTownId(townId)
                 .stream()
                 .map(memberWishRequest -> MemberWishRequestsResponseDTO.builder()

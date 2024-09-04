@@ -26,6 +26,7 @@ import java.util.List;
  * 2024.08.28   임원정        selectMemberQuestByQuestId, updateMemberQuestSelected 메소드 추가
  * 2024.08.28   임원정        callCompleteQuestProcedure, findMemberIdByMemberQuestId 메소드 추가
  * 2024.08.30   임원정        callProcessPayrollProcedure 메소드 추가
+ * 2024.09.04   임원정        타운 세금 현황 조회 삭제, 페이지네이션 적용
  * </pre>
  */
 
@@ -36,10 +37,10 @@ public interface TownMapper {
     int insertTown(TownCreateRequestDTO townCreateRequestDTO);  // 타운 삽입
     int updateMember(@Param("townId") Long townId, @Param("memberId") Long memberId);   // 멤버의 타운아이디 및 역할 업데이트
 
-    // 타운 세금 현황 조회
-    TownTaxResponseDTO selectTotalTaxByTownId(Long townId);
-    // 타운 역할 신청 현황 조회
-    List<JobRequestsResponseDTO> selectJobRequestByTownId(Long townId);
+    /**타운 역할 신청 현황 조회**/
+    List<JobRequestsResponseDTO> selectJobRequestByTownId(@Param("townId") Long townId, @Param("cri") Criteria cri);
+    int countJobRequests(Long townId);  // 역할 신청 개수 반환
+
     // 역할 만들기
     int insertJob(JobCreateRequestDTO jobCreateRequestDTO);
     // 역할 요청 승인

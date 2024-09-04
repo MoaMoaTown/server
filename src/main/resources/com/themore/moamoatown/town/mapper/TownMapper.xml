@@ -51,15 +51,6 @@
         ]]>
     </update>
 
-    <!-- 타운 세금현황 조회 -->
-    <select id="selectTotalTaxByTownId" resultType="TownTaxResponseDTO">
-        <![CDATA[
-        SELECT total_tax
-        FROM town
-        WHERE town_id = #{townId}
-        ]]>
-    </select>
-
     <!-- 타운 내 역할 신청 현황 조회 -->
     <select id="selectJobRequestByTownId" resultType="JobRequestsResponseDTO">
         <![CDATA[
@@ -69,9 +60,21 @@
                  JOIN member m ON jr.member_id = m.member_id
         WHERE j.town_id = #{townId}
         ORDER BY jr.created_at DESC
+        OFFSET #{cri.offset}
+        ROWS FETCH FIRST #{cri.size} ROWS ONLY
         ]]>
     </select>
 
+    <!-- 페이지네이션을 위한 개수 반환 -->
+    <select id="countJobRequests" resultType="int">
+    <![CDATA[
+        SELECT COUNT(*)
+        FROM job j
+                 JOIN job_request jr ON j.job_id = jr.job_id
+                 JOIN member m ON jr.member_id = m.member_id
+        WHERE j.town_id = #{townId}
+        ]]>
+</select>
     <!-- 역할 생성 -->
     <insert id="insertJob">
         <![CDATA[
