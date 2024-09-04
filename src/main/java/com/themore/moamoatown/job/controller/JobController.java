@@ -45,18 +45,7 @@ public class JobController {
      *  세션에서 가져온 타운 ID.
      * @return 타운에 속한 JOB 목록을 담은 응답 DTO.
      */
-//    @GetMapping("/list")
-//    public ResponseEntity<List<JobResponseDTO>> getJobsByTownId(@TownId Long townId) {
-//
-//
-//        log.info("타운 ID: " + townId + "에 대한 JOB 목록 조회 요청 처리 중");
-//
-//        List<JobResponseDTO> jobList = jobService.getJobsByTownId(townId);
-//
-//        log.info("JOB 목록 조회 완료 - " + jobList.size() + "개 항목");
-//
-//        return ResponseEntity.ok(jobList);
-//    }
+    @Auth(role = {Auth.Role.CITIZEN, Auth.Role.MAYOR})
     @GetMapping("/list")
     public ResponseEntity<List<JobResponseDTO>> getJobsByTownId(
             @TownId Long townId,
