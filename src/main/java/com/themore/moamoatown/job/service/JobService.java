@@ -26,7 +26,7 @@ public interface JobService {
      * @param townId 조회할 타운 ID
      * @return 해당 타운에 속한 JOB 목록
      */
-    List<JobResponseDTO> getJobsByTownId(Long townId);
+    List<JobResponseDTO> getJobsByTownId(Long townId, int page, int size);
     /**
      * 역할 요청 처리
      *

@@ -47,12 +47,14 @@ public class JobController {
      */
     @Auth(role = {Auth.Role.CITIZEN, Auth.Role.MAYOR})
     @GetMapping("/list")
-    public ResponseEntity<List<JobResponseDTO>> getJobsByTownId(@TownId Long townId) {
+    public ResponseEntity<List<JobResponseDTO>> getJobsByTownId(
+            @TownId Long townId,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size) {
 
+        log.info("타운 ID: " + townId + "에 대한 JOB 목록 조회 요청 처리 중 (페이지: " + page + ", 사이즈: " + size + ")");
 
-        log.info("타운 ID: " + townId + "에 대한 JOB 목록 조회 요청 처리 중");
-
-        List<JobResponseDTO> jobList = jobService.getJobsByTownId(townId);
+        List<JobResponseDTO> jobList = jobService.getJobsByTownId(townId, page, size);
 
         log.info("JOB 목록 조회 완료 - " + jobList.size() + "개 항목");
 
