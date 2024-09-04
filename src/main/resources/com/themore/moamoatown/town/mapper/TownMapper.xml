@@ -51,15 +51,6 @@
         ]]>
     </update>
 
-    <!-- 타운 세금현황 조회 -->
-    <select id="selectTotalTaxByTownId" resultType="TownTaxResponseDTO">
-        <![CDATA[
-        SELECT total_tax
-        FROM town
-        WHERE town_id = #{townId}
-        ]]>
-    </select>
-
     <!-- 타운 내 역할 신청 현황 조회 -->
     <select id="selectJobRequestByTownId" resultType="JobRequestsResponseDTO">
         <![CDATA[
@@ -69,6 +60,19 @@
                  JOIN member m ON jr.member_id = m.member_id
         WHERE j.town_id = #{townId}
         ORDER BY jr.created_at DESC
+        OFFSET #{cri.offset}
+        ROWS FETCH FIRST #{cri.size} ROWS ONLY
+        ]]>
+    </select>
+
+    <!-- 페이지네이션을 위한 개수 반환 -->
+    <select id="countJobRequests" resultType="int">
+    <![CDATA[
+        SELECT COUNT(*)
+        FROM job j
+                 JOIN job_request jr ON j.job_id = jr.job_id
+                 JOIN member m ON jr.member_id = m.member_id
+        WHERE j.town_id = #{townId}
         ]]>
     </select>
 
@@ -116,6 +120,16 @@
         WHERE q.town_id = #{townId}
         GROUP BY q.quest_id, q.title, q.reward, TO_CHAR(q.deadline, 'YYYY.MM.DD'), q.capacity
         ORDER BY deadline DESC
+        OFFSET #{cri.offset}
+        ROWS FETCH FIRST #{cri.size} ROWS ONLY
+        ]]>
+    </select>
+
+    <select id="countQuests" resultType="int">
+        <![CDATA[
+        SELECT COUNT(*)
+        FROM quest q
+        WHERE q.town_id = #{townId}
         ]]>
     </select>
 
@@ -132,6 +146,17 @@
                 END AS status
         FROM member_quest mq
                  LEFT JOIN member m ON mq.member_id = m.member_id
+        WHERE mq.quest_id = #{questId}
+        OFFSET #{cri.offset}
+        ROWS FETCH FIRST #{cri.size} ROWS ONLY
+        ]]>
+    </select>
+
+    <select id="countMemberQuests" resultType="int">
+        <![CDATA[
+        SELECT
+            COUNT(*)
+        FROM member_quest mq
         WHERE mq.quest_id = #{questId}
         ]]>
     </select>
@@ -201,6 +226,18 @@
                  JOIN member m on mw.member_id = m.member_id
         WHERE w.town_id = #{townId}
         ORDER BY mw.created_at DESC
+        OFFSET #{cri.offset}
+            ROWS FETCH FIRST #{cri.size} ROWS ONLY
+        ]]>
+    </select>
+
+    <select id="countMemberWishes" resultType="int">
+        <![CDATA[
+        SELECT COUNT(*)
+        FROM member_wish mw
+                 JOIN wish w on mw.wish_id = w.wish_id
+                 JOIN member m on mw.member_id = m.member_id
+        WHERE w.town_id = #{townId}
         ]]>
     </select>
 

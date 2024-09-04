@@ -36,6 +36,7 @@ import java.util.List;
  * 2024.08.27   임원정        멤버 위시 요청 리스트 조회 추가
  * 2024.08.27   임원정        퀘스트 만들기, 퀘스트 현황 조회 추가
  * 2024.08.28   임원정        퀘스트 요청 조회, 퀘스트 요청 수락, 퀘스트 완료 처리 추가
+ * 2024.09.04   임원정        타운 세금 현황 조회 삭제, 페이지네이션 적용
  * </pre>
  */
 
@@ -56,8 +57,10 @@ public class TownController {
      * @return
      */
     @PostMapping("/create")
-    public ResponseEntity<TownCreateResponseDTO> createTown(@RequestBody TownCreateRequestDTO requestDTO, @MemberId Long memberId,
-                                             HttpSession session) {
+    public ResponseEntity<TownCreateResponseDTO> createTown(
+            @RequestBody TownCreateRequestDTO requestDTO,
+            @MemberId Long memberId,
+            HttpSession session) {
         // 타운 생성
         TownCreateInternalDTO internalDTO = townService.createTown(requestDTO, memberId);
 
@@ -73,24 +76,14 @@ public class TownController {
     }
 
     /**
-     * 타운의 세금현황 조회
-     * @param townId
-     * @return
-     */
-    @GetMapping("/tax")
-    public ResponseEntity<TownTaxResponseDTO> getTotalTax(@TownId Long townId) {
-        TownTaxResponseDTO response = townService.getTotalTax(townId);
-        return ResponseEntity.ok(response);
-    }
-
-    /**
      * 타운 내 역할 신청 현황 조회
      * @param townId
      * @return
      */
     @GetMapping("/job/requests")
-    public ResponseEntity<List<JobRequestsResponseDTO>> getJobRequests(@TownId Long townId) {
-        List<JobRequestsResponseDTO> response = townService.getJobRequests(townId);
+    public ResponseEntity<PageDTO<JobRequestsResponseDTO>> getJobRequests(
+            @TownId Long townId, Criteria cri) {
+        PageDTO<JobRequestsResponseDTO> response = townService.getJobRequests(townId, cri);
         return ResponseEntity.ok(response);
     }
 
@@ -135,8 +128,10 @@ public class TownController {
      * @return
      */
     @GetMapping("/quest/status")
-    public ResponseEntity<List<QuestStatusListResponseDTO>> getQuestStatusList(@TownId Long townId) {
-        List<QuestStatusListResponseDTO> response = townService.getQuestStatusList(townId);
+    public ResponseEntity<PageDTO<QuestStatusListResponseDTO>> getQuestStatusList(
+            @TownId Long townId,
+            Criteria cri) {
+        PageDTO<QuestStatusListResponseDTO> response = townService.getQuestStatusList(townId, cri);
         return ResponseEntity.ok(response);
     }
 
@@ -146,8 +141,10 @@ public class TownController {
      * @return
      */
     @GetMapping("/quest/requests/{questId}")
-    public ResponseEntity<List<MemberQuestRequestsResponseDTO>> getMemberQuestRequests(@PathVariable Long questId) {
-        List<MemberQuestRequestsResponseDTO> response = townService.getMemberQuests(questId);
+    public ResponseEntity<PageDTO<MemberQuestRequestsResponseDTO>> getMemberQuestRequests(
+            @PathVariable Long questId,
+            Criteria cri) {
+        PageDTO<MemberQuestRequestsResponseDTO> response = townService.getMemberQuests(questId, cri);
         return ResponseEntity.ok(response);
     }
 
@@ -214,8 +211,10 @@ public class TownController {
      * @return
      */
     @GetMapping("/wish/requests")
-    public ResponseEntity<List<MemberWishRequestsResponseDTO>> getMemberWishRequests(@TownId Long townId) {
-        List<MemberWishRequestsResponseDTO> response = townService.getMemberWishRequests(townId);
+    public ResponseEntity<PageDTO<MemberWishRequestsResponseDTO>> getMemberWishRequests(
+            @TownId Long townId,
+            Criteria cri) {
+        PageDTO<MemberWishRequestsResponseDTO> response = townService.getMemberWishRequests(townId, cri);
         return ResponseEntity.ok(response);
     }
 }
