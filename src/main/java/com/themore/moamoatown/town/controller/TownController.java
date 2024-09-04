@@ -128,11 +128,10 @@ public class TownController {
      * @return
      */
     @GetMapping("/quest/status")
-    public ResponseEntity<List<QuestStatusListResponseDTO>> getQuestStatusList(
+    public ResponseEntity<PageDTO<QuestStatusListResponseDTO>> getQuestStatusList(
             @TownId Long townId,
-            @RequestParam(defaultValue = "1") int page,
-            @RequestParam(defaultValue = "10") int size) {
-        List<QuestStatusListResponseDTO> response = townService.getQuestStatusList(townId, page, size);
+            Criteria cri) {
+        PageDTO<QuestStatusListResponseDTO> response = townService.getQuestStatusList(townId, cri);
         return ResponseEntity.ok(response);
     }
 
@@ -142,11 +141,10 @@ public class TownController {
      * @return
      */
     @GetMapping("/quest/requests/{questId}")
-    public ResponseEntity<List<MemberQuestRequestsResponseDTO>> getMemberQuestRequests(
+    public ResponseEntity<PageDTO<MemberQuestRequestsResponseDTO>> getMemberQuestRequests(
             @PathVariable Long questId,
-            @RequestParam(defaultValue = "1") int page,
-            @RequestParam(defaultValue = "3") int size) {
-        List<MemberQuestRequestsResponseDTO> response = townService.getMemberQuests(questId, page, size);
+            Criteria cri) {
+        PageDTO<MemberQuestRequestsResponseDTO> response = townService.getMemberQuests(questId, cri);
         return ResponseEntity.ok(response);
     }
 
@@ -213,11 +211,10 @@ public class TownController {
      * @return
      */
     @GetMapping("/wish/requests")
-    public ResponseEntity<List<MemberWishRequestsResponseDTO>> getMemberWishRequests(
+    public ResponseEntity<PageDTO<MemberWishRequestsResponseDTO>> getMemberWishRequests(
             @TownId Long townId,
-            @RequestParam(defaultValue = "1") int page,
-            @RequestParam(defaultValue = "10") int size) {
-        List<MemberWishRequestsResponseDTO> response = townService.getMemberWishRequests(townId, page, size);
+            Criteria cri) {
+        PageDTO<MemberWishRequestsResponseDTO> response = townService.getMemberWishRequests(townId, cri);
         return ResponseEntity.ok(response);
     }
 }

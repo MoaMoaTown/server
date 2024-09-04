@@ -50,9 +50,9 @@ public interface TownMapper {
     // 퀘스트 생성
     int insertQuest(QuestCreateRequestDTO questCreateRequestDTO);
     // 퀘스트 현황 리스트 조회
-    List<QuestStatusListResponseDTO> selectQuestStatusListByTownId(Long townId);
+    List<QuestStatusListResponseDTO> selectQuestStatusListByTownId(@Param("townId")Long townId, @Param("cri") Criteria cri);
     // 퀘스트 신청 조회
-    List<MemberQuestRequestsResponseDTO> selectMemberQuestByQuestId(Long questId);
+    List<MemberQuestRequestsResponseDTO> selectMemberQuestByQuestId(@Param("townId")Long questId, @Param("cri") Criteria cri);
     // 퀘스트 수행인 선정
     int updateMemberQuestSelected(Long memberQuestId);
     // 퀘스트 완료 처리
@@ -67,7 +67,11 @@ public interface TownMapper {
     // 멤버 위시 상품 완료 처리
     int updateMemberWishCompleted(Long memberWishId);
     // 위시 상품 요청 현황
-    List<MemberWishRequestsResponseDTO> selectWishRequestsByTownId(Long townId);
+    List<MemberWishRequestsResponseDTO> selectWishRequestsByTownId(@Param("townId")Long townId, @Param("cri") Criteria cri);
     // 급여 지급 및 소득세 징수
     void callProcessPayrollProcedure();
+
+    int countQuests(Long townId);
+    int countMemberQuests(Long questId);
+    int countMemberWishes(Long townId);
 }

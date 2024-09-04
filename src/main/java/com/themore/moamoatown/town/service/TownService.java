@@ -39,9 +39,9 @@ public interface TownService {
     // 퀘스트 생성
     void createQuest(QuestCreateRequestDTO requestDTO, Long townId);
     // 퀘스트 현황 리스트 조회
-    List<QuestStatusListResponseDTO> getQuestStatusList(Long townId, int page, int size);
+    PageDTO<QuestStatusListResponseDTO> getQuestStatusList(Long townId, Criteria cri);
     // 퀘스트 요청(memberQuest) 조회
-    List<MemberQuestRequestsResponseDTO> getMemberQuests(Long questId, int page, int size);
+    PageDTO<MemberQuestRequestsResponseDTO> getMemberQuests(Long questId, Criteria cri);
     // 퀘스트 수행인 선정
     void updateMemberQuestSelected(Long memberQuestId);
     // 퀘스트 요청 완료 처리
@@ -53,7 +53,8 @@ public interface TownService {
     // 위시 상품 완료 처리
     void completeMemberWishItem(Long memberWishId);
     // 위시 상품 요청 리스트 조회
-    List<MemberWishRequestsResponseDTO> getMemberWishRequests(Long townId, int page, int size);
+    PageDTO<MemberWishRequestsResponseDTO> getMemberWishRequests(Long townId, Criteria cri);
     // 급여 지급 프로세스
     void processPayroll();
+
 }

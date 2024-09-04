@@ -74,7 +74,8 @@
                  JOIN member m ON jr.member_id = m.member_id
         WHERE j.town_id = #{townId}
         ]]>
-</select>
+    </select>
+
     <!-- 역할 생성 -->
     <insert id="insertJob">
         <![CDATA[
@@ -119,6 +120,16 @@
         WHERE q.town_id = #{townId}
         GROUP BY q.quest_id, q.title, q.reward, TO_CHAR(q.deadline, 'YYYY.MM.DD'), q.capacity
         ORDER BY deadline DESC
+        OFFSET #{cri.offset}
+        ROWS FETCH FIRST #{cri.size} ROWS ONLY
+        ]]>
+    </select>
+
+    <select id="countQuests" resultType="int">
+        <![CDATA[
+        SELECT COUNT(*)
+        FROM quest q
+        WHERE q.town_id = #{townId}
         ]]>
     </select>
 
@@ -135,6 +146,17 @@
                 END AS status
         FROM member_quest mq
                  LEFT JOIN member m ON mq.member_id = m.member_id
+        WHERE mq.quest_id = #{questId}
+        OFFSET #{cri.offset}
+        ROWS FETCH FIRST #{cri.size} ROWS ONLY
+        ]]>
+    </select>
+
+    <select id="countMemberQuests" resultType="int">
+        <![CDATA[
+        SELECT
+            COUNT(*)
+        FROM member_quest mq
         WHERE mq.quest_id = #{questId}
         ]]>
     </select>
@@ -204,6 +226,18 @@
                  JOIN member m on mw.member_id = m.member_id
         WHERE w.town_id = #{townId}
         ORDER BY mw.created_at DESC
+        OFFSET #{cri.offset}
+            ROWS FETCH FIRST #{cri.size} ROWS ONLY
+        ]]>
+    </select>
+
+    <select id="countMemberWishes" resultType="int">
+        <![CDATA[
+        SELECT COUNT(*)
+        FROM member_wish mw
+                 JOIN wish w on mw.wish_id = w.wish_id
+                 JOIN member m on mw.member_id = m.member_id
+        WHERE w.town_id = #{townId}
         ]]>
     </select>
 
