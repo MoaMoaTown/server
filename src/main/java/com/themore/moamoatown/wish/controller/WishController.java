@@ -44,6 +44,7 @@ public class WishController {
      * @param townId 세션에서 가져온 타운 ID
      * @return 위시 아이템 목록
      */
+    @Auth(role = {Auth.Role.CITIZEN, Auth.Role.MAYOR})
     @GetMapping("/wishlist")
     public ResponseEntity<List<WishItemResponseDTO>> getWishItemsByTown(
             @RequestParam(defaultValue = "0") int page,

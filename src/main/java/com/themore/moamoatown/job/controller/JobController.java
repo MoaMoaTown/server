@@ -45,6 +45,7 @@ public class JobController {
      *  세션에서 가져온 타운 ID.
      * @return 타운에 속한 JOB 목록을 담은 응답 DTO.
      */
+    @Auth(role = {Auth.Role.CITIZEN, Auth.Role.MAYOR})
     @GetMapping("/list")
     public ResponseEntity<List<JobResponseDTO>> getJobsByTownId(@TownId Long townId) {
 
