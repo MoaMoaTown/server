@@ -21,6 +21,7 @@
  * 2024.08.28   임원정        callCompleteQuestProcedure, findMemberIdByMemberQuestId 메소드 추가
  * 2024.08.30   임원정        updateJobRequestAllowed 메소드 수정
  * 2024.08.30   임원정        callProcessPayrollProcedure 메소드 추가
+ * 2024.09.04   임원정        페이지네이션 적용
  * </pre>
 -->
 <mapper namespace="com.themore.moamoatown.town.mapper.TownMapper">
@@ -61,18 +62,7 @@
         WHERE j.town_id = #{townId}
         ORDER BY jr.created_at DESC
         OFFSET #{cri.offset}
-        ROWS FETCH FIRST #{cri.size} ROWS ONLY
-        ]]>
-    </select>
-
-    <!-- 페이지네이션을 위한 개수 반환 -->
-    <select id="countJobRequests" resultType="int">
-    <![CDATA[
-        SELECT COUNT(*)
-        FROM job j
-                 JOIN job_request jr ON j.job_id = jr.job_id
-                 JOIN member m ON jr.member_id = m.member_id
-        WHERE j.town_id = #{townId}
+        ROWS FETCH NEXT #{cri.size} ROWS ONLY
         ]]>
     </select>
 
@@ -125,14 +115,6 @@
         ]]>
     </select>
 
-    <select id="countQuests" resultType="int">
-        <![CDATA[
-        SELECT COUNT(*)
-        FROM quest q
-        WHERE q.town_id = #{townId}
-        ]]>
-    </select>
-
     <!-- 퀘스트 ID로 member_quest 찾기 -->
     <select id="selectMemberQuestByQuestId" resultType="MemberQuestRequestsResponseDTO">
         <![CDATA[
@@ -149,15 +131,6 @@
         WHERE mq.quest_id = #{questId}
         OFFSET #{cri.offset}
         ROWS FETCH FIRST #{cri.size} ROWS ONLY
-        ]]>
-    </select>
-
-    <select id="countMemberQuests" resultType="int">
-        <![CDATA[
-        SELECT
-            COUNT(*)
-        FROM member_quest mq
-        WHERE mq.quest_id = #{questId}
         ]]>
     </select>
 
@@ -227,17 +200,7 @@
         WHERE w.town_id = #{townId}
         ORDER BY mw.created_at DESC
         OFFSET #{cri.offset}
-            ROWS FETCH FIRST #{cri.size} ROWS ONLY
-        ]]>
-    </select>
-
-    <select id="countMemberWishes" resultType="int">
-        <![CDATA[
-        SELECT COUNT(*)
-        FROM member_wish mw
-                 JOIN wish w on mw.wish_id = w.wish_id
-                 JOIN member m on mw.member_id = m.member_id
-        WHERE w.town_id = #{townId}
+        ROWS FETCH FIRST #{cri.size} ROWS ONLY
         ]]>
     </select>
 

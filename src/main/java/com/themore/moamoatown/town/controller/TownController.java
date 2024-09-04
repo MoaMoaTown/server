@@ -78,12 +78,13 @@ public class TownController {
     /**
      * 타운 내 역할 신청 현황 조회
      * @param townId
+     * @param cri
      * @return
      */
     @GetMapping("/job/requests")
-    public ResponseEntity<PageDTO<JobRequestsResponseDTO>> getJobRequests(
-            @TownId Long townId, Criteria cri) {
-        PageDTO<JobRequestsResponseDTO> response = townService.getJobRequests(townId, cri);
+    public ResponseEntity<List<JobRequestsResponseDTO>> getJobRequests(@TownId Long townId, Criteria cri) {
+        log.info("페이지:"+cri.getPage()+"사이즈:"+cri.getSize());
+        List<JobRequestsResponseDTO> response = townService.getJobRequests(townId, cri);
         return ResponseEntity.ok(response);
     }
 
@@ -125,26 +126,24 @@ public class TownController {
     /**
      * 퀘스트 현황 리스트 조회
      * @param townId
+     * @param cri
      * @return
      */
     @GetMapping("/quest/status")
-    public ResponseEntity<PageDTO<QuestStatusListResponseDTO>> getQuestStatusList(
-            @TownId Long townId,
-            Criteria cri) {
-        PageDTO<QuestStatusListResponseDTO> response = townService.getQuestStatusList(townId, cri);
+    public ResponseEntity<List<QuestStatusListResponseDTO>> getQuestStatusList(@TownId Long townId, Criteria cri) {
+        List<QuestStatusListResponseDTO> response = townService.getQuestStatusList(townId, cri);
         return ResponseEntity.ok(response);
     }
 
     /**
      * 퀘스트 요청 조회
      * @param questId
+     * @param cri
      * @return
      */
     @GetMapping("/quest/requests/{questId}")
-    public ResponseEntity<PageDTO<MemberQuestRequestsResponseDTO>> getMemberQuestRequests(
-            @PathVariable Long questId,
-            Criteria cri) {
-        PageDTO<MemberQuestRequestsResponseDTO> response = townService.getMemberQuests(questId, cri);
+    public ResponseEntity<List<MemberQuestRequestsResponseDTO>> getMemberQuestRequests(@PathVariable Long questId, Criteria cri) {
+        List<MemberQuestRequestsResponseDTO> response = townService.getMemberQuests(questId, cri);
         return ResponseEntity.ok(response);
     }
 
@@ -208,13 +207,12 @@ public class TownController {
     /**
      * 멤버 위시 요청 리스트 조회
      * @param townId
+     * @param cri
      * @return
      */
     @GetMapping("/wish/requests")
-    public ResponseEntity<PageDTO<MemberWishRequestsResponseDTO>> getMemberWishRequests(
-            @TownId Long townId,
-            Criteria cri) {
-        PageDTO<MemberWishRequestsResponseDTO> response = townService.getMemberWishRequests(townId, cri);
+    public ResponseEntity<List<MemberWishRequestsResponseDTO>> getMemberWishRequests(@TownId Long townId, Criteria cri) {
+        List<MemberWishRequestsResponseDTO> response = townService.getMemberWishRequests(townId, cri);
         return ResponseEntity.ok(response);
     }
 }
