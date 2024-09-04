@@ -44,13 +44,6 @@ public class JobServiceImpl implements JobService {
      * @param townId 타운 ID
      * @return JOB 리스트
      */
-//    @Transactional(readOnly = true)
-//    @Override
-//    public List<JobResponseDTO> getJobsByTownId(Long townId) {
-//        log.info("타운 ID: " + townId + "에 대한 JOB 목록 조회 중");
-//
-//        return jobMapper.findJobsByTownId(townId);
-//    }
     @Transactional(readOnly = true)
     @Override
     public List<JobResponseDTO> getJobsByTownId(Long townId, int page, int size) {
@@ -66,17 +59,6 @@ public class JobServiceImpl implements JobService {
      * @return 역할 요청 결과를 나타내는 DTO
      * @throws CustomException 역할 요청 실패 시 예외 발생
      */
-//    @Transactional
-//    @Override
-//    public JobApplyResponseDTO requestJob(JobRequestDTO jobRequestDTO) {
-//        log.info("역할 요청 처리 중 - Job ID: " + jobRequestDTO.getJobId() + ", Member ID: " + jobRequestDTO.getMemberId());
-//
-//        if(1 > jobMapper.insertJobRequest(jobRequestDTO)) throw new CustomException(JOB_APPLY_INSERT_FAILED);
-//
-//        return JobApplyResponseDTO.builder()
-//                .message("역할 요청이 성공적으로 처리되었습니다.")
-//                .build();
-//    }
     @Transactional
     @Override
     public JobApplyResponseDTO requestJob(JobRequestDTO jobRequestDTO) {
