@@ -3,6 +3,7 @@ package com.themore.moamoatown.job.mapper;
 import com.themore.moamoatown.job.dto.JobRequestDTO;
 import com.themore.moamoatown.job.dto.JobResponseDTO;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -31,7 +32,7 @@ public interface JobMapper {
      * @param townId 조회할 타운 ID
      * @return 해당 타운에 속한 JOB 목록
      */
-    List<JobResponseDTO> findJobsByTownId(Long townId);
+    List<JobResponseDTO> findJobsByTownId(@Param("townId") Long townId, @Param("offset") int offset, @Param("size") int size);
     /**
      * 역할 요청 삽입
      *

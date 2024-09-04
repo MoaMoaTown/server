@@ -52,7 +52,8 @@ public enum ErrorCode {
     WISH_COMPLETE_FAILED(INTERNAL_SERVER_ERROR, "위시 상품 완료 처리에 실패했습니다."),
     QUEST_CREATE_FAILED(BAD_REQUEST, "퀘스트 만들기에 실패했습니다."),
     QUEST_SELECTED_FAILED(INTERNAL_SERVER_ERROR, "퀘스트 담당자 선정에 실패했습니다."),
-    QUEST_COMPLETE_FAILED(INTERNAL_SERVER_ERROR, "퀘스트 완료 처리에 실패했습니다.")
+    QUEST_COMPLETE_FAILED(INTERNAL_SERVER_ERROR, "퀘스트 완료 처리에 실패했습니다."),
+    NULL_COMMENTS(BAD_REQUEST, "포부를 입력해주세요")
     ;
 
     private final HttpStatus httpStatus;

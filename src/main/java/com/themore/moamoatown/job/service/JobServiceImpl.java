@@ -7,12 +7,14 @@ import com.themore.moamoatown.job.dto.JobResponseDTO;
 import com.themore.moamoatown.job.mapper.JobMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 import static com.themore.moamoatown.common.exception.ErrorCode.JOB_APPLY_INSERT_FAILED;
+import static com.themore.moamoatown.common.exception.ErrorCode.NULL_COMMENTS;
 
 
 /**
@@ -42,12 +44,20 @@ public class JobServiceImpl implements JobService {
      * @param townId 타운 ID
      * @return JOB 리스트
      */
+//    @Transactional(readOnly = true)
+//    @Override
+//    public List<JobResponseDTO> getJobsByTownId(Long townId) {
+//        log.info("타운 ID: " + townId + "에 대한 JOB 목록 조회 중");
+//
+//        return jobMapper.findJobsByTownId(townId);
+//    }
     @Transactional(readOnly = true)
     @Override
-    public List<JobResponseDTO> getJobsByTownId(Long townId) {
-        log.info("타운 ID: " + townId + "에 대한 JOB 목록 조회 중");
+    public List<JobResponseDTO> getJobsByTownId(Long townId, int page, int size) {
+        log.info("타운 ID: " + townId + "에 대한 JOB 목록 조회 중 (페이지: " + page + ", 사이즈: " + size + ")");
+        int offset = page * size;
 
-        return jobMapper.findJobsByTownId(townId);
+        return jobMapper.findJobsByTownId(townId, offset, size);
     }
     /**
      * 주어진 요청 정보를 바탕으로 역할 요청을 처리합니다.
@@ -56,15 +66,34 @@ public class JobServiceImpl implements JobService {
      * @return 역할 요청 결과를 나타내는 DTO
      * @throws CustomException 역할 요청 실패 시 예외 발생
      */
+//    @Transactional
+//    @Override
+//    public JobApplyResponseDTO requestJob(JobRequestDTO jobRequestDTO) {
+//        log.info("역할 요청 처리 중 - Job ID: " + jobRequestDTO.getJobId() + ", Member ID: " + jobRequestDTO.getMemberId());
+//
+//        if(1 > jobMapper.insertJobRequest(jobRequestDTO)) throw new CustomException(JOB_APPLY_INSERT_FAILED);
+//
+//        return JobApplyResponseDTO.builder()
+//                .message("역할 요청이 성공적으로 처리되었습니다.")
+//                .build();
+//    }
     @Transactional
     @Override
     public JobApplyResponseDTO requestJob(JobRequestDTO jobRequestDTO) {
         log.info("역할 요청 처리 중 - Job ID: " + jobRequestDTO.getJobId() + ", Member ID: " + jobRequestDTO.getMemberId());
 
-        if(1 > jobMapper.insertJobRequest(jobRequestDTO)) throw new CustomException(JOB_APPLY_INSERT_FAILED);
+        try {
+            if (jobMapper.insertJobRequest(jobRequestDTO) < 1) {
+                throw new CustomException(JOB_APPLY_INSERT_FAILED);
+            }
+        } catch (DataIntegrityViolationException e) {
+            // ORA-01400 오류를 잡아내어 커스텀 메시지를 반환
+            throw new CustomException(NULL_COMMENTS);
+        }
 
         return JobApplyResponseDTO.builder()
-                .message("역할 요청이 성공적으로 처리되었습니다.")
+                .message("역할 요청이 성공했습니다.")
                 .build();
     }
+
 }
