@@ -89,16 +89,17 @@ public class TownServiceImpl implements TownService {
      */
     @Override
     @Transactional
-    public PageDTO<JobRequestsResponseDTO> getJobRequests(Long townId, Criteria cri){
-        List<JobRequestsResponseDTO> content = townMapper.selectJobRequestByTownId(townId, cri);
-        int totalItems = townMapper.countJobRequests(townId);
-        int totalPages = (int) Math.ceil((double) totalItems / cri.getSize());
-        
-        return PageDTO.<JobRequestsResponseDTO>builder()
-                .content(content)
-                .currentPage(cri.getPage())
-                .totalPages(totalPages)
-                .build();
+    public List<JobRequestsResponseDTO> getJobRequests(Long townId, Criteria cri){
+        return townMapper.selectJobRequestByTownId(townId, cri)
+                .stream()
+                .map(jobRequest -> JobRequestsResponseDTO.builder()
+                        .jobRequestId(jobRequest.getJobRequestId())
+                        .name(jobRequest.getName())
+                        .comments(jobRequest.getComments())
+                        .nickName(jobRequest.getNickName())
+                        .allowYN(jobRequest.getAllowYN())
+                        .build())
+                .collect(Collectors.toList());
     }
 
     /**
@@ -155,41 +156,42 @@ public class TownServiceImpl implements TownService {
 
     /**
      * 퀘스트 현황 리스트 조회
-     *
      * @param townId
      * @param cri
      * @return
      */
     @Override
-    public PageDTO<QuestStatusListResponseDTO> getQuestStatusList(Long townId, Criteria cri) {
-        List<QuestStatusListResponseDTO> content = townMapper.selectQuestStatusListByTownId(townId, cri);
-        int totalItems = townMapper.countQuests(townId);
-        int totalPages = (int) Math.ceil((double) totalItems / cri.getSize());
-
-        return PageDTO.<QuestStatusListResponseDTO>builder()
-                .content(content)
-                .currentPage(cri.getPage())
-                .totalPages(totalPages)
-                .build();
+    public List<QuestStatusListResponseDTO> getQuestStatusList(Long townId, Criteria cri) {
+        return townMapper.selectQuestStatusListByTownId(townId, cri)
+                .stream()
+                .map(questStatus -> QuestStatusListResponseDTO.builder()
+                        .questId(questStatus.getQuestId())
+                        .title(questStatus.getTitle())
+                        .reward(questStatus.getReward())
+                        .deadline(questStatus.getDeadline())
+                        .requestCnt(questStatus.getRequestCnt())
+                        .selectedCnt(questStatus.getSelectedCnt())
+                        .capacity(questStatus.getCapacity())
+                        .build())
+                .collect(Collectors.toList());
     }
 
     /**
      * 퀘스트 요청 조회
      * @param questId
-     * @param cri 
+     * @param cri
      * @return
      */
     @Override
-    public PageDTO<MemberQuestRequestsResponseDTO> getMemberQuests(Long questId, Criteria cri) {
-        List<MemberQuestRequestsResponseDTO> content = townMapper.selectMemberQuestByQuestId(questId, cri);
-        int totalItems = townMapper.countMemberQuests(questId);
-        int totalPages = (int) Math.ceil((double) totalItems / cri.getSize());
-
-        return PageDTO.<MemberQuestRequestsResponseDTO>builder()
-                .content(content)
-                .currentPage(cri.getPage())
-                .totalPages(totalPages)
-                .build();
+    public List<MemberQuestRequestsResponseDTO> getMemberQuests(Long questId, Criteria cri) {
+        return townMapper.selectMemberQuestByQuestId(questId, cri)
+                .stream()
+                .map(memberQuest -> MemberQuestRequestsResponseDTO.builder()
+                        .memberQuestId(memberQuest.getMemberQuestId())
+                        .nickName(memberQuest.getNickName())
+                        .status(memberQuest.getStatus())
+                        .build())
+                .collect(Collectors.toList());
     }
 
     /**
@@ -269,23 +271,23 @@ public class TownServiceImpl implements TownService {
 
     /**
      * 위시 상품 요청 리스트 조회
-     *
      * @param townId
      * @param cri
      * @return
      */
     @Override
     @Transactional
-    public PageDTO<MemberWishRequestsResponseDTO> getMemberWishRequests(Long townId, Criteria cri) {
-        List<MemberWishRequestsResponseDTO> content = townMapper.selectWishRequestsByTownId(townId, cri);
-        int totalItems = townMapper.countMemberWishes(townId);
-        int totalPages = (int) Math.ceil((double) totalItems / cri.getSize());
-
-        return PageDTO.<MemberWishRequestsResponseDTO>builder()
-                .content(content)
-                .currentPage(cri.getPage())
-                .totalPages(totalPages)
-                .build();
+    public List<MemberWishRequestsResponseDTO> getMemberWishRequests(Long townId, Criteria cri) {
+        return townMapper.selectWishRequestsByTownId(townId, cri)
+                .stream()
+                .map(memberWishRequest -> MemberWishRequestsResponseDTO.builder()
+                        .memberWishId(memberWishRequest.getMemberWishId())
+                        .wishName(memberWishRequest.getWishName())
+                        .nickName(memberWishRequest.getNickName())
+                        .createdAt(memberWishRequest.getCreatedAt())
+                        .completeYN(memberWishRequest.getCompleteYN())
+                        .build())
+                .collect(Collectors.toList());
     }
 
     /**

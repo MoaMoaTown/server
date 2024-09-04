@@ -37,10 +37,8 @@ public interface TownMapper {
     int insertTown(TownCreateRequestDTO townCreateRequestDTO);  // 타운 삽입
     int updateMember(@Param("townId") Long townId, @Param("memberId") Long memberId);   // 멤버의 타운아이디 및 역할 업데이트
 
-    /**타운 역할 신청 현황 조회**/
+    // 타운 역할 신청 현황 조회
     List<JobRequestsResponseDTO> selectJobRequestByTownId(@Param("townId") Long townId, @Param("cri") Criteria cri);
-    int countJobRequests(Long townId);  // 역할 신청 개수 반환
-
     // 역할 만들기
     int insertJob(JobCreateRequestDTO jobCreateRequestDTO);
     // 역할 요청 승인
@@ -70,8 +68,4 @@ public interface TownMapper {
     List<MemberWishRequestsResponseDTO> selectWishRequestsByTownId(@Param("townId")Long townId, @Param("cri") Criteria cri);
     // 급여 지급 및 소득세 징수
     void callProcessPayrollProcedure();
-
-    int countQuests(Long townId);
-    int countMemberQuests(Long questId);
-    int countMemberWishes(Long townId);
 }
