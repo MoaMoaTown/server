@@ -63,7 +63,6 @@ public class TownController {
             HttpSession session) {
         // 타운 생성
         TownCreateInternalDTO internalDTO = townService.createTown(requestDTO, memberId);
-
         // 세션에 town_id 저장
         session.setAttribute("town_id", internalDTO.getTownId());
 
@@ -83,7 +82,6 @@ public class TownController {
      */
     @GetMapping("/job/requests")
     public ResponseEntity<List<JobRequestsResponseDTO>> getJobRequests(@TownId Long townId, Criteria cri) {
-        log.info("페이지:"+cri.getPage()+"사이즈:"+cri.getSize());
         List<JobRequestsResponseDTO> response = townService.getJobRequests(townId, cri);
         return ResponseEntity.ok(response);
     }

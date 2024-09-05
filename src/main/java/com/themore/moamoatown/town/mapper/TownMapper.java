@@ -50,7 +50,7 @@ public interface TownMapper {
     // 퀘스트 현황 리스트 조회
     List<QuestStatusListResponseDTO> selectQuestStatusListByTownId(@Param("townId")Long townId, @Param("cri") Criteria cri);
     // 퀘스트 신청 조회
-    List<MemberQuestRequestsResponseDTO> selectMemberQuestByQuestId(@Param("townId")Long questId, @Param("cri") Criteria cri);
+    List<MemberQuestRequestsResponseDTO> selectMemberQuestByQuestId(@Param("questId")Long questId, @Param("cri") Criteria cri);
     // 퀘스트 수행인 선정
     int updateMemberQuestSelected(Long memberQuestId);
     // 퀘스트 완료 처리
