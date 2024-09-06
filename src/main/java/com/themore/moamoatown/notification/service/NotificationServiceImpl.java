@@ -49,12 +49,20 @@ public class NotificationServiceImpl implements NotificationService {
     public SseEmitter subscribe(Long memberId) {
         SseEmitter emitter = new SseEmitter(TIMEOUT);
         sseEmitters.put(memberId, emitter);
-
+        try {
+            emitter.send(SseEmitter.event()
+                    .data("모아모아타운에 어서오세요!😊"));
+        } catch (IOException e) {
+            log.error("알림을 보내는데 실패하였습니다.", e);
+            sseEmitters.remove(memberId);
+        }
         emitter.onCompletion(() -> sseEmitters.remove(memberId));
         emitter.onTimeout(() -> {
             log.info("SSE 연결 timeout, 회원아이디: " + memberId);
             sseEmitters.remove(memberId);
         });
+        emitter.onError(e -> sseEmitters.remove(memberId));
+
         return emitter;
     }
 
@@ -65,7 +73,7 @@ public class NotificationServiceImpl implements NotificationService {
      */
     @Override
     @Transactional
-    public void notifyMember(Long memberId, String content, String eventType) {
+    public SseEmitter notifyMember(Long memberId, String content) {
         NotificationInsertDTO insertDTO = NotificationInsertDTO.builder()
                 .memberId(memberId)
                 .content(content)
@@ -73,27 +81,26 @@ public class NotificationServiceImpl implements NotificationService {
         // 알림 저장
         notificationMapper.insertNotification(insertDTO);
         // 실시간 알림 전송
-        sendNotification(memberId, content, eventType);
+        return sendNotification(memberId, content);
     }
 
     /**
      * 알림 전송
      * @param memberId
      * @param content
-     * @param eventType
      */
-    public void sendNotification(Long memberId, String content, String eventType) {
+    public SseEmitter sendNotification(Long memberId, String content) {
         SseEmitter emitter = sseEmitters.get(memberId);
         if (emitter != null) {
             try {
                 emitter.send(SseEmitter.event()
-                        .name(eventType)
                         .data(content));
             } catch (IOException e) {
                 log.error("알림을 보내는데 실패하였습니다.", e);
                 sseEmitters.remove(memberId);
             }
         }
+        return emitter;
     }
 
     /**
