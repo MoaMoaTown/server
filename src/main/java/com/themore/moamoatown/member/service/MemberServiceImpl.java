@@ -4,11 +4,11 @@ import com.themore.moamoatown.common.exception.CustomException;
 import com.themore.moamoatown.member.dto.*;
 import com.themore.moamoatown.member.mapper.MemberMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Base64;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,9 +33,11 @@ import static com.themore.moamoatown.common.exception.ErrorCode.*;
  * 2024.08.26  이주현        멤버 역할 조회
  * 2024.08.26  이주현        멤버 타운 조회
  * 2024.08.26  이주현        멤버 계좌 조회
+ * 2024.09.06  이주현        이자 지급 프로세스 추가
  * </pre>
  */
 
+@Log4j
 @RequiredArgsConstructor
 @Service
 public class MemberServiceImpl implements MemberService{
@@ -266,6 +268,20 @@ public class MemberServiceImpl implements MemberService{
             throw e;
         } catch (Exception e) {
             throw new CustomException(DATABASE_ERROR);
+        }
+    }
+
+    /**
+     * 이자 지급 프로세스
+     */
+    @Override
+    @Transactional
+    public void processInterestPayment() {
+        try {
+            memberMapper.callCalculateAndInsertInterestProcedure();
+            log.info("이자 지급이 성공적으로 완료되었습니다.");
+        } catch (Exception e) {
+            log.error("이자 지급 프로세스 중 오류가 발생했습니다.", e);
         }
     }
 }
