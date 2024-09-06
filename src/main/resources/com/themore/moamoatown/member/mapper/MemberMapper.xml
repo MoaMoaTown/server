@@ -22,6 +22,7 @@
 * 2024.08.26  이주현        멤버 타운 조회
 * 2024.08.26  이주현        멤버 계좌 조회
 * 2024.08.28  임원정        타운 관리자 조회 기능 추가
+* 2024.09.06  이주현        이자 지급 프로세스 추가
 * </pre>
 -->
 
@@ -191,5 +192,10 @@
         WHERE town_id = #{townId}
         AND role = 1
     ]]>
+    </select>
+
+    <!-- 이자 지급 프로시저 호출 -->
+    <select id="callCalculateAndInsertInterestProcedure" statementType="CALLABLE">
+        {CALL calculate_and_insert_interest()}
     </select>
 </mapper>

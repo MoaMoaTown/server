@@ -21,6 +21,7 @@ import java.util.List;
  * 2024.08.26  이주현        멤버 역할 조회
  * 2024.08.26  이주현        멤버 타운 조회
  * 2024.08.26  이주현        멤버 계좌 조회
+ * 2024.09.06  이주현        이자 지급 프로세스 추가
  * </pre>
  */
 
@@ -48,4 +49,7 @@ public interface MemberService {
 
     // 멤버 계좌 조회
     List<MemberAccountResponseDTO> getAccountsByMemberId(Long memberId, int page, int size);
+
+    // 이자 지급 프로세스
+    void processInterestPayment();
 }
