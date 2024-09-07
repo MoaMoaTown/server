@@ -204,8 +204,9 @@ public class TownServiceImpl implements TownService {
 
         // 퀘스트 요청 수락된 회원 ID 조회
         Long memberId = townMapper.findMemberIdByMemberQuestId(memberQuestId);
-        // 알림 전송
+        // 알림 내용 설정
         String content = "퀘스트 신청이 수락되었습니다. 퀘스트를 수행해주세요!😉";
+        // 알림 전송 (eventType은 "quest"로 설정)
         notificationService.notifyMember(memberId, content);
     }
 
