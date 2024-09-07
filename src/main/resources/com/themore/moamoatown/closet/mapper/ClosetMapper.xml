@@ -12,26 +12,27 @@
  * 2024.08.25   임원정       최초 생성
  * 2024.08.25   임원정       selectClothesByMemberId, updateProfile 추가
  * 2024.08.28   임원정       selectProfileByMemberId 추가
- * 2024.08.30   임원정        selectClothesByMemberId 메소드 수정
+ * 2024.08.30   임원정       selectClothesByMemberId 메소드 수정
  * </pre>
 -->
 <mapper namespace="com.themore.moamoatown.closet.mapper.ClosetMapper">
     <!-- 내 옷장의 옷 가져오기 -->
     <select id="selectClothesByMemberId" resultType="MyClothesResponseDTO">
         <![CDATA[
-        SELECT c.cloth_id, c.brand, c.name, c.type, c.img_url as image
-        FROM closet cl JOIN clothes c ON cl.cloth_id = c.cloth_id
-        WHERE member_id = #{memberId}
-        AND type = #{type}
+            SELECT c.cloth_id, c.brand, c.name, c.type, c.img_url as image
+            FROM closet cl
+                JOIN clothes c ON cl.cloth_id = c.cloth_id
+            WHERE member_id = #{memberId}
+            AND type = #{type}
         ]]>
     </select>
 
     <!-- 코디한 사진 프로필로 업데이트 -->
     <update id="updateProfile">
         <![CDATA[
-        UPDATE member
-        SET profile = #{profileImage}
-        WHERE member_id = #{memberId}
+            UPDATE member
+            SET profile = #{profileImage}
+            WHERE member_id = #{memberId}
         ]]>
     </update>
 

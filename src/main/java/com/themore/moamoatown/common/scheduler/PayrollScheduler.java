@@ -26,7 +26,6 @@ public class PayrollScheduler {
     private final TownService townService;
 
     @Scheduled(cron = "0 0 0 * * ?")  // 매일 자정에 실행
-    //@Scheduled(cron = "0 * * * * ?")  // 매 분 0초에 실행_테스트용
     public void schedulePayrollProcessing() {
         townService.processPayroll();  // TownService의 급여 지급 메소드 호출
     }

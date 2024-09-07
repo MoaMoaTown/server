@@ -36,7 +36,6 @@ public interface TownMapper {
     Long selectIdByTownCode(String townCode);   // 타운 코드로 타운 ID 조회
     int insertTown(TownCreateRequestDTO townCreateRequestDTO);  // 타운 삽입
     int updateMember(@Param("townId") Long townId, @Param("memberId") Long memberId);   // 멤버의 타운아이디 및 역할 업데이트
-
     // 타운 역할 신청 현황 조회
     List<JobRequestsResponseDTO> selectJobRequestByTownId(@Param("townId") Long townId, @Param("cri") Criteria cri);
     // 역할 만들기

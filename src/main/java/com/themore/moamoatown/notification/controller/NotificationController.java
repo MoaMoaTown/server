@@ -1,16 +1,16 @@
 package com.themore.moamoatown.notification.controller;
 
+import com.themore.moamoatown.common.annotation.Auth;
 import com.themore.moamoatown.common.annotation.MemberId;
 import com.themore.moamoatown.notification.dto.NotificationDTO;
 import com.themore.moamoatown.notification.service.NotificationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
-
 import java.util.List;
 
 /**
@@ -32,6 +32,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping(value="/notification",
         produces = "application/json; charset=UTF-8")
+@Auth(role = {Auth.Role.CITIZEN, Auth.Role.MAYOR})
 public class NotificationController {
     private final NotificationService notificationService;
 
