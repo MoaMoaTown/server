@@ -88,8 +88,8 @@ public class WishServiceImpl implements WishService {
         Long townAdminId = memberMapper.findAdminByTownId(townId);
 
         // 관리자에게 알림 전송
-        String content = "위시 아이템이 구매되었습니다. 확인해 주세요.";
-        notificationService.notifyMember(townAdminId, content, "wish");
+        String content = "위시 아이템이 구매되었습니다. 확인해 주세요👀";
+        notificationService.notifyMember(townAdminId, content);
 
         // 응답 반환
         return new WishItemPurchaseResponseDTO("위시상품 구매가 완료되었습니다.");

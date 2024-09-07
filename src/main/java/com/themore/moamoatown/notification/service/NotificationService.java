@@ -24,7 +24,7 @@ public interface NotificationService {
     // 알림 구독
     SseEmitter subscribe(Long memberId);
     // 회원에게 알림 전송
-    void notifyMember(Long memberId, String content, String eventType);
+    SseEmitter notifyMember(Long memberId, String content);
     // 알림 내역 조회
     List<NotificationDTO> getNotifications(Long memberId);
 }

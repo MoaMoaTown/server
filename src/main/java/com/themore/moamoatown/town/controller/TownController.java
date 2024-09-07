@@ -61,16 +61,13 @@ public class TownController {
             @RequestBody TownCreateRequestDTO requestDTO,
             @MemberId Long memberId,
             HttpSession session) {
-        // 타운 생성
         TownCreateInternalDTO internalDTO = townService.createTown(requestDTO, memberId);
-        // 세션에 town_id 저장
-        session.setAttribute("town_id", internalDTO.getTownId());
+        session.setAttribute("town_id", internalDTO.getTownId());  // 세션에 town_id 저장
 
         TownCreateResponseDTO response = TownCreateResponseDTO.builder()
                 .townCode(internalDTO.getTownCode())
                 .build();
 
-        log.info("타운이 성공적으로 생성되었습니다. \n타운코드: " + internalDTO.getTownCode());
         return ResponseEntity.ok(response);
     }
 

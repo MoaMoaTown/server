@@ -1,8 +1,8 @@
 package com.themore.moamoatown.town.service;
 
 import com.themore.moamoatown.common.exception.CustomException;
-import com.themore.moamoatown.town.dto.*;
 import com.themore.moamoatown.notification.service.NotificationService;
+import com.themore.moamoatown.town.dto.*;
 import com.themore.moamoatown.town.mapper.TownMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j;
@@ -131,8 +131,8 @@ public class TownServiceImpl implements TownService {
         Long memberId = townMapper.findMemberIdByJobRequestId(jobRequestId);
 
         // 알림 전송
-        String content = "축하합니다! 요청하신 역할에 선정되었습니다.";
-        notificationService.notifyMember(memberId, content, "job");
+        String content =  "축하합니다!🥳 신청한 역할에 선정되었습니다.";
+        notificationService.notifyMember(memberId, content);
     }
 
     /**
@@ -204,10 +204,9 @@ public class TownServiceImpl implements TownService {
 
         // 퀘스트 요청 수락된 회원 ID 조회
         Long memberId = townMapper.findMemberIdByMemberQuestId(memberQuestId);
-        // 알림 내용 설정
-        String content = "퀘스트 신청이 수락되었습니다. 퀘스트를 수행해주세요";
-        // 알림 전송 (eventType은 "quest"로 설정)
-        notificationService.notifyMember(memberId, content, "quest");
+        // 알림 전송
+        String content = "퀘스트 신청이 수락되었습니다. 퀘스트를 수행해주세요!😉";
+        notificationService.notifyMember(memberId, content);
     }
 
     /**
@@ -223,8 +222,8 @@ public class TownServiceImpl implements TownService {
             Long memberId = townMapper.findMemberIdByMemberQuestId(memberQuestId);
 
             // 알림 전송
-            String content = "퀘스트가 완료 처리되었습니다. 보상이 지급되었어요!";
-            notificationService.notifyMember(memberId, content, "quest");
+            String content = "퀘스트가 완료 처리되었습니다. 보상이 지급되었어요!💰";
+            notificationService.notifyMember(memberId, content);
         } catch (DataAccessException e) {
             throw new CustomException(QUEST_COMPLETE_FAILED);
         }

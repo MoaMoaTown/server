@@ -6,11 +6,11 @@ import com.themore.moamoatown.notification.dto.NotificationDTO;
 import com.themore.moamoatown.notification.service.NotificationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
-
 import java.util.List;
 
 /**
@@ -41,7 +41,7 @@ public class NotificationController {
      * @param memberId
      * @return
      */
-    @GetMapping("/subscribe")
+    @GetMapping(value="/subscribe", produces = "text/event-stream")
     public SseEmitter subscribe(@MemberId Long memberId) {
         log.info("회원 id: "+memberId+"가 알림을 구독 하였습니다.");
         return notificationService.subscribe(memberId);
@@ -53,7 +53,7 @@ public class NotificationController {
      * @return
      */
     @GetMapping("/list")
-    public List<NotificationDTO> getNotifications(@MemberId Long memberId) {
-        return notificationService.getNotifications(memberId);
+    public ResponseEntity<List<NotificationDTO>> getNotifications(@MemberId Long memberId) {
+        return ResponseEntity.ok(notificationService.getNotifications(memberId));
     }
 }
