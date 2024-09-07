@@ -1,8 +1,8 @@
 package com.themore.moamoatown.closet.service;
 
-import com.themore.moamoatown.common.exception.CustomException;
 import com.themore.moamoatown.closet.dto.*;
 import com.themore.moamoatown.closet.mapper.ClosetMapper;
+import com.themore.moamoatown.common.exception.CustomException;
 import com.themore.moamoatown.common.utils.ImageUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j;
@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
-import java.util.Base64;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,6 +29,7 @@ import static com.themore.moamoatown.common.exception.ErrorCode.UPDATE_PROFILE_F
  * 2024.08.28   임원정        프로필 사진 가져오기
  * 2024.08.30   임원정        getMyClothes 메소드 수정
  * 2024.09.01   임원정        getMyClothes에서 imageUrl을 base64인코딩 하도록 수정
+ * 2024.09.07   임원정        프로필 사진 null 처리 추가
  * </pre>
  */
 
@@ -95,8 +95,9 @@ public class ClosetServiceImpl implements ClosetService {
     @Override
     public GetProfileResponseDTO getProfile(Long memberId) {
         GetProfileInternalDTO getProfileInternalDTO = closetMapper.selectProfileByMemberId(memberId);
+        String profile = getProfileInternalDTO!= null ? new String(getProfileInternalDTO.getProfile()) : null;
         return GetProfileResponseDTO.builder()
-                .encodedProfileImage(new String(getProfileInternalDTO.getProfile()))
+                .encodedProfileImage(profile)
                 .build();
     }
 }

@@ -1,15 +1,12 @@
 package com.themore.moamoatown.common.utils;
 
-import lombok.extern.java.Log;
 import lombok.extern.log4j.Log4j;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.util.Base64;
-import java.io.InputStream;
 import java.io.ByteArrayOutputStream;
-import java.net.URL;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.util.Base64;
 
 /**
  * url로 저장된 이미지를 base64 인코딩
