@@ -139,6 +139,7 @@
         WHERE
             town_id = #{townId}
           AND delete_date IS NULL
+          AND role = 0
         ORDER BY
             balance DESC
         ]]>
