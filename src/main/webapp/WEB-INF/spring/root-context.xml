@@ -19,7 +19,6 @@
 	</bean>
 	<!-- Root Context: defines shared resources visible to all other web components -->
 	<bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
-		<!--<property name="driverClassName" value="oracle.jdbc.OracleDriver"/>-->
 		<property name="driverClassName" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"/>
 		<property name="jdbcUrl" value="${JDBC_URL}"/>
 		<property name="username" value="${DATABASE_USERNAME}"/>

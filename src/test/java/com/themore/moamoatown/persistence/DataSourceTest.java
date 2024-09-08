@@ -17,6 +17,19 @@ import org.springframework.test.context.web.WebAppConfiguration;
 
 import lombok.extern.log4j.Log4j;
 
+/**
+ * 데이터 소스 연결 테스트
+ * @author 임원정
+ * @since 2024.08.23
+ * @version 1.0
+ *
+ * <pre>
+ * 수정일        수정자        수정내용
+ * ----------  --------    ---------------------------
+ * 2024.08.23  	임원정       최초 생성
+ * </pre>
+ */
+
 @WebAppConfiguration
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations="file:**/*-context.xml")
