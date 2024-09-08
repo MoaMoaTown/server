@@ -50,7 +50,4 @@
 
 	<!-- Enable AspectJ Auto Proxy -->
 	<aop:aspectj-autoproxy />
-
-	<!-- 스케줄러 활성화 -->
-	<task:annotation-driven />
 </beans>

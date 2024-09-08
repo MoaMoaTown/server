@@ -29,8 +29,12 @@
 		<beans:property name="suffix" value=".jsp" />
 		<beans:property name="contentType" value="text/html; charset=UTF-8" />
 	</beans:bean>
-	
-	<context:component-scan base-package="com.themore.moamoatown" />
+
+	<context:component-scan base-package="com.themore.moamoatown">
+		<context:exclude-filter type="assignable" expression="com.themore.moamoatown.common.scheduler.PayrollScheduler"/>
+		<context:exclude-filter type="assignable" expression="com.themore.moamoatown.common.scheduler.InterestScheduler"/>
+		<context:exclude-filter type="assignable" expression="com.themore.moamoatown.common.scheduler.TodayInvestScheduler"/>
+	</context:component-scan>
 
 	<!-- 프로퍼티 파일 로드 -->
     <beans:bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
