@@ -83,7 +83,7 @@ public class WordServiceImpl implements WordService {
     private String getWordDefinitionFromGPT(String selectedWord) {
         String[] messages = {
                 "{\"role\": \"system\", \"content\": \"You are a helpful assistant.\"}",
-                "{\"role\": \"user\", \"content\": \"" + selectedWord + "에 대한 설명을 어린이들도 이해하도록 쉽게 답변해줘. 답변 길이는 무조건 100자 이내로 해줘. 딱 단어에 대한 설명만 알려주면 돼. 100자 이내로\"}"
+                "{\"role\": \"user\", \"content\": \"" + selectedWord + "에 대한 설명을 어린이들도 이해하도록 쉽게 답변해줘. 동음이의어가 있을 때는 금융, 경제에 관련된 의미로 알려줘. 답변 길이는 무조건 100자 이내로 해줘. 딱 단어에 대한 설명만 알려주면 돼. 100자 이내로\"}"
         };
 
         String model = "gpt-3.5-turbo";
