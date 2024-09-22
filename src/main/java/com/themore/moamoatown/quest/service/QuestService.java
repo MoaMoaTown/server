@@ -23,5 +23,5 @@ public interface QuestService {
     List<QuestResponseDTO> getQuests(Long memberId, Long townId);
 
     // 퀘스트 수락 요청
-    void addMemberQuest(Long memberId, Long questId);
+    void addMemberQuest(Long memberId, Long questId, Long townId);
 }
