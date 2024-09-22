@@ -1,6 +1,7 @@
 package com.themore.moamoatown.quest.service;
 
 import com.themore.moamoatown.common.exception.CustomException;
+import com.themore.moamoatown.member.mapper.MemberMapper;
 import com.themore.moamoatown.notification.service.NotificationService;
 import com.themore.moamoatown.quest.dto.QuestResponseDTO;
 import com.themore.moamoatown.quest.mapper.QuestMapper;
@@ -32,6 +33,7 @@ import static com.themore.moamoatown.common.exception.ErrorCode.QUEST_INSERT_FAI
 @RequiredArgsConstructor
 public class QuestServiceImpl implements QuestService {
     private final QuestMapper questMapper;
+    private final MemberMapper memberMapper;
     private final NotificationService notificationService;
 
     /**
@@ -67,10 +69,16 @@ public class QuestServiceImpl implements QuestService {
      */
     @Override
     @Transactional
-    public void addMemberQuest(Long memberId, Long questId) {
+    public void addMemberQuest(Long memberId, Long questId, Long townId) {
         int insertedRows = questMapper.insertMemberQuest(memberId, questId);
         if (insertedRows < 1) {
             throw new CustomException(QUEST_INSERT_FAILED);
         }
+        // 타운 관리자 조회
+        Long townAdminId = memberMapper.findAdminByTownId(townId);
+
+        // 관리자에게 알림 전송
+        String content = "퀘스트 수락 요청이 왔어요. 확인해 주세요👀";
+        notificationService.notifyMember(townAdminId, content);
     }
 }

@@ -52,8 +52,8 @@ public class QuestController {
      * @return ResponseEntity
      */
     @PostMapping("/{questId}")
-    public ResponseEntity<String> addMemberQuest(@MemberId Long memberId, @PathVariable Long questId) {
-        questService.addMemberQuest(memberId, questId);
+    public ResponseEntity<String> addMemberQuest(@MemberId Long memberId, @PathVariable Long questId, @TownId Long townId) {
+        questService.addMemberQuest(memberId, questId, townId);
         return ResponseEntity.ok("퀘스트 수락 요청을 성공했습니다.");
     }
 }
