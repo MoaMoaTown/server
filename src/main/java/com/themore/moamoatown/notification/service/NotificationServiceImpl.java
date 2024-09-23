@@ -37,8 +37,8 @@ public class NotificationServiceImpl implements NotificationService {
     private final ConcurrentMap<Long, SseEmitter> sseEmitters = new ConcurrentHashMap<>();
     private final NotificationMapper notificationMapper;
 
-    // 타임아웃 설정 (5분)
-    private static final Long TIMEOUT = 300_000L;
+    // 타임아웃 설정
+    private static final Long TIMEOUT = Long.MAX_VALUE;
 
     /**
      * 알림 구독
@@ -56,12 +56,21 @@ public class NotificationServiceImpl implements NotificationService {
             log.error("알림을 보내는데 실패하였습니다.", e);
             sseEmitters.remove(memberId);
         }
-        emitter.onCompletion(() -> sseEmitters.remove(memberId));
+
+        emitter.onCompletion(() -> {
+            log.info("SSE 연결 종료, 회원아이디: " + memberId);
+            sseEmitters.remove(memberId);
+        });
+
         emitter.onTimeout(() -> {
             log.info("SSE 연결 timeout, 회원아이디: " + memberId);
             sseEmitters.remove(memberId);
         });
-        emitter.onError(e -> sseEmitters.remove(memberId));
+
+        emitter.onError(e -> {
+            log.error("SSE 연결 에러 발생, 회원아이디: " + memberId, e);
+            sseEmitters.remove(memberId);
+        });
 
         return emitter;
     }
@@ -94,7 +103,8 @@ public class NotificationServiceImpl implements NotificationService {
         if (emitter != null) {
             try {
                 emitter.send(SseEmitter.event()
-                        .data(content));
+                        .data(content)
+                        .reconnectTime(500));
             } catch (IOException e) {
                 log.error("알림을 보내는데 실패하였습니다.", e);
                 sseEmitters.remove(memberId);

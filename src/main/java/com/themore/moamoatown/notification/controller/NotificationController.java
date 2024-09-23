@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
@@ -43,8 +44,11 @@ public class NotificationController {
      * @return
      */
     @GetMapping(value="/subscribe", produces = "text/event-stream")
-    public SseEmitter subscribe(@MemberId Long memberId) {
+    public SseEmitter subscribe(@MemberId Long memberId, HttpServletResponse response) {
         log.info("회원 id: "+memberId+"가 알림을 구독 하였습니다.");
+        response.setHeader("Connection", "keep-alive");
+        response.setHeader("Cache-Control", "no-cache");
+        response.setHeader("X-Accel-Buffering", "no");
         return notificationService.subscribe(memberId);
     }
 
